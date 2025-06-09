@@ -8,13 +8,16 @@ export default function MainSearch() {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
+        <div>
+            <div>
                 <p>
-                    <input></input>
+                    <select name={"travel"}>
+                        <option value={"강릉"}>강릉</option>
+                        <option value={"부산"}>부산</option>
+                        <option value={"제주도"}>제주도</option>
+                    </select>
                 </p>
-                <button onClick={closeModal}>저장</button>
-                <button onClick={closeModal}>닫기</button>
+                <button onClick={closeModal}>검색</button>
             </div>
         </div>
     );
