@@ -40,6 +40,11 @@ public class UserEntity {
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @NotNull
     @Column(name = "age", nullable = false)
     private Integer age;
