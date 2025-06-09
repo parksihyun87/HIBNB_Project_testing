@@ -18,3 +18,4 @@ public class EmailController {
         return "Email sent successfully!";
     }
 }
+
