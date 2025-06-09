@@ -1,16 +1,119 @@
+/* 검색 컨테이너 스타일 */
+.search-container {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+}
+
+/* 검색 폼 스타일 */
+.search-form {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+}
+
+/* 개별 입력 필드 스타일 */
+.search-input input,
+.search-input select {
+    width: 120px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+}
+
+.search-input input:focus,
+.search-input select:focus {
+    border-color: #ff5a5f;
+}
+
+.search-input input[readOnly] {
+    background: #f9f9f9; /* 읽기 전용 입력란 스타일 */
+}
+
 .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
+
+/* 모달 스타일 (각각의 입력란에 맞게 위치 조정) */
+.modal2 {
+    display: block;
+    position: absolute;
+    top: 100%; /* 입력 칸 바로 아래 */
+    background-color: transparent;
+    z-index: 1000;
+    width: 250px;
+}
+
 .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+/* 모달 내용 스타일 */
+.modal-search {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: #f0f0f0;
 }

@@ -17,8 +17,6 @@ export default function MainLayout() {
             <Link to={"/join"}>회원가입</Link>
             <Link to={"/hosting"}>호스팅</Link>
             <Outlet/>
-
-
             {isLogin && <Login/>}
             {isJoin && <Join/>}
         </>

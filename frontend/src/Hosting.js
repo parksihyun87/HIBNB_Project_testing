@@ -48,7 +48,7 @@ export default function Hosting() {
                 },
             });
             navigate("/success");
-            console.log("성공: ", response.data);
+            console.log("등록 완료: ", response.data);
         } catch (error) {
             console.log("오류: ", error);
         }
@@ -71,7 +71,7 @@ export default function Hosting() {
                     상세주소: <input type="text" name="detailaddr" placeholder="상세 주소" onChange={handleChange}/>
                 </p>
                 <p>
-                    설명: <textarea name="description" placeholder="설명" onChange={handleChange}/>
+                    설명: <br/><textarea name="description" placeholder="설명" onChange={handleChange}/>
                 </p>
                 <p>
                     타입: <input type="text" name="type" placeholder="숙소 타입 (예: 호텔, 펜션)" onChange={handleChange}/>
