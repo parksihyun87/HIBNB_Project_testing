@@ -1,7 +1,7 @@
 package com.example.hibnb_project.controller;
 
 import com.example.hibnb_project.data.dto.UserDTO;
-import com.example.hibnb_project.service.AuthenticationService;
+import com.example.hibnb_project.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+public class UserController {
+    private final UserService userService;
 
     @PostMapping(value = "/join")
     public ResponseEntity<String> join(@RequestBody UserDTO userDTO) {
-        this.authenticationService.join(userDTO);
+        this.userService.join(userDTO);
         return ResponseEntity.ok("join success");
     }
 
