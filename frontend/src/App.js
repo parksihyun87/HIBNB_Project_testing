@@ -1,11 +1,6 @@
-import {Route, Routes} from "react-router-dom";
-import "./App.css";
-import MainLayout from "./MainLayout";
-import MainSearch from "./MainSearch";
-import Hosting from "./Hosting";
-import UserLogin from "./UserLogin";
-import UserJoin from "./UserJoin";
-import DetailSearch from "./DetailSearch";
+import './App.css';
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import MyInfoLayout from "./MyInfoLayout";
 import MyInfo from "./MyInfo";
 import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
@@ -37,3 +32,5 @@ export default function App() {
         </>
     );
 }
+
+
