@@ -6,6 +6,7 @@ const userInfoSlice=createSlice({
     name:"userInfo",
     initialState:{
         userInfoList:[],
+        currentUser: null,
         adminLoginFlag:false,
         userLoginFlag:false
     },
@@ -26,8 +27,9 @@ const userInfoSlice=createSlice({
         adminLogout:(state)=>{
             state.adminLoginFlag=false;
         },
-        userLogin:(state)=>{
+        userLogin:(state, action)=>{
             state.userLoginFlag=true;
+            state.currentUser = action.payload;
         },
         userLogout:(state)=>{
             state.userLoginFlag=false;
@@ -68,5 +70,5 @@ export const store=configureStore({
 
 export const persistor=persistStore(store);
 
-export const {userLogin, userLogout, addUserInfo,clearUserInfo, setUerInfoList, adminLogin, adminLogout}=userInfoSlice.actions;
+export const {userLogin, userLogout, addUserInfo,clearUserInfo, setUserInfoList, adminLogin, adminLogout}=userInfoSlice.actions;
 export const {setToken} = tokenSlice.actions;

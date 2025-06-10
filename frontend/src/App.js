@@ -1,12 +1,17 @@
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./MyInfoLayout";
-import MyInfo from "./MyInfo";
+import {MyInfo} from "./MyInfo";
 import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
 import PaymentHome from "./PaymentHome";
-import MyInfoLayout from "./MyInfoLayout";
+import MainLayout from "./MainLayout";
+import Hosting from "./Hosting";
+import UserLogin from "./UserLogin";
+import UserJoin from "./UserJoin";
+import MainSearch from "./MainSearch";
+import DetailSearch from "./DetailSearch";
 
 export default function App() {
     return (
