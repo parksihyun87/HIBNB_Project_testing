@@ -6,9 +6,9 @@ import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
 import PaymentHome from "./PaymentHome";
-import HibnbReserve from "./HibnbReserve";
+import MyInfoLayout from "./MyInfoLayout";
 
-function App() {
+export default function App() {
     return (
         <>
             <Routes>
@@ -33,4 +33,4 @@ function App() {
     );
 }
 
-export default App;
+
