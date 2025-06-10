@@ -24,7 +24,7 @@ public class UserDAO {
         return this.userRepository.findById(username).orElse(null);
     }
 
-    public void join(String username, String password, String role, String name, String phone, Integer age) {
+    public void join(String username, String password, String role, String name, String phone, String email, Integer age) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         UserEntity authenticationEntity = UserEntity.builder()
                 .username(username)
@@ -32,6 +32,7 @@ public class UserDAO {
                 .role(role)
                 .name(name)
                 .phone(phone)
+                .email(email)
                 .age(age)
                 .build();
         this.userRepository.save(authenticationEntity);
