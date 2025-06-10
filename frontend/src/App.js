@@ -9,25 +9,28 @@ import PaymentHome from "./PaymentHome";
 import HibnbReserve from "./HibnbReserve";
 
 function App() {
-  return (
-      // 내 정보 라우팅
-      <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<Navigate to="/accommodation" replace />} />
-              <Route path={"/accommodation"} element={<HibnbReserve/>}/>
-              <Route path="/payment" element={<PaymentHome />} />
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<MainLayout/>}>
+                    <Route path="/login" element={<UserLogin/>}></Route>
+                    <Route path="/join" element={<UserJoin/>}></Route>
+                    <Route path={"/"} element={<MainSearch/>}>
+                        <Route path={"detail-search"} element={<DetailSearch/>}></Route>
+                    </Route>
+                    <Route path={"/hosting"} element={<Hosting/>}></Route>
 
-              <Route path="/mypage" element={<MyInfoLayout />}>
-                  <Route path="profile" element={<MyInfo />} />
-                  <Route path="reservations" element={<MyReserve />} />
-                  <Route path="myroom" element={<MyRoom />} />
-                  <Route path="quit" element={<Quit />} />
-              </Route>
-
-
-          </Routes>
-      </BrowserRouter>
-  );
+                    <Route path="/payment" element={<PaymentHome/>}/>
+                    <Route path={"/mypage"} element={<MyInfoLayout/>}>
+                        <Route path="profile" element={<MyInfo/>}></Route>
+                        <Route path="reservations" element={<MyReserve/>}></Route>
+                        <Route path="myroom" element={<MyRoom/>}></Route>
+                        <Route path="quit" element={<Quit/>}></Route>
+                    </Route>
+                </Route>
+            </Routes>
+        </>
+    );
 }
 
 export default App;
