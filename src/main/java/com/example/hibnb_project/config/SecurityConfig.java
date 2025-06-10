@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .formLogin(form ->form.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorize->{
-                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/send-email").permitAll();
+                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw").permitAll();
                     authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                     authorize.anyRequest().authenticated();
                 })

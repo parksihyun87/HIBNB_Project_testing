@@ -5,14 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "accom")
 public class AccomEntity {
@@ -51,23 +50,30 @@ public class AccomEntity {
     @Column(name = "type", nullable = false, length = 10)
     private String type;
 
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
     @Size(max = 255)
     @NotNull
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    @Column(name = "average")
-    private Double average;
-
-    @Column(name = "max_capacity")
+    @NotNull
+    @Column(name = "max_capacity", nullable = false)
     private Integer maxCapacity;
 
-    @Column(name = "price_per_night")
+    @NotNull
+    @Column(name = "price_per_night", nullable = false)
     private Integer pricePerNight;
+
+    @Column(name = "bedrooms")
+    private Integer bedrooms;
+
+    @Column(name = "beds")
+    private Integer beds;
+
+    @Column(name = "bathrooms")
+    private Integer bathrooms;
+
+    @Column(name = "average")
+    private Double average;
 
     @OneToMany(mappedBy = "accomid")
     private Set<BookEntity> books = new LinkedHashSet<>();

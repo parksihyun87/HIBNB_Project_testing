@@ -9,9 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {

@@ -2,10 +2,13 @@ package com.example.hibnb_project.data.dao;
 
 import com.example.hibnb_project.data.entity.UserEntity;
 import com.example.hibnb_project.data.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +35,23 @@ public class UserDAO {
                 .age(age)
                 .build();
         this.userRepository.save(authenticationEntity);
+    }
+
+    public UserEntity findByEmail(String email) {
+        Optional<UserEntity> user = this.userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
+
+    public void resetPassword(String username, String password) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if (user.isPresent()) {
+            UserEntity userEntity = user.get();
+            userEntity.setPassword(passwordEncoder.encode(password));
+            this.userRepository.save(userEntity);
+            return;
+        }
+        throw new EntityNotFoundException("user not found");
     }
 
 }
