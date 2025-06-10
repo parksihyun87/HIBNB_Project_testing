@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
     private final EmailService emailService;
 
-
-    @GetMapping("/send-email")
-    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
-        emailService.sendSimpleEmail(to, subject, text);
+    @GetMapping("/email")
+    public String sendEmail(@RequestParam String email) {
+        emailService.authenticationEmail(email);
         return "Email sent successfully!";
     }
+
+
+
 }
 

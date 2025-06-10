@@ -1,9 +1,7 @@
 package com.example.hibnb_project.service;
 
 import com.example.hibnb_project.data.dao.UserDAO;
-import com.example.hibnb_project.data.dto.UserDTO;
 import com.example.hibnb_project.data.entity.UserEntity;
-import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.GrantedAuthority;
