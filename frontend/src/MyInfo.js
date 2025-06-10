@@ -2,6 +2,7 @@ import {useState} from "react";
 
 export default function MyInfo(){
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
 
     const handleSubmit = (e) => {
@@ -9,6 +10,7 @@ export default function MyInfo(){
 
         console.log("제출된 정보:", {
             name,
+            email,
             phone,
         });
 
@@ -26,6 +28,17 @@ export default function MyInfo(){
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                />
+            </div>
+
+            <div>
+                <label>이메일: </label>
+                <input
+                    type="email"
+                    placeholder="E-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                 />
             </div>

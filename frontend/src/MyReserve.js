@@ -43,7 +43,7 @@ export default function MyReserve(){
                         <p>예약자 이름: {res.reserverName}</p>
                         <p>체크인: {res.checkIn}</p>
                         <p>체크아웃: {res.checkOut}</p>
-                        <p>인원 수: {res.guests}명</p>
+                        <p>인원: {res.guests}명</p>
                         <p>상태: {res.status}</p>
                         <button>상세 보기</button>
                         {res.status === '예약완료' && <button>예약 취소</button>}

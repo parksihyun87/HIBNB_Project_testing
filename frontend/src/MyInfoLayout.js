@@ -14,14 +14,11 @@ export default function MyInfoLayout() {
                 <NavLink to="reservations" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
                     예약 정보
                 </NavLink>{" | "}
-                <NavLink to="history" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
+                <NavLink to="myroom" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
                     이용 내역
                 </NavLink>{" | "}
-                <NavLink to="withdraw" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
+                <NavLink to="quit" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
                     회원 탈퇴
-                </NavLink>{" | "}
-                <NavLink to="logout" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                    로그아웃
                 </NavLink>
             </nav>
             <hr />

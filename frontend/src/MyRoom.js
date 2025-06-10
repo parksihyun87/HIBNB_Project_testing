@@ -30,7 +30,7 @@ export default function MyRoom(){
             <h2>이용 내역</h2>
             <ul>
                 {history.map((item) => (
-                    <li key={item.id} >
+                    <li key={item.id}>
                         <div>
                             <strong>{item.place}</strong>
                             <div>{item.date}</div>
@@ -38,6 +38,7 @@ export default function MyRoom(){
                                 <button>리뷰 쓰기</button>
                             )}
                         </div>
+                        <hr/>
                     </li>
                 ))}
             </ul>
