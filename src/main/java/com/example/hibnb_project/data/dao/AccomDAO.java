@@ -26,8 +26,8 @@ public class AccomDAO {
     }
 
     public void postAccom(Integer id, String hostid, String hostname, String address
-    , String detailaddr, String description, String type, Instant createdAt, String imageUrl
-    , Integer maxCapacity, Integer pricePernight) {
+    , String detailaddr, String description, String type, String imageUrl
+    , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
         Optional<UserEntity> hostUser= this.userRepository.findById(hostid);
         if(hostUser.isPresent()) {
             AccomEntity saveAccom= AccomEntity.builder()
@@ -38,10 +38,12 @@ public class AccomDAO {
                     .detailaddr(detailaddr)
                     .description(description)
                     .type(type)
-                    .createdAt(createdAt)
                     .imageUrl(imageUrl)
                     .maxCapacity(maxCapacity)
                     .pricePerNight(pricePernight)
+                    .bedrooms(bedrooms)
+                    .beds(beds)
+                    .bathrooms(bathrooms)
                     .build();
             this.accomRepository.save(saveAccom);
             return;

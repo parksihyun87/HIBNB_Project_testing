@@ -6,7 +6,8 @@ import lombok.*;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,5 +41,4 @@ public class ReportEntity {
     @NotNull
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
-
 }

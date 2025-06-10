@@ -1,12 +1,14 @@
 package com.example.hibnb_project.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,16 +23,19 @@ public class ReviewEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "accomid", nullable = false)
+    @JsonBackReference
     private AccomEntity accomid;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "bookid", nullable = false)
+    @JsonBackReference
     private BookEntity bookid;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "username", nullable = false)
+    @JsonBackReference
     private UserEntity username;
 
     @NotNull
