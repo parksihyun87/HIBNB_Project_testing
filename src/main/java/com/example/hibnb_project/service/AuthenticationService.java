@@ -54,18 +54,6 @@ public class AuthenticationService implements UserDetailsService {
         return new User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
     }
 
-    public void join(UserDTO userDTO){
-        String joinRole = "";
-        String username2 = "";
-        String[] split = userDTO.getUsername().split("@");
-        if(split.length==2){
-            joinRole = "ROLE_"+split[0];
-            username2 = split[1];
-        }
-        if(this.userDAO.isExist(username2)){
-            throw new EntityExistsException("username already exists");
-        }
-        this.userDAO.join(username2, userDTO.getPassword(), joinRole, userDTO.getName(), userDTO.getPhone(), userDTO.getAge());
-    }
+
 
 }
