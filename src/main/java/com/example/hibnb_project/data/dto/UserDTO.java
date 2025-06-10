@@ -17,6 +17,7 @@ public class UserDTO {
     private String role;
     private String name;
     private String phone;
+    private String email;
     private Integer age;
 
 //    private Set<AccomEntity> accoms = new LinkedHashSet<>();

@@ -30,7 +30,7 @@ public class UserService {
         if(this.userDAO.isExist(username2)){
             throw new EntityExistsException("username already exists");
         }
-        this.userDAO.join(username2, userDTO.getPassword(), joinRole, userDTO.getName(), userDTO.getPhone(), userDTO.getAge());
+        this.userDAO.join(username2, userDTO.getPassword(), joinRole, userDTO.getName(), userDTO.getPhone(), userDTO.getEmail(), userDTO.getAge());
     }
 
     public String findUserByEamil(String email, String code){
