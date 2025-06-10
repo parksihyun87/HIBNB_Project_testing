@@ -15,7 +15,6 @@ const userInfoSlice=createSlice({
         },
         setUserInfoList:(state, action)=>{
             state.userInfoList=action.payload;
-            state.count=action.payload.length;
         },
         clearUserInfo:(state)=>{
             state.userInfoList=[];
@@ -68,5 +67,5 @@ export const store=configureStore({
 
 export const persistor=persistStore(store);
 
-export const {userLogin, userLogout, addUserInfo,clearUserInfo, setUerInfoList, adminLogin, adminLogout}=userInfoSlice.actions;
+export const {userLogin, userLogout, addUserInfo,clearUserInfo, setUserInfoList, adminLogin, adminLogout}=userInfoSlice.actions;
 export const {setToken} = tokenSlice.actions;
