@@ -7,9 +7,9 @@ import lombok.*;
 import java.time.Instant;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "review")
 public class ReviewEntity {

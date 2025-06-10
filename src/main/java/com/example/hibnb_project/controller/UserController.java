@@ -8,9 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +29,25 @@ public class UserController {
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
         return ResponseEntity.status(HttpStatus.OK).body("refresh token deleted");
+    }
+
+    @GetMapping(value = "/re-confirm-id")
+    public ResponseEntity<String> reConfirmId(@RequestParam String email, String code) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findUserByEamil(email, code));
+    }
+
+    @GetMapping(value = "/re-confirm-pw")
+    public ResponseEntity<String> reConfirmPw(@RequestParam String username, String email, String code) {
+        if(this.userService.findByUsernameAndEmail(username, email, code)){
+            return ResponseEntity.status(HttpStatus.OK).body("authorizied user");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("unauthorized");
+    }
+
+    @PutMapping(value = "/reset-pw")
+    public ResponseEntity<String> resetPw(@RequestParam String username, String password) {
+        this.userService.resetPassword(username, password);
+        return ResponseEntity.ok("reset password success");
     }
 
 }

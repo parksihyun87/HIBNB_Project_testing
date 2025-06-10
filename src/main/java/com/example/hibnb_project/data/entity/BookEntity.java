@@ -10,9 +10,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "book")
 public class BookEntity {
@@ -52,6 +52,10 @@ public class BookEntity {
     @Size(max = 10)
     @Column(name = "payment", length = 10)
     private String payment;
+
+    @NotNull
+    @Column(name = "chechindate", nullable = false)
+    private LocalDate chechindate;
 
     @OneToMany(mappedBy = "bookid")
     private Set<ReportEntity> reports = new LinkedHashSet<>();
