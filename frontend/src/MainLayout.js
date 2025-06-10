@@ -4,10 +4,6 @@ import Join from "./UserJoin";
 import MainSearch from "./MainSearch";
 
 export default function MainLayout() {
-    const location = useLocation();
-
-    const isLogin = location.pathname === "/login";
-    const isJoin = location.pathname === "/join";
 
     return (
         <>
@@ -17,8 +13,6 @@ export default function MainLayout() {
             <Link to={"/join"}>회원가입</Link>
             <Link to={"/hosting"}>호스팅</Link>
             <Outlet/>
-            {isLogin && <Login/>}
-            {isJoin && <Join/>}
         </>
     );
 }

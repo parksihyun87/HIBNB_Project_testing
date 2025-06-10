@@ -1,147 +1,160 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState, useRef} from "react";
+import {Outlet, useNavigate} from "react-router-dom";
+import axios from "axios";
+import "./App.css";
 
-// 메인 검색 컴포넌트 정의
 export default function MainSearch() {
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태
-    const [selectedDestination, setSelectedDestination] = useState(""); // 선택된 여행지 상태
-    const [searchQuery, setSearchQuery] = useState(""); // 검색어 입력 상태
-    const [checkInDate, setCheckInDate] = useState(""); // 체크인 날짜 상태
-    const [checkOutDate, setCheckOutDate] = useState(""); // 체크아웃 날짜 상태
-    const [guests, setGuests] = useState(1); // 게스트 수 상태 (기본값 1)
-    const destinations = ["서울", "제주", "부산", "인천", "대구"]; // 여행지 목록
-    const recentSearches = ["제주", "서울"]; // 최근 검색어 (임시 데이터)
 
-    // 모달 열기 함수
-    const openModal = () => {
-        setIsModalOpen(true);
+    const [isBoxOpen, setIsBoxOpen] = useState(false); // 여행지 추천 박스 열림 여부
+    const [selectedDestination, setSelectedDestination] = useState(""); // 선택된 여행지
+    const [searchQuery, setSearchQuery] = useState(""); // 여행지 검색어
+    const [checkInDate, setCheckInDate] = useState(""); // 체크인 날짜
+    const [checkOutDate, setCheckOutDate] = useState(""); // 체크아웃 날짜
+    const [guests, setGuests] = useState(1); // 게스트 수
+
+    const destinations = [
+        "부산광역시",
+        "제주도",
+        "서울시",
+        "인천시",
+        "강원도",
+        "대구시",
+    ];
+
+    // 외부 클릭 감지를 위한 ref
+    const searchContainerRef = useRef();
+
+    // 여행지 검색어 변경
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setIsBoxOpen(true);
     };
 
-    // 모달 닫기 함수
-    const closeModal = () => {
-        setIsModalOpen(false);
-        navigate("/");
-    };
-
-    // 여행지 선택 함수
+    // 여행지 선택
     const handleDestinationSelect = (destination) => {
         setSelectedDestination(destination);
-        setIsModalOpen(false);
+        setSearchQuery(destination);
+        setIsBoxOpen(false);
     };
 
-    // 검색어 변경 시 호출되는 함수
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value); // 입력된 검색어 업데이트
-    };
+    // 체크인, 체크아웃, 게스트 수 변경
+    const handleCheckInChange = (e) => setCheckInDate(e.target.value);
+    const handleCheckOutChange = (e) => setCheckOutDate(e.target.value);
+    const handleGuestsChange = (e) => setGuests(Number(e.target.value));
 
-    // 체크인 날짜 변경 시 호출되는 함수
-    const handleCheckInChange = (e) => {
-        setCheckInDate(e.target.value); // 체크인 날짜 업데이트
-    };
-
-    // 체크아웃 날짜 변경 시 호출되는 함수
-    const handleCheckOutChange = (e) => {
-        setCheckOutDate(e.target.value); // 체크아웃 날짜 업데이트
-    };
-
-    // 게스트 수 변경 시 호출되는 함수
-    const handleGuestsChange = (e) => {
-        setGuests(parseInt(e.target.value, 10)); // 게스트 수 업데이트 (숫자로 변환)
-    };
-
-    // 검색 버튼 클릭 시 호출되는 함수
-    const handleSearch = () => {
-        if (selectedDestination) {
-            console.log("선택된 여행지:", selectedDestination);
-            console.log("체크인:", checkInDate);
-            console.log("체크아웃:", checkOutDate);
-            console.log("게스트 수:", guests); // 검색 조건 콘솔 출력
+    // 검색 버튼 클릭
+    const handleSearch = async () => {
+        if (!selectedDestination) {
+            alert("여행지를 선택해주세요!");
+            return;
         }
-        closeModal(); // 모달 닫기
+        navigate("detail-search")
+        // const searchParams = {
+        //     destination: selectedDestination,
+        //     checkInDate,
+        //     checkOutDate,
+        //     guests,
+        // };
+        // try {
+        //     const response = await axios.post("/", searchParams, {
+        //         headers: {"Content-Type": "application/json"},
+        //     });
+        //     navigate("/detail-filter", {state: {searchResults: response.data}});
+        // } catch (error) {
+        //     console.error("검색 중 오류:", error);
+        //     alert("검색 중 오류가 발생했습니다.");
+        // }
     };
 
-    // 검색어에 맞는 여행지 필터링
+    // 검색창 외부 클릭 시 박스 닫기
+    const handleClickOutside = (e) => {
+        if (
+            searchContainerRef.current &&
+            !searchContainerRef.current.contains(e.target)
+        ) {
+            setIsBoxOpen(false);
+        }
+    };
+
+    // 마운트 시 이벤트 리스너 등록, 언마운트 시 제거
+    React.useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
+
+    // 검색어에 따라 여행지 필터링
     const filteredDestinations = destinations.filter((dest) =>
         dest.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <div className="search-container">
-            <form className="search-form">
-                <div className="search-input">
-                    <input
-                        type="text"
-                        name="travel"
-                        placeholder="여행지"
-                        value={selectedDestination}
-                        onClick={openModal}
-                        onChange={handleSearchChange} // 검색어 입력 가능
-                    />
-                </div>
-                <div className="search-input">
-                    <input
-                        type="date"
-                        value={checkInDate}
-                        onChange={handleCheckInChange} // 체크인 날짜 선택
-                    />
-                </div>
-                <div className="search-input">
-                    <input
-                        type="date"
-                        value={checkOutDate}
-                        onChange={handleCheckOutChange} // 체크아웃 날짜 선택
-                    />
-                </div>
-                <div className="search-input">
-                    <select value={guests} onChange={handleGuestsChange}>
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                            <option key={num} value={num}>
-                                {num} 명
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <button type="button" onClick={handleSearch}>
-                    검색
-                </button>
-            </form>
-            {isModalOpen && (
-                <div className="modal2" onClick={closeModal}>
-                    <div className="modal-search" onClick={(e) => e.stopPropagation()}>
-            <span className="close" onClick={closeModal}>
-              ×
-            </span>
-                        <h2>여행지 선택</h2>
-                        {/* 최근 검색어 섹션 */}
-                        <div>
-                            <h3>최근 검색어</h3>
-                            <ul>
-                                {recentSearches.map((search, index) => (
-                                    <li key={index} onClick={() => handleDestinationSelect(search)}>
-                                        {search}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        {/* 필터링된 여행지 목록 */}
-                        <div>
-                            <h3>추천 여행지</h3>
-                            <ul>
+        <>
+            <div className="main-search" ref={searchContainerRef}>
+                <div className="search-bar">
+                    <div className="search-item">
+                        <label>여행지</label>
+                        <input
+                            type="text"
+                            placeholder="여행지 검색"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            onFocus={() => setIsBoxOpen(true)}
+                        />
+                        {isBoxOpen && (
+                            <div className="destination-box">
                                 {filteredDestinations.length > 0 ? (
-                                    filteredDestinations.map((dest, index) => (
-                                        <li key={index} onClick={() => handleDestinationSelect(dest)}>
-                                            {dest}
-                                        </li>
+                                    filteredDestinations.map((destination, index) => (
+                                        <div
+                                            key={index}
+                                            className="destination-item"
+                                            onClick={() => handleDestinationSelect(destination)}
+                                        >
+                                            {destination}
+                                        </div>
                                     ))
                                 ) : (
-                                    <li>일치하는 여행지가 없습니다.</li>
+                                    <div className="destination-item">검색 결과가 없습니다.</div>
                                 )}
-                            </ul>
-                        </div>
+                            </div>
+                        )}
                     </div>
+
+                    <div className="search-item">
+                        <label>체크인</label>
+                        <input
+                            type="date"
+                            value={checkInDate}
+                            onChange={handleCheckInChange}
+                        />
+                    </div>
+
+                    <div className="search-item">
+                        <label>체크아웃</label>
+                        <input
+                            type="date"
+                            value={checkOutDate}
+                            onChange={handleCheckOutChange}
+                        />
+                    </div>
+
+                    <div className="search-item">
+                        <label>여행자</label>
+                        <select value={guests} onChange={handleGuestsChange}>
+                            {Array.from({length: 10}, (_, i) => i + 1).map((num) => (
+                                <option key={num} value={num}>
+                                    {num}명
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <button className="search-button" onClick={handleSearch}>
+                        검색
+                    </button>
                 </div>
-            )}
-        </div>
+            </div>
+            <Outlet/>
+        </>
     );
 }
