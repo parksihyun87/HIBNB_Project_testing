@@ -1,12 +1,19 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./MyInfoLayout";
-import MyInfo from "./MyInfo";
+import {MyInfo} from "./MyInfo";
 import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
 import PaymentHome from "./PaymentHome";
 import MainLayout from "./MainLayout";
+
+import Hosting from "./Hosting";
+import UserLogin from "./UserLogin";
+import UserJoin from "./UserJoin";
+import MainSearch from "./MainSearch";
+import DetailSearch from "./DetailSearch";
+
 import MainSearch from "./MainSearch";
 import UserLogin from "./UserLogin";
 import UserJoin from "./UserJoin";
@@ -15,6 +22,7 @@ import Hosting from "./Hosting";
 import Logout from "./Logout";
 import ReConfirmID from "./ReConfirmID";
 import ReConfirmPW from "./ReConfirmPW";
+
 
 export default function App() {
     return (

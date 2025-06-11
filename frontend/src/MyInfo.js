@@ -1,60 +1,115 @@
-import {useState} from "react";
-
-export default function MyInfo(){
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+    /*
+    * css 나중에 따로 뺄거에용
+    * */
+export function MyInfo() {
     const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const currentUser = useSelector(state => state.userInfo.currentUser);
+
+    useEffect(() => {
+        if (currentUser) {
+            setEmail(
+                currentUser.email || ""
+            );
+            setPhone(
+                currentUser.phone || ""
+            );
+        }
+    }, [currentUser]);
+
+    // if(!currentUser){
+    //     return <p>로그인이 필요합니다.</p>;
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log("제출된 정보:", {
-            name,
-            email,
-            phone,
-        });
-
-        alert("정보가 수정되었습니다.");
+        alert(`수정된 정보:\n이메일: ${email}\n전화번호: ${phone}`);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>내 정보 확인</h2>
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",  // 가로 중앙
+                minHeight: "100vh",        // 화면 전체 높이
+                backgroundColor: "#ffffff",
+                padding: "20px"
+            }}
+        >
+            <form
+                onSubmit={handleSubmit}
+                style={{
+                    width: "70%",
+                    maxWidth: "800px",
+                    minHeight: "600px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px",
+                    padding: "40px",
 
-            <div>
-                <label>이름: </label>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-            </div>
+                    // alignItems 제거 (라벨 왼쪽 정렬 유지 위해)
+                }}
+            >
+                <h2 style={{ textAlign: "center" }}>내 정보 확인</h2>
 
-            <div>
-                <label>이메일: </label>
-                <input
-                    type="email"
-                    placeholder="E-mail"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </div>
+                <p style={{ width: "100%", textAlign: "left" }}>
+                    <strong>이름:</strong> {currentUser?.name || "이름 없음"}
+                </p>
 
-            <div>
-                <label>휴대폰 번호: </label>
-                <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                />
-            </div>
+                <label style={{ width: "100%", textAlign: "left", display: "block" }}>
+                    <strong>전화번호</strong><br />
+                    <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        style={{
+                            width: "100%",
+                            padding: "10px",
+                            borderRadius: "6px",
+                            border: "1px solid #ccc",
+                            textAlign: "left",
+                        }}
+                    />
+                </label>
 
-            <button type="submit">정보 수정</button>
-        </form>
+                <label style={{ width: "100%", textAlign: "left", display: "block" }}>
+                    <strong>이메일</strong><br />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={{
+                            width: "100%",
+                            padding: "10px",
+                            borderRadius: "6px",
+                            border: "1px solid #ccc",
+                            textAlign: "left",
+                        }}
+                    />
+                </label>
+
+                <button
+                    type="submit"
+                    style={{
+                        padding: "14px",
+                        backgroundColor: "#FF5A5F",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        width: "150px",
+                        alignSelf: "center", // 버튼만 가로 중앙에 배치
+                        textAlign: "center",
+                    }}
+                >
+                    정보 수정
+                </button>
+            </form>
+        </div>
     );
+
 }
