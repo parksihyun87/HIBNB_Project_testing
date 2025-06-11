@@ -62,4 +62,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "username")
     private Set<ReviewEntity> reviews = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "username")
+    private Set<VerificationcodeEntity> verificationcodes = new LinkedHashSet<>();
+
 }

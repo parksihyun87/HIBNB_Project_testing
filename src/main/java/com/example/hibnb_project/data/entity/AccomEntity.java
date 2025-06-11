@@ -1,6 +1,5 @@
 package com.example.hibnb_project.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -78,15 +77,15 @@ public class AccomEntity {
     private Double average;
 
     @OneToMany(mappedBy = "accomid")
-    @JsonManagedReference
     private Set<BookEntity> books = new LinkedHashSet<>();
 
+    @OneToOne
+    private ImgEntity img;
+
     @OneToMany(mappedBy = "accomid")
-    @JsonManagedReference
     private Set<ReportEntity> reports = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "accomid")
-    @JsonManagedReference
     private Set<ReviewEntity> reviews = new LinkedHashSet<>();
 
 }

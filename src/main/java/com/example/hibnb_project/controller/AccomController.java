@@ -1,10 +1,6 @@
 package com.example.hibnb_project.controller;
 
 import com.example.hibnb_project.data.dto.AccomDTO;
-import com.example.hibnb_project.data.entity.AccomEntity;
-import com.example.hibnb_project.data.entity.ReviewEntity;
-import com.example.hibnb_project.data.repository.AccomRepository;
-import com.example.hibnb_project.data.repository.ReviewRepository;
 import com.example.hibnb_project.service.AccomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController

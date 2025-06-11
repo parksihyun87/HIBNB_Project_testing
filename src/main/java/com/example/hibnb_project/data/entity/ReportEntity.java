@@ -41,4 +41,5 @@ public class ReportEntity {
     @NotNull
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
+
 }

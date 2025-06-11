@@ -2,20 +2,13 @@ package com.example.hibnb_project.data.dto;
 
 
 import com.example.hibnb_project.data.entity.AccomEntity;
-import com.example.hibnb_project.data.entity.ReportEntity;
-import com.example.hibnb_project.data.entity.ReviewEntity;
 import com.example.hibnb_project.data.entity.UserEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
