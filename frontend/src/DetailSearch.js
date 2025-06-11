@@ -2,9 +2,9 @@ import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 export default function DetailSearch() {
-    const {hostid} = useParams(); // URL에서 id 추출
+    const {id} = useParams(); // URL에서 id 추출
     const accomList = useSelector((state) => state.accom.list);
-    const item = accomList.find((item) => item.hostid === hostid);
+    const item = accomList.find((item) => item.id === id);
 
     if (!item) {
         return <p>숙소 정보를 찾을 수 없습니다</p>;

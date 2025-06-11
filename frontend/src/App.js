@@ -31,6 +31,7 @@ export default function App() {
                     <Route path={"/"} element={<MainSearch/>}>
                         <Route path={"detail-search"} element={<DetailSearch/>}></Route>
                     </Route>
+                    <Route path={"/detail/:id"}></Route>
                     <Route path={"/hosting"} element={<Hosting/>}></Route>
                     <Route path="/payment" element={<PaymentHome/>}/>
                     <Route path={"/mypage"} element={<MyInfoLayout/>}>
