@@ -16,7 +16,6 @@ const userInfoSlice=createSlice({
         },
         setUserInfoList:(state, action)=>{
             state.userInfoList=action.payload;
-            state.count=action.payload.length;
         },
         clearUserInfo:(state)=>{
             state.userInfoList=[];

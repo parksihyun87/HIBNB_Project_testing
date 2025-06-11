@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setToken} from "./store";
 
 export default function Hosting() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         hostid: "",
@@ -38,6 +41,10 @@ export default function Hosting() {
         }));
     };
 
+    const handleClose = () => {
+        navigate("/");
+    }
+
     // 폼 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,6 +69,7 @@ export default function Hosting() {
             const response = await axios.post("http://localhost:8080/hosting", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
+            dispatch(setToken())
             navigate("/");
             console.log("등록 완료: ", response.data);
         } catch (error) {
@@ -74,7 +82,7 @@ export default function Hosting() {
             <h2>숙박 정보 등록</h2>
             <form onSubmit={handleSubmit}>
                 <p>
-                    <label>호스트 ID</label>
+                    <label>호스트 ID: </label>
                     <input
                         type="text"
                         name="hostid"
@@ -85,7 +93,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>호스트 이름</label>
+                    <label>호스트 이름: </label>
                     <input
                         type="text"
                         name="hostname"
@@ -96,7 +104,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>주소</label>
+                    <label>주소: </label>
                     <input
                         type="text"
                         name="address"
@@ -107,7 +115,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>상세주소</label>
+                    <label>상세주소: </label>
                     <input
                         type="text"
                         name="detailaddr"
@@ -118,7 +126,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>설명</label>
+                    <label>설명: </label>
                     <textarea
                         name="description"
                         placeholder="숙소 설명"
@@ -128,7 +136,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>숙소 유형</label>
+                    <label>숙소 유형: </label>
                     <input
                         type="type"
                         placeholder="숙소 유형"
@@ -138,7 +146,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>침실 수</label>
+                    <label>침실 수: </label>
                     <input
                         type="number"
                         name="bedrooms"
@@ -150,7 +158,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>침대 수</label>
+                    <label>침대 수: </label>
                     <input
                         type="number"
                         name="beds"
@@ -162,7 +170,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>욕실 수</label>
+                    <label>욕실 수: </label>
                     <input
                         type="number"
                         name="bathrooms"
@@ -174,7 +182,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>최대 수용 인원</label>
+                    <label>최대 수용 인원: </label>
                     <input
                         type="number"
                         name="max_capacity"
@@ -186,7 +194,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>1박당 가격</label>
+                    <label>1박당 가격: </label>
                     <input
                         type="number"
                         name="price_per_night"
@@ -198,7 +206,7 @@ export default function Hosting() {
                     />
                 </p>
                 <p>
-                    <label>사진</label>
+                    <label>사진: </label>
                     <input
                         type="file"
                         name="images"
@@ -209,6 +217,7 @@ export default function Hosting() {
                     />
                 </p>
                 <button type="submit">등록</button>
+                <button type={"button"} onClick={handleClose}>취소</button>
             </form>
         </div>
     );
