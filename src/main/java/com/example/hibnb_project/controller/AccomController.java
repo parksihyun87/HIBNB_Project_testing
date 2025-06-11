@@ -6,6 +6,7 @@ import com.example.hibnb_project.data.entity.ReviewEntity;
 import com.example.hibnb_project.data.repository.AccomRepository;
 import com.example.hibnb_project.data.repository.ReviewRepository;
 import com.example.hibnb_project.service.AccomService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,12 @@ public class AccomController {
          return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
+    @GetMapping(value = "/list/detailedmainlist")
+    public ResponseEntity<List<AccomDTO>> findDetailedAccom() {
+        List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom();
+        return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
+    }
+
     @PostMapping(value = "/save")
     public ResponseEntity<String> saveAccom(@RequestBody AccomDTO accomDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
@@ -39,7 +46,8 @@ public class AccomController {
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid
+    public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid 요구
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
     }
+
 }

@@ -28,6 +28,12 @@ public class AccomDAO {
         return accomEntityList;
     }
 
+    public List<AccomEntity> findDetailedAccom() {
+        List<AccomEntity> accomEntityList=this.accomRepository.findAll();
+        return accomEntityList;
+    }
+
+
     public void saveAccom(Integer id, String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
     , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
