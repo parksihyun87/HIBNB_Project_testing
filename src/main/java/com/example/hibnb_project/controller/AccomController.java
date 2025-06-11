@@ -28,9 +28,18 @@ public class AccomController {
          return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
-    @PostMapping(value = "/post")
-    public ResponseEntity<String> postAccom(@RequestBody AccomDTO accomDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.postAccom(accomDTO));
+    @PostMapping(value = "/save")
+    public ResponseEntity<String> saveAccom(@RequestBody AccomDTO accomDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
     }
 
+    @PutMapping(value="/update")
+    public ResponseEntity<String> updateAccom(@RequestBody AccomDTO accomDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.updateAccom(accomDTO));
+    }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid
+        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
+    }
 }
