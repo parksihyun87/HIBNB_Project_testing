@@ -62,14 +62,14 @@ export default function MainSearch() {
         // 검색 파라미터를 Redux store 저장
         dispatch(setSearchParams(searchParams));
 
-        // try {
-        //     const response = await apiClient.post("/", searchParams);
-        //     dispatch(setSearchResults(response.data));
+        try {
+            const response = await apiClient.post("/", searchParams);
+            dispatch(setSearchResults(response.data));
             navigate("/detail-search");
-        // } catch (error) {
-        //     console.error("검색 중 오류:", error);
-        //     alert("검색 중 오류가 발생했습니다.");
-        // }
+        } catch (error) {
+            console.error("검색 중 오류:", error);
+            alert("검색 중 오류가 발생했습니다.");
+        }
     };
 
     // 검색창 외부 클릭 시 박스 닫기
