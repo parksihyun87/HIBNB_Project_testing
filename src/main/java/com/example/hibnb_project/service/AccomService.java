@@ -6,7 +6,10 @@ import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -51,11 +54,25 @@ public class AccomService {
             return accomDTOList;
     }
 
-    public String postAccom(AccomDTO accomDTO) {
-        this.accomDAO.postAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
+    public String saveAccom(AccomDTO accomDTO) {
+        this.accomDAO.saveAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
                 accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
                 accomDTO.getImageUrl(),accomDTO.getMaxCapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
         );
         return "숙소 등록 성공";
     }
+
+    public String updateAccom(AccomDTO accomDTO) {
+        this.accomDAO.updateAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
+                accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
+                accomDTO.getImageUrl(),accomDTO.getMaxCapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
+        );
+        return "숙소 수정 성공";
+    }
+
+    public String deleteAccom(AccomDTO accomDTO) {
+        this.accomDAO.deleteAccom((accomDTO.getId()),accomDTO.getHostid());
+        return "숙소 삭제 성공";
+    }
+
 }
