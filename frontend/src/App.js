@@ -13,6 +13,8 @@ import UserJoin from "./UserJoin";
 import DetailSearch from "./DetailSearch";
 import Hosting from "./Hosting";
 import Logout from "./Logout";
+import ReConfirmID from "./ReConfirmID";
+import ReConfirmPW from "./ReConfirmPW";
 
 export default function App() {
     return (
@@ -22,6 +24,8 @@ export default function App() {
                     <Route path="/login" element={<UserLogin/>}></Route>
                     <Route path="/logout" element={<Logout/>}></Route>
                     <Route path="/join" element={<UserJoin/>}></Route>
+                    <Route path="/re-confirm-id" element={<ReConfirmID/>}></Route>
+                    <Route path="/re-confirm-pw" element={<ReConfirmPW/>}></Route>
                     <Route path={"/"} element={<MainSearch/>}>
                         <Route path={"detail-search"} element={<DetailSearch/>}></Route>
                     </Route>
