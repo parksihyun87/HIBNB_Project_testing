@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setToken} from "./store";
+import {addAccom, setToken} from "./store";
 
 export default function Hosting() {
     const navigate = useNavigate();
@@ -55,7 +55,7 @@ export default function Hosting() {
         data.append("address", formData.address);
         data.append("detailaddr", formData.detailaddr);
         data.append("description", formData.description);
-        data.append("type", formData.type); // 배열을 JSON 문자열로
+        data.append("type", formData.type);
         data.append("bedrooms", formData.bedrooms);
         data.append("beds", formData.beds);
         data.append("bathrooms", formData.bathrooms);
@@ -66,10 +66,13 @@ export default function Hosting() {
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/hosting", data, {
+            const response = await axios.post("http://localhost:8080/save", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
-            dispatch(setToken())
+            const accom = response.data;
+            if (accom) {
+                dispatch(addAccom(accom));
+            }
             navigate("/");
             console.log("등록 완료: ", response.data);
         } catch (error) {
@@ -82,33 +85,11 @@ export default function Hosting() {
             <h2>숙박 정보 등록</h2>
             <form onSubmit={handleSubmit}>
                 <p>
-                    <label>호스트 ID: </label>
-                    <input
-                        type="text"
-                        name="hostid"
-                        placeholder="호스트 ID (username)"
-                        value={formData.hostid}
-                        onChange={handleChange}
-                        required
-                    />
-                </p>
-                <p>
-                    <label>호스트 이름: </label>
-                    <input
-                        type="text"
-                        name="hostname"
-                        placeholder="호스트 이름"
-                        value={formData.hostname}
-                        onChange={handleChange}
-                        required
-                    />
-                </p>
-                <p>
                     <label>주소: </label>
                     <input
                         type="text"
                         name="address"
-                        placeholder="주소 (예: 서울시, 경기도)"
+                        placeholder="주소 (예: 경기도 하남시, 서울시 강남구)"
                         value={formData.address}
                         onChange={handleChange}
                         required
@@ -138,8 +119,9 @@ export default function Hosting() {
                 <p>
                     <label>숙소 유형: </label>
                     <input
-                        type="type"
-                        placeholder="숙소 유형"
+                        type="text"
+                        name="type"
+                        placeholder="아파트, 펜션, 주택 중 선택"
                         value={formData.type}
                         onChange={handleChange}
                         required

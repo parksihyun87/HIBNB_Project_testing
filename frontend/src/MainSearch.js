@@ -1,10 +1,13 @@
 import React, {useState, useRef} from "react";
 import {Outlet, useNavigate} from "react-router-dom";
-import axios from "axios";
 import "./App.css";
+import apiClient from "./util/apiInstance";
+import {useDispatch} from "react-redux";
+import {setSearchParams, setSearchResults} from "./store";
 
 export default function MainSearch() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [isBoxOpen, setIsBoxOpen] = useState(false); // 여행지 추천 박스 열림 여부
     const [selectedDestination, setSelectedDestination] = useState(""); // 선택된 여행지
@@ -49,18 +52,20 @@ export default function MainSearch() {
             alert("여행지를 선택해주세요!");
             return;
         }
-        navigate("detail-search")
-        // const searchParams = {
-        //     destination: selectedDestination,
-        //     checkInDate,
-        //     checkOutDate,
-        //     guests,
-        // };
+        const searchParams = {
+            destination: selectedDestination,
+            checkInDate,
+            checkOutDate,
+            guests,
+        };
+
+        // 검색 파라미터를 Redux store 저장
+        dispatch(setSearchParams(searchParams));
+
         // try {
-        //     const response = await axios.post("/", searchParams, {
-        //         headers: {"Content-Type": "application/json"},
-        //     });
-        //     navigate("/detail-filter", {state: {searchResults: response.data}});
+        //     const response = await apiClient.post("/", searchParams);
+        //     dispatch(setSearchResults(response.data));
+            navigate("/detail-search");
         // } catch (error) {
         //     console.error("검색 중 오류:", error);
         //     alert("검색 중 오류가 발생했습니다.");
