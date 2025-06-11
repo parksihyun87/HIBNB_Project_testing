@@ -29,6 +29,7 @@ const userInfoSlice = createSlice({
             state.userLoginFlag = true;
         },
         userLogout: (state) => {
+            state.userInfoList = [];
             state.userLoginFlag = false;
         },
     }
@@ -38,10 +39,10 @@ const searchSlice = createSlice({
     name: "search",
     initialState: {
         searchParams: {
-            destination: "",
-            checkInDate: "",
-            checkOutDate: "",
-            guests: 1,
+            address: "",
+            checkindate: "",
+            checkoutdate: "",
+            maxcapacity: 1,
         },
         filters: {
             type: "",

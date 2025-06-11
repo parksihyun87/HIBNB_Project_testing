@@ -21,13 +21,13 @@ public class AccomController {
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<AccomDTO>> findAllAccoms() {
-         List<AccomDTO> accomDTOList= this.accomService.findAllAccoms();
-         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
+        List<AccomDTO> accomDTOList = this.accomService.findAllAccoms();
+        return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
     @GetMapping(value = "/list/detailedlist")
     public ResponseEntity<List<AccomDTO>> findDetailedAccom(@RequestBody AccomSeachDTO accomSeachDTO) {
-        List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom(accomSeachDTO);
+        List<AccomDTO> accomDTOList = this.accomService.findDetailedAccom(accomSeachDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
@@ -36,7 +36,7 @@ public class AccomController {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
     }
 
-    @PutMapping(value="/update")
+    @PutMapping(value = "/update")
     public ResponseEntity<String> updateAccom(@RequestBody AccomDTO accomDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.updateAccom(accomDTO));
     }

@@ -53,17 +53,16 @@ export default function MainSearch() {
             return;
         }
         const searchParams = {
-            destination: selectedDestination,
-            checkInDate,
-            checkOutDate,
-            guests,
+            address: selectedDestination,
+            checkindate: checkInDate,
+            checkoutdate: checkOutDate,
+            maxcapacity: guests,
         };
 
         // 검색 파라미터를 Redux store 저장
         dispatch(setSearchParams(searchParams));
-
         try {
-            const response = await apiClient.post("/", searchParams);
+            const response = await apiClient.get("/accom/list/detailedlist", searchParams);
             dispatch(setSearchResults(response.data));
             navigate("/detail-search");
         } catch (error) {
