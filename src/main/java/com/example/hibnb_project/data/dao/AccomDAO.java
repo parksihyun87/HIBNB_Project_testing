@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,12 @@ public class AccomDAO {
         List<AccomEntity> accomEntityList=this.accomRepository.findAll();
         return accomEntityList;
     }
+
+    public List<AccomEntity> findDetailedAccom(String addr, LocalDate checkinDate, LocalDate checkoutDate, Integer capacity){
+        List<AccomEntity> accomEntityList=this.accomRepository.findDetailedAccom("%"+addr+"%",checkinDate,checkoutDate,capacity);
+        return accomEntityList;
+    }
+
 
     public void saveAccom(Integer id, String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
