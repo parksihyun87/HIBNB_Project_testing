@@ -10,9 +10,10 @@ import MainLayout from "./MainLayout";
 import MainSearch from "./MainSearch";
 import UserLogin from "./UserLogin";
 import UserJoin from "./UserJoin";
-import DetailSearch from "./DetailSearch";
 import Hosting from "./Hosting";
 import Logout from "./Logout";
+import DetailSearch from "./DetailSearch";
+import DetailPage from "./DetailPage";
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                     <Route path={"/"} element={<MainSearch/>}>
                         <Route path={"detail-search"} element={<DetailSearch/>}></Route>
                     </Route>
+                    <Route path="/detail/:hostid" element={<DetailPage/>}></Route>
                     <Route path={"/hosting"} element={<Hosting/>}></Route>
                     <Route path="/payment" element={<PaymentHome/>}/>
                     <Route path={"/mypage"} element={<MyInfoLayout/>}>
