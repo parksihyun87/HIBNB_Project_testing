@@ -6,14 +6,7 @@ import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
 import PaymentHome from "./PaymentHome";
-import MainLayout from "./MainLayout";
-
-import Hosting from "./Hosting";
-import UserLogin from "./UserLogin";
-import UserJoin from "./UserJoin";
-import MainSearch from "./MainSearch";
-import DetailSearch from "./DetailSearch";
-
+import MainLayout from "./MainLayout"
 import MainSearch from "./MainSearch";
 import UserLogin from "./UserLogin";
 import UserJoin from "./UserJoin";
