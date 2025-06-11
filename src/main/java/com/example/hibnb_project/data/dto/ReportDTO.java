@@ -3,8 +3,6 @@ package com.example.hibnb_project.data.dto;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.UserEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
