@@ -46,7 +46,8 @@ public class SecurityConfig {
                 .formLogin(form ->form.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorize->{
-                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue").permitAll();
+                    authorize.requestMatchers("/**").permitAll();
+//                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw","/accom/list","/accom/post","/accom/test").permitAll();
                     authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                     authorize.anyRequest().authenticated();
                 })
@@ -61,11 +62,11 @@ public class SecurityConfig {
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilter(this.jwtUtil), JwtLoginFilter.class)
-                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class) //addfilter > 마지막에 ,
-                .exceptionHandling(exception -> {
-                    exception.authenticationEntryPoint(this.customAuthenticationEntryPoint);
-                    exception.accessDeniedHandler(this.customerAccessDeniedHandler);
-                });
+                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class); //addfilter > 마지막에 ,
+//                .exceptionHandling(exception -> {
+//                    exception.authenticationEntryPoint(this.customAuthenticationEntryPoint);
+//                    exception.accessDeniedHandler(this.customerAccessDeniedHandler);
+//                });
         return http.build();
     }
 }
