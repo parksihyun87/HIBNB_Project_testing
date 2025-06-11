@@ -6,7 +6,6 @@ const userInfoSlice=createSlice({
     name:"userInfo",
     initialState:{
         userInfoList:[],
-        currentUser: null,
         adminLoginFlag:false,
         userLoginFlag:false
     },
@@ -26,9 +25,8 @@ const userInfoSlice=createSlice({
         adminLogout:(state)=>{
             state.adminLoginFlag=false;
         },
-        userLogin:(state, action)=>{
+        userLogin:(state)=>{
             state.userLoginFlag=true;
-            state.currentUser = action.payload;
         },
         userLogout:(state)=>{
             state.userLoginFlag=false;

@@ -17,11 +17,9 @@ export default function UserLogin() {
         try {
             const response = await apiClient.post("/login",
                 new URLSearchParams(data));
-
-            console.log(response.headers['authorization']);
-            console.log(response.data);
-
-
+            // console.log(response.headers['authorization']);
+            // console.log(response.data);
+            //
             dispatch(setToken(response.headers['authorization']));
             dispatch(setUserInfoList(response.data));
             dispatch(userLogin());

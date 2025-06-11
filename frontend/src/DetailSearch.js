@@ -1,26 +1,24 @@
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 export default function DetailSearch() {
-    const navigate = useNavigate();
+    const {hostid} = useParams(); // URL에서 id 추출
+    const accomList = useSelector((state) => state.accom.list);
+    const item = accomList.find((item) => item.hostid === hostid);
 
-    const [isBoxOpen, setIsBoxOpen] = useState(false); // 여행지 추천 박스 열림 여부
-    const [selectedFilter, setSelectedFilter] = useState({
-        type: [],
-        bedrooms: 0,
-        beds: 0,
-        bathrooms: 0,
-        max_capacity: 1,
-        price_per_night: 0
-    });
-
+    if (!item) {
+        return <p>숙소 정보를 찾을 수 없습니다</p>;
+    }
 
     return (
-        <>
-            <hr/>
-            <button type={"button"}>필터</button>
-            <hr/>
+        <div>
+            <>
 
-        </>
+                <h2>{item.address + "의" + item.type}</h2>
+                <img src={item.images} style={{width: "200px"}} alt={item.address}/>
+                <p>가격: {item.price_per_night}원</p>
+            </>
+
+        </div>
     );
 }
