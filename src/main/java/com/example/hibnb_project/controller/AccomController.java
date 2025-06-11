@@ -1,6 +1,7 @@
 package com.example.hibnb_project.controller;
 
 import com.example.hibnb_project.data.dto.AccomDTO;
+import com.example.hibnb_project.data.dto.AccomSeachDTO;
 import com.example.hibnb_project.service.AccomService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class AccomController {
          return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
-    @GetMapping(value = "/list/detailedmainlist")
-    public ResponseEntity<List<AccomDTO>> findDetailedAccom() {
-        List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom();
+    @GetMapping(value = "/list/detailedlist")
+    public ResponseEntity<List<AccomDTO>> findDetailedAccom(@RequestBody AccomSeachDTO accomSeachDTO) {
+        List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom(accomSeachDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 

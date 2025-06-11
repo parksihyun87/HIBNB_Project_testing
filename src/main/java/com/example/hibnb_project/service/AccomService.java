@@ -3,6 +3,7 @@ package com.example.hibnb_project.service;
 
 import com.example.hibnb_project.data.dao.AccomDAO;
 import com.example.hibnb_project.data.dto.AccomDTO;
+import com.example.hibnb_project.data.dto.AccomSeachDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import lombok.RequiredArgsConstructor;
@@ -42,17 +43,16 @@ public class AccomService {
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
                     .bathrooms(accomE.getBathrooms())
-//                    .books(accomE.getBooks())
-//                    .reports(accomE.getReports())
-//                    .reviews(accomE.getReviews())
                     .build();
             accomDTOList.add(accomDTO);
         }
             return accomDTOList;
     }
 
-    public List<AccomDTO> findDetailedAccom() {
-        List<AccomEntity> accomEntityList= this.accomDAO.findDetailedAccom();
+    public List<AccomDTO> findDetailedAccom(AccomSeachDTO accomSeachDTO) {
+        List<AccomEntity> accomEntityList= this.accomDAO.findDetailedAccom(accomSeachDTO.getAddress(),
+                accomSeachDTO.getCheckindate(), accomSeachDTO.getCheckoutdate(),accomSeachDTO.getMaxcapacity());
+
         List<AccomDTO> accomDTOList= new ArrayList<>();
         for (AccomEntity accomE : accomEntityList) {
 
@@ -78,9 +78,6 @@ public class AccomService {
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
                     .bathrooms(accomE.getBathrooms())
-//                    .books(accomE.getBooks())
-//                    .reports(accomE.getReports())
-//                    .reviews(accomE.getReviews())
                     .build();
             accomDTOList.add(accomDTO);
         }
