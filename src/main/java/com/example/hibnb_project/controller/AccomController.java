@@ -45,5 +45,4 @@ public class AccomController {
     public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid 요구
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
     }
-
 }
