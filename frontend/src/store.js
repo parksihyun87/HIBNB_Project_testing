@@ -6,6 +6,7 @@ const userInfoSlice = createSlice({
     name: "userInfo",
     initialState: {
         userInfoList: [],
+        currentUser: null,
         adminLoginFlag: false,
         userLoginFlag: false
     },
@@ -18,6 +19,12 @@ const userInfoSlice = createSlice({
         },
         clearUserInfo: (state) => {
             state.userInfoList = [];
+        },
+        setCurrentUser: (state, action) => {
+            state.currentUser = action.payload;
+        },
+        clearCurrentUser: (state) => {
+            state.currentUser = null;
         },
         adminLogin: (state) => {
             state.adminLoginFlag = true;
@@ -134,6 +141,8 @@ export const {
     addUserInfo,
     clearUserInfo,
     setUserInfoList,
+    setCurrentUser,
+    clearCurrentUser,
     adminLogin,
     adminLogout
 } = userInfoSlice.actions;

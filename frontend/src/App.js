@@ -1,7 +1,7 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./MyInfoLayout";
-import {MyInfo} from "./MyInfo";
+import MyInfo from "./MyInfo";
 import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
