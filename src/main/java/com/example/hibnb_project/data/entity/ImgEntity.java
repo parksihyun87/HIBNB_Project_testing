@@ -22,21 +22,21 @@ public class ImgEntity {
     @JoinColumn(name = "accomid", nullable = false)
     private AccomEntity accom;
 
-    @Size(max = 100)
+    @Size(max = 255)
     @NotNull
-    @Column(name = "img1", nullable = false, length = 100)
+    @Column(name = "img1", nullable = false)
     private String img1;
 
-    @Size(max = 100)
-    @Column(name = "img2", length = 100)
+    @Size(max = 255)
+    @Column(name = "img2")
     private String img2;
 
-    @Size(max = 100)
-    @Column(name = "img3", length = 100)
+    @Size(max = 255)
+    @Column(name = "img3")
     private String img3;
 
-    @Size(max = 100)
-    @Column(name = "img4", length = 100)
+    @Size(max = 255)
+    @Column(name = "img4")
     private String img4;
 
 }

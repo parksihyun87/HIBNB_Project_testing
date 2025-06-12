@@ -2,6 +2,7 @@ package com.example.hibnb_project.config;
 
 import com.example.hibnb_project.component.CustomAuthenticationEntryPoint;
 import com.example.hibnb_project.component.CustomerAccessDeniedHandler;
+import com.example.hibnb_project.data.repository.UserRepository;
 import com.example.hibnb_project.jwt.JwtFilter;
 import com.example.hibnb_project.jwt.JwtLoginFilter;
 import com.example.hibnb_project.jwt.JwtUtil;
@@ -27,6 +28,7 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final UserRepository userRepository;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomerAccessDeniedHandler customerAccessDeniedHandler;
 
@@ -62,7 +64,7 @@ public class SecurityConfig {
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilter(this.jwtUtil), JwtLoginFilter.class)
-                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class); //addfilter > 마지막에 ,
+                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration), this.userRepository), UsernamePasswordAuthenticationFilter.class); //addfilter > 마지막에 ,
 //                .exceptionHandling(exception -> {
 //                    exception.authenticationEntryPoint(this.customAuthenticationEntryPoint);
 //                    exception.accessDeniedHandler(this.customerAccessDeniedHandler);

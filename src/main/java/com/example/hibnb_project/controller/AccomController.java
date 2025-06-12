@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,12 +40,12 @@ public class AccomController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<String> saveAccom(@RequestBody AccomDTO accomDTO) {
+    public ResponseEntity<String> saveAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
     }
 
-    @PutMapping(value = "/update")
-    public ResponseEntity<String> updateAccom(@RequestBody AccomDTO accomDTO) {
+    @PutMapping(value="/update")
+    public ResponseEntity<String> updateAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.updateAccom(accomDTO));
     }
 
@@ -53,5 +53,4 @@ public class AccomController {
     public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid 요구
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
     }
-
 }

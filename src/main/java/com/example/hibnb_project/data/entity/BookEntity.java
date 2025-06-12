@@ -54,14 +54,9 @@ public class BookEntity {
     @Column(name = "payment", length = 10)
     private String payment;
 
-    @NotNull
-    @Column(name = "chechindate", nullable = false)
-    private LocalDate chechindate;
-
     @OneToMany(mappedBy = "bookid")
     private Set<ReportEntity> reports = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "bookid")
     private Set<ReviewEntity> reviews = new LinkedHashSet<>();
-
 }

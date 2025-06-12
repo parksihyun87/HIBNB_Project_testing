@@ -16,9 +16,9 @@ import java.time.Instant;
 @Builder
 public class ReviewDTO {
     private Integer id;
-    private AccomEntity accomid;
-    private BookEntity bookid;
-    private UserEntity username;
+    private Integer accomid;
+    private Integer bookid;
+    private String username;
     private Double rating;
     private String comment;
     private Instant createdAt;
