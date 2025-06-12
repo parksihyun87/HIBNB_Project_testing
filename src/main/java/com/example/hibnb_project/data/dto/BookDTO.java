@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +18,8 @@ import java.time.LocalDate;
 @Builder
 public class BookDTO {
     private Integer id;
-    private UserEntity username;
-    private AccomEntity accomid;
+    private String username;
+    private Integer accomid;
     private LocalDate checkindate;
     private LocalDate checkoutdate;
     private Integer totalPrice;
@@ -25,6 +27,6 @@ public class BookDTO {
     private Boolean yesorno;
     private String payment;
     private LocalDate chechindate;
-//    private Set<ReportEntity> reports = new LinkedHashSet<>();
-//    private Set<ReviewEntity> reviews = new LinkedHashSet<>();
+//    private Set<ReportDTO> reports = new LinkedHashSet<>();
+    private Set<ReviewDTO> reviews = new LinkedHashSet<>();
 }
