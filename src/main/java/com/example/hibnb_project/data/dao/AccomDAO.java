@@ -63,7 +63,7 @@ public class AccomDAO {
                 .description(description)
                 .type(type)
                 .imageUrl("temp_value") // 임시값 또는 대표이미지 URL을 이곳에서 설정
-                .maxCapacity(maxCapacity)
+                .maxcapacity(maxCapacity)
                 .pricePerNight(pricePernight)
                 .bedrooms(bedrooms)
                 .beds(beds)
@@ -191,7 +191,7 @@ public class AccomDAO {
         accomToUpdate.setDetailaddr(detailaddr);
         accomToUpdate.setDescription(description);
         accomToUpdate.setType(type);
-        accomToUpdate.setMaxCapacity(maxCapacity);
+        accomToUpdate.setMaxcapacity(maxCapacity);
         accomToUpdate.setPricePerNight(pricePernight);
         accomToUpdate.setBedrooms(bedrooms);
         accomToUpdate.setBeds(beds);
