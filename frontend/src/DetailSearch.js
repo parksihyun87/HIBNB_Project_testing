@@ -1,26 +1,32 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useSelector} from "react-redux";
+import DetailFilter from "./DetailFilter";
+import {useEffect} from "react";
 
 export default function DetailSearch() {
     const navigate = useNavigate();
-
-    const [isBoxOpen, setIsBoxOpen] = useState(false); // 여행지 추천 박스 열림 여부
-    const [selectedFilter, setSelectedFilter] = useState({
-        type: [],
-        bedrooms: 0,
-        beds: 0,
-        bathrooms: 0,
-        max_capacity: 1,
-        price_per_night: 0
-    });
-
-
+    const accomList = useSelector((state) => state.accom.list);
+    console.log(accomList);
     return (
-        <>
-            <hr/>
-            <button type={"button"}>필터</button>
-            <hr/>
-
-        </>
+        <div>
+            <DetailFilter/>
+            <div>
+                {accomList.map((item) => (
+                    <div
+                        key={item.id}
+                        onClick={() => navigate(`/accom/${item.id}`)}
+                    >
+                        <img
+                            src={item.images}
+                            alt={item.address}
+                        />
+                        <h3>{item.address}의 {item.type}</h3>
+                        <p>가격: {item.pricePerNight.toLocaleString()}원</p>
+                        <p>침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
+                        <p>최대인원: {item.maxcapacity}명</p>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 }

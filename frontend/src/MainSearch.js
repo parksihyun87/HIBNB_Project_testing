@@ -1,10 +1,13 @@
 import React, {useState, useRef} from "react";
 import {Outlet, useNavigate} from "react-router-dom";
-import axios from "axios";
 import "./App.css";
+import apiClient from "./util/apiInstance";
+import {useDispatch} from "react-redux";
+import {setAccom, setSearchParams, setSearchResults} from "./store";
 
 export default function MainSearch() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [isBoxOpen, setIsBoxOpen] = useState(false); // 여행지 추천 박스 열림 여부
     const [selectedDestination, setSelectedDestination] = useState(""); // 선택된 여행지
@@ -15,11 +18,9 @@ export default function MainSearch() {
 
     const destinations = [
         "부산광역시",
-        "제주도",
-        "서울시",
-        "인천시",
-        "강원도",
-        "대구시",
+        "경기도",
+        "제주특별자치도",
+        "서울특별시",
     ];
 
     // 외부 클릭 감지를 위한 ref
@@ -49,22 +50,26 @@ export default function MainSearch() {
             alert("여행지를 선택해주세요!");
             return;
         }
-        navigate("detail-search")
-        // const searchParams = {
-        //     destination: selectedDestination,
-        //     checkInDate,
-        //     checkOutDate,
-        //     guests,
-        // };
-        // try {
-        //     const response = await axios.post("/", searchParams, {
-        //         headers: {"Content-Type": "application/json"},
-        //     });
-        //     navigate("/detail-filter", {state: {searchResults: response.data}});
-        // } catch (error) {
-        //     console.error("검색 중 오류:", error);
-        //     alert("검색 중 오류가 발생했습니다.");
-        // }
+        const searchParams = {
+            address: selectedDestination,
+            checkindate: checkInDate,
+            checkoutdate: checkOutDate,
+            maxcapacity: guests,
+        };
+
+        // 검색 파라미터를 Redux store 저장
+        dispatch(setSearchParams(searchParams));
+        try {
+            const response = await apiClient.get("/accom/list/detailedlist", {
+                params: searchParams
+            });
+            dispatch(setAccom(response.data))
+            dispatch(setSearchResults(response.data));
+            navigate("/detail-search");
+        } catch (error) {
+            console.error("검색 중 오류:", error);
+            alert("검색 중 오류가 발생했습니다.");
+        }
     };
 
     // 검색창 외부 클릭 시 박스 닫기
@@ -139,14 +144,12 @@ export default function MainSearch() {
                     </div>
 
                     <div className="search-item">
-                        <label>여행자</label>
-                        <select value={guests} onChange={handleGuestsChange}>
-                            {Array.from({length: 10}, (_, i) => i + 1).map((num) => (
-                                <option key={num} value={num}>
-                                    {num}명
-                                </option>
-                            ))}
-                        </select>
+                        <label>여행자 인원</label>
+                        < input
+                            type="number"
+                            value={guests}
+                            onChange={handleGuestsChange}
+                        />
                     </div>
 
                     <button className="search-button" onClick={handleSearch}>

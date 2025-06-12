@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setToken, setUserInfoList, userLogin} from "./store";
 import apiClient from "./util/apiInstance";
+import {useRef} from "react";
 
 export default function UserLogin() {
     const navigate = useNavigate();
@@ -16,11 +17,9 @@ export default function UserLogin() {
         try {
             const response = await apiClient.post("/login",
                 new URLSearchParams(data));
-
-            console.log(response.headers['authorization']);
-            console.log(response.data);
-
-
+            // console.log(response.headers['authorization']);
+            // console.log(response.data);
+            //
             dispatch(setToken(response.headers['authorization']));
             dispatch(setUserInfoList(response.data));
             dispatch(userLogin());
@@ -33,8 +32,16 @@ export default function UserLogin() {
         }
     };
 
-    const handleClose = () => {
-        navigate("/");
+    const handleReConfirm=()=>{
+        navigate("/re-confirm-id")
+    }
+
+    const handleReConfirmPW=()=>{
+        navigate("/re-confirm-pw")
+    }
+
+    const handleJoin = () => {
+        navigate("/join");
     };
 
     return (
@@ -47,9 +54,11 @@ export default function UserLogin() {
                 <p> PW:
                     <input type="password" name={"password"}/>
                 </p>
-                <button type={"submit"}>로그인</button>
-                <button type={"button"} onClick={handleClose}>취소</button>
+                <button type={"submit"}>로그인</button><br/>
             </form>
+            <button onClick={handleReConfirm}>아이디 찾기</button>
+            <button onClick={handleReConfirmPW}>비밀번호 재설정</button>
+            <button onClick={handleJoin}>회원가입</button>
         </div>
     );
 }

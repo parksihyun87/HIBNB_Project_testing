@@ -8,10 +8,11 @@ import lombok.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -40,6 +41,11 @@ public class UserEntity {
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @NotNull
     @Column(name = "age", nullable = false)
     private Integer age;
@@ -55,5 +61,8 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "username")
     private Set<ReviewEntity> reviews = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "username")
+    private Set<VerificationcodeEntity> verificationcodes = new LinkedHashSet<>();
 
 }
