@@ -21,16 +21,16 @@ public class AccomService {
     private final AccomDAO accomDAO;
 
     public List<AccomDTO> findAllAccoms() {
-        List<AccomEntity> accomEntityList= this.accomDAO.findAllAccoms();
-        List<AccomDTO> accomDTOList= new ArrayList<>();
+        List<AccomEntity> accomEntityList = this.accomDAO.findAllAccoms();
+        List<AccomDTO> accomDTOList = new ArrayList<>();
         for (AccomEntity accomE : accomEntityList) {
 
-            double avgSum= 0;
-            Set<ReviewEntity> reviewEntityList =accomE.getReviews();
-            for(ReviewEntity reE:reviewEntityList){
-                avgSum+=reE.getRating();
+            double avgSum = 0;
+            Set<ReviewEntity> reviewEntityList = accomE.getReviews();
+            for (ReviewEntity reE : reviewEntityList) {
+                avgSum += reE.getRating();
             }
-            double avg= reviewEntityList.size() > 0 ? avgSum / reviewEntityList.size() : 0.0;
+            double avg = reviewEntityList.size() > 0 ? avgSum / reviewEntityList.size() : 0.0;
 
             Set<ReviewEntity> review = accomE.getReviews();
 
@@ -52,7 +52,7 @@ public class AccomService {
                     .build();
             accomDTOList.add(accomDTO);
         }
-            return accomDTOList;
+        return accomDTOList;
     }
 
     public List<AccomDTO> findDetailedAccom(AccomSeachDTO accomSeachDTO) {
@@ -70,12 +70,13 @@ public class AccomService {
             double avg = reviewEntityList.size() > 0 ? avgSum / reviewEntityList.size() : 0.0;
 
             ImgEntity imgEntity = accomE.getImg();
+
             List<String> imageUrls = new ArrayList<>();
-            if (imgEntity != null) {
-                imageUrls = Stream.of(imgEntity.getImg1(), imgEntity.getImg2(), imgEntity.getImg3(), imgEntity.getImg4())
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList());
-            }
+
+            imageUrls = Stream.of(imgEntity.getImg1(), imgEntity.getImg2(), imgEntity.getImg3(), imgEntity.getImg4())
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
 
             AccomDTO accomDTO = AccomDTO.builder()
                     .id(accomE.getId())
@@ -100,24 +101,24 @@ public class AccomService {
     }
 
     public String saveAccom(AccomDTO accomDTO) throws IOException {
-        this.accomDAO.saveAccom(accomDTO.getHostid(),accomDTO.getHostname(),
-                accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
-                accomDTO.getImageUrl(),accomDTO.getMaxcapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms(),
+        this.accomDAO.saveAccom(accomDTO.getHostid(), accomDTO.getHostname(),
+                accomDTO.getAddress(), accomDTO.getDetailaddr(), accomDTO.getDescription(), accomDTO.getType(),
+                accomDTO.getImageUrl(), accomDTO.getMaxcapacity(), accomDTO.getPricePerNight(), accomDTO.getBedrooms(), accomDTO.getBeds(), accomDTO.getBathrooms(),
                 accomDTO.getImages()
         );
         return "숙소 등록 성공";
     }
 
     public String updateAccom(AccomDTO accomDTO) {
-        this.accomDAO.updateAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
-                accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
-                accomDTO.getImageUrl(),accomDTO.getMaxcapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
+        this.accomDAO.updateAccom(accomDTO.getId(), accomDTO.getHostid(), accomDTO.getHostname(),
+                accomDTO.getAddress(), accomDTO.getDetailaddr(), accomDTO.getDescription(), accomDTO.getType(),
+                accomDTO.getImageUrl(), accomDTO.getMaxcapacity(), accomDTO.getPricePerNight(), accomDTO.getBedrooms(), accomDTO.getBeds(), accomDTO.getBathrooms()
         );
         return "숙소 수정 성공";
     }
 
     public String deleteAccom(AccomDTO accomDTO) {
-        this.accomDAO.deleteAccom((accomDTO.getId()),accomDTO.getHostid());
+        this.accomDAO.deleteAccom((accomDTO.getId()), accomDTO.getHostid());
         return "숙소 삭제 성공";
     }
 
