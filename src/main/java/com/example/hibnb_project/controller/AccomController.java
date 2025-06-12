@@ -5,10 +5,13 @@ import com.example.hibnb_project.data.dto.AccomSeachDTO;
 import com.example.hibnb_project.service.AccomService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,13 +29,19 @@ public class AccomController {
     }
 
     @GetMapping(value = "/list/detailedlist")
-    public ResponseEntity<List<AccomDTO>> findDetailedAccom(@ModelAttribute AccomSeachDTO accomSeachDTO) {
-        List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom(accomSeachDTO);
+    public ResponseEntity<List<AccomDTO>> findDetailedAccom(
+            @RequestParam String address,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkindate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkoutdate,
+            @RequestParam Integer maxcapacity
+    ) {
+        AccomSeachDTO accomSeachDTO = new AccomSeachDTO(address, checkindate, checkoutdate, maxcapacity);
+        List<AccomDTO> accomDTOList = this.accomService.findDetailedAccom(accomSeachDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<String> saveAccom(@RequestBody AccomDTO accomDTO) {
+    public ResponseEntity<String> saveAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
     }
 

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,14 +21,15 @@ public class AccomDTO {
     private String description;
     private String type;
     private String imageUrl;
-    private Integer maxCapacity;
+    private Integer maxcapacity;
     private Integer pricePerNight;
-
     private Integer bedrooms;
     private Integer beds;
     private Integer bathrooms;
-
     private Double average;
+    private MultipartFile[] images;
+    private List<String> imageUrls;
+
 //    private Set<BookEntity> books = new LinkedHashSet<>();
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
 //    private Set<ReviewEntity> reviews = new LinkedHashSet<>();
