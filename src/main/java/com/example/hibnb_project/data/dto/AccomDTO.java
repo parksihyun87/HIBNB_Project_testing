@@ -18,7 +18,7 @@ public class AccomDTO {
     private String description;
     private String type;
     private String imageUrl;
-    private Integer maxCapacity;
+    private Integer maxcapacity;
     private Integer pricePerNight;
 
     private Integer bedrooms;

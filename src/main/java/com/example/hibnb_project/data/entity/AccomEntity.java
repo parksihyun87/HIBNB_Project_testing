@@ -58,7 +58,7 @@ public class AccomEntity {
 
     @NotNull
     @Column(name = "max_capacity", nullable = false)
-    private Integer maxCapacity;
+    private Integer maxcapacity;
 
     @NotNull
     @Column(name = "price_per_night", nullable = false)

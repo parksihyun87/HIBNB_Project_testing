@@ -46,12 +46,12 @@ const searchSlice = createSlice({
         },
         filters: {
             type: "",
-            bedrooms: 0,
-            beds: 0,
-            bathrooms: 0,
-            max_capacity: 1,
+            bedrooms: 1,
+            beds: 1,
+            bathrooms: 1,
+            maxcapacity: 1,
         },
-        searchResults: null,
+        searchResults: [],
     },
     reducers: {
         setSearchParams(state, action) {
@@ -69,8 +69,8 @@ const searchSlice = createSlice({
                 bedrooms: 0,
                 beds: 0,
                 bathrooms: 0,
-                max_capacity: 1,
-                price_per_night: 0,
+                maxcapacity: 1,
+                pricePerNight: 0,
             };
         },
     },

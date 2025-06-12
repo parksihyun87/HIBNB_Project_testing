@@ -31,7 +31,7 @@ public class AccomDAO {
 
     public void saveAccom(Integer id, String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
-    , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
+    , Integer maxcapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
         Optional<UserEntity> hostUser= this.userRepository.findById(hostid);
         if(hostUser.isPresent()) {
             AccomEntity saveAccom= AccomEntity.builder()
@@ -43,7 +43,7 @@ public class AccomDAO {
                     .description(description)
                     .type(type)
                     .imageUrl(imageUrl)
-                    .maxCapacity(maxCapacity)
+                    .maxcapacity(maxcapacity)
                     .pricePerNight(pricePernight)
                     .bedrooms(bedrooms)
                     .beds(beds)
@@ -57,7 +57,7 @@ public class AccomDAO {
 
     public void updateAccom(Integer id, String hostid, String hostname, String address
             , String detailaddr, String description, String type, String imageUrl
-            , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
+            , Integer maxcapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms) {
         Optional<AccomEntity> accomEntity= this.accomRepository.findById(id);
         if(accomEntity.isPresent()) {
             AccomEntity updateAccom=accomEntity.get();
@@ -67,7 +67,7 @@ public class AccomDAO {
                 updateAccom.setDescription(description);
                 updateAccom.setType(type);
                 updateAccom.setImageUrl(imageUrl);
-                updateAccom.setMaxCapacity(maxCapacity);
+                updateAccom.setMaxcapacity(maxcapacity);
                 updateAccom.setPricePerNight(pricePernight);
                 updateAccom.setBedrooms(bedrooms);
                 updateAccom.setBeds(beds);

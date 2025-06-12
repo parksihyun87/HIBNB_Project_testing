@@ -38,7 +38,7 @@ public class AccomService {
                     .type(accomE.getType())
                     .imageUrl(accomE.getImageUrl())
                     .average(avg)
-                    .maxCapacity(accomE.getMaxCapacity())
+                    .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
@@ -73,7 +73,7 @@ public class AccomService {
                     .type(accomE.getType())
                     .imageUrl(accomE.getImageUrl())
                     .average(avg)
-                    .maxCapacity(accomE.getMaxCapacity())
+                    .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
@@ -87,7 +87,7 @@ public class AccomService {
     public String saveAccom(AccomDTO accomDTO) {
         this.accomDAO.saveAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
                 accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
-                accomDTO.getImageUrl(),accomDTO.getMaxCapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
+                accomDTO.getImageUrl(),accomDTO.getMaxcapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
         );
         return "숙소 등록 성공";
     }
@@ -95,7 +95,7 @@ public class AccomService {
     public String updateAccom(AccomDTO accomDTO) {
         this.accomDAO.updateAccom(accomDTO.getId(),accomDTO.getHostid(),accomDTO.getHostname(),
                 accomDTO.getAddress(),accomDTO.getDetailaddr(),accomDTO.getDescription(),accomDTO.getType(),
-                accomDTO.getImageUrl(),accomDTO.getMaxCapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
+                accomDTO.getImageUrl(),accomDTO.getMaxcapacity(),accomDTO.getPricePerNight(),accomDTO.getBedrooms(),accomDTO.getBeds(),accomDTO.getBathrooms()
         );
         return "숙소 수정 성공";
     }

@@ -24,7 +24,6 @@ public class BookDTO {
     private String status;
     private Boolean yesorno;
     private String payment;
-    private LocalDate chechindate;
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
 //    private Set<ReviewEntity> reviews = new LinkedHashSet<>();
 }
