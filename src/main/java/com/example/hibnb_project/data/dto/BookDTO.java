@@ -28,5 +28,5 @@ public class BookDTO {
     private String payment;
     private LocalDate chechindate;
 //    private Set<ReportDTO> reports = new LinkedHashSet<>();
-    private Set<ReviewDTO> reviews = new LinkedHashSet<>();
+//    private Set<ReviewDTO> reviews = new LinkedHashSet<>();
 }
