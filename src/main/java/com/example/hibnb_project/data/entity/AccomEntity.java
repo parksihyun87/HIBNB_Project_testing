@@ -79,7 +79,7 @@ public class AccomEntity {
     @OneToMany(mappedBy = "accomid")
     private Set<BookEntity> books = new LinkedHashSet<>();
 
-    @OneToOne
+    @OneToOne(mappedBy = "accom", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
     private ImgEntity img;
 
     @OneToMany(mappedBy = "accomid")

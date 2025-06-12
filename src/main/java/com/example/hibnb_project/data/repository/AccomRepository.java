@@ -23,5 +23,10 @@ public interface AccomRepository extends JpaRepository<AccomEntity, Integer> {
                 AND b.checkoutdate > :checkinDate
           )
         """, nativeQuery = true)
-    List<AccomEntity> findDetailedAccom(@Param("address") String address,@Param("checkinDate") LocalDate checkinDate, @Param("checkoutDate")LocalDate checkoutDate, @Param("capacity")Integer capacity);
+    List<AccomEntity> findDetailedAccom(
+            @Param("address") String address,
+            @Param("checkinDate") LocalDate checkinDate,
+            @Param("checkoutDate") LocalDate checkoutDate,
+            @Param("capacity") Integer capacity
+    );
 }

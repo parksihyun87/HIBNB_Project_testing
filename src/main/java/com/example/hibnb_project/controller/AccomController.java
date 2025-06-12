@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class AccomController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<String> saveAccom(@RequestBody AccomDTO accomDTO) {
+    public ResponseEntity<String> saveAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
     }
 
