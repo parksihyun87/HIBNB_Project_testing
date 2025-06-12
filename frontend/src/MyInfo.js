@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./MyInfo.css";
+import axios from "axios";
 
 export default function MyInfo() {
     const [phone, setPhone] = useState("");
@@ -14,7 +15,13 @@ export default function MyInfo() {
         }
     }, [currentUser]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        try{
+            const response = await axios.put("/")
+        }catch (error) {
+            console.log(error);
+        }
+
         e.preventDefault();
         alert(`수정된 정보:\n이메일: ${email}\n전화번호: ${phone}`);
     };

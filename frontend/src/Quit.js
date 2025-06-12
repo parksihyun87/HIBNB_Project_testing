@@ -2,6 +2,7 @@ import {useState} from "react";
 import "./Quit.css";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function Quit(){
         /*
@@ -17,6 +18,14 @@ export default function Quit(){
     const token = useSelector((state) => state.token.token);
 
     const handleQuit = async () => {
+        try{
+            // const response = await axios.delete("" + currentUser.id);
+
+        }catch (error){
+            console.log("회원탈퇴 에러: ", error);
+            alert("회원 탈퇴 중 문제가 발생했습니다.");
+        }
+
         alert("🙇‍♂️그동안 이용해주셔서 감사합니다.🙇‍♂️");
         setShowConfirm(false);
 

@@ -5,6 +5,7 @@ export default function PaymentHome(){
     const navigate = useNavigate();
     const location = useLocation();
     const [reservation, setReservation] = useState(null);
+    const [patmentcard, setPatmentcard] = useState("카드");
 
     useEffect(() => {
         if (location.state) {
@@ -21,24 +22,8 @@ export default function PaymentHome(){
     }, [location.state]);
 
     const handlePayment = () => {
-        const prev = JSON.parse(localStorage.getItem("reservations")) || [];
-
-        const newReservation = {
-            id: Date.now(),
-            accommodation: reservation.accommodation,
-            reserverName: reservation.reserverName || "홍길동",
-            checkIn: reservation.checkIn,
-            checkOut: reservation.checkOut,
-            guests: reservation.guests,
-            status: "예약완료",
-            address: reservation.address || "주소 정보 없음",
-            description: reservation.description || "숙소 설명 없음",
-            price: reservation.price,
-        };
-
-        localStorage.setItem("reservations", JSON.stringify([...prev, newReservation]));
-        alert("결제가 완료되었습니다!");
-        navigate("/mypage/reservations");
+        alert(`결제 수단: ${patmentcard}\n결제가 완료되었습니다!`);
+        navigate("/mypage/reservation");
     };
 
     if (!reservation) return <p>예약 정보를 불러오는 중입니다...</p>;
@@ -51,6 +36,20 @@ export default function PaymentHome(){
             <p><strong>체크아웃:</strong> {reservation.checkOut}</p>
             <p><strong>인원:</strong> {reservation.guests}</p>
             <p><strong>총 금액:</strong> {reservation.price}</p>
+
+            <label style={{ display: "block", marginTop: "20px", marginBottom: "10px" }}>
+                결제수단:
+                <select
+                    value={patmentcard}
+                    onChange={(e) => setPatmentcard(e.target.value)}
+                    style={{marginLeft: "10px", paddingLeft: "5px"}}
+                >
+                   <option value={"카드"}>카드 결제</option>
+                    <option value={"무통장"}>무통장 입금</option>
+                    <option value={"간편결제"}>간편 결제(카카오페이 등)(장식용)</option>
+                </select>
+            </label>
+
             <button
                 onClick={handlePayment}
                 style={{
