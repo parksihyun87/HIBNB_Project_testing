@@ -29,6 +29,7 @@ const userInfoSlice = createSlice({
             state.userLoginFlag = true;
         },
         userLogout: (state) => {
+            state.userInfoList = [];
             state.userLoginFlag = false;
         },
     }
@@ -38,19 +39,19 @@ const searchSlice = createSlice({
     name: "search",
     initialState: {
         searchParams: {
-            destination: "",
-            checkInDate: "",
-            checkOutDate: "",
-            guests: 1,
+            address: "",
+            checkindate: "",
+            checkoutdate: "",
+            maxcapacity: 1,
         },
         filters: {
             type: "",
-            bedrooms: 0,
-            beds: 0,
-            bathrooms: 0,
-            max_capacity: 1,
+            bedrooms: 1,
+            beds: 1,
+            bathrooms: 1,
+            maxcapacity: 1,
         },
-        searchResults: null,
+        searchResults: [],
     },
     reducers: {
         setSearchParams(state, action) {
@@ -68,8 +69,8 @@ const searchSlice = createSlice({
                 bedrooms: 0,
                 beds: 0,
                 bathrooms: 0,
-                max_capacity: 1,
-                price_per_night: 0,
+                maxcapacity: 1,
+                pricePerNight: 0,
             };
         },
     },

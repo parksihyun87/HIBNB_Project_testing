@@ -1,24 +1,32 @@
-import {useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
+import DetailFilter from "./DetailFilter";
+import {useEffect} from "react";
 
 export default function DetailSearch() {
-    const {id} = useParams(); // URL에서 id 추출
+    const navigate = useNavigate();
     const accomList = useSelector((state) => state.accom.list);
-    const item = accomList.find((item) => item.id === id);
-
-    if (!item) {
-        return <p>숙소 정보를 찾을 수 없습니다</p>;
-    }
-
+    console.log(accomList);
     return (
         <div>
-            <>
-
-                <h2>{item.address + "의" + item.type}</h2>
-                <img src={item.images} style={{width: "200px"}} alt={item.address}/>
-                <p>가격: {item.price_per_night}원</p>
-            </>
-
+            <DetailFilter/>
+            <div>
+                {accomList.map((item) => (
+                    <div
+                        key={item.id}
+                        onClick={() => navigate(`/accom/${item.id}`)}
+                    >
+                        <img
+                            src={item.images}
+                            alt={item.address}
+                        />
+                        <h3>{item.address}의 {item.type}</h3>
+                        <p>가격: {item.pricePerNight.toLocaleString()}원</p>
+                        <p>침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
+                        <p>최대인원: {item.maxcapacity}명</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

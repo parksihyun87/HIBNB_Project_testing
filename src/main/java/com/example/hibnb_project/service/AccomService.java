@@ -45,7 +45,7 @@ public class AccomService {
                     .type(accomE.getType())
                     .imageUrl(accomE.getImageUrl())
                     .average(avg)
-                    .maxcapacity(accomE.getMaxCapacity())
+                    .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
@@ -89,7 +89,7 @@ public class AccomService {
                     .type(accomE.getType())
                     .imageUrl(accomE.getImageUrl())
                     .average(avg)
-                    .maxcapacity(accomE.getMaxCapacity())
+                    .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
@@ -100,6 +100,7 @@ public class AccomService {
         }
         return accomDTOList;
     }
+
 
     public String saveAccom(AccomDTO accomDTO) throws IOException {
         this.accomDAO.saveAccom(accomDTO.getHostid(), accomDTO.getHostname(),

@@ -45,7 +45,7 @@ public class AccomDAO {
         return accomEntityList;
     }
 
-    @Transactional
+     @Transactional
     public void saveAccom(String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
     , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms, MultipartFile[] images) throws IOException {
@@ -145,6 +145,7 @@ public class AccomDAO {
                     this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
                     imgToUpdate.setImg4(null);
                 }
+
             }
         }
 

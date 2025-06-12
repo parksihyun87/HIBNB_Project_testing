@@ -3,7 +3,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import "./App.css";
 import apiClient from "./util/apiInstance";
 import {useDispatch} from "react-redux";
-import {setSearchParams, setSearchResults} from "./store";
+import {setAccom, setSearchParams, setSearchResults} from "./store";
 
 export default function MainSearch() {
     const navigate = useNavigate();
@@ -18,11 +18,9 @@ export default function MainSearch() {
 
     const destinations = [
         "부산광역시",
-        "제주도",
-        "서울시",
-        "인천시",
-        "강원도",
-        "대구시",
+        "경기도",
+        "제주특별자치도",
+        "서울특별시",
     ];
 
     // 외부 클릭 감지를 위한 ref
@@ -53,17 +51,19 @@ export default function MainSearch() {
             return;
         }
         const searchParams = {
-            destination: selectedDestination,
-            checkInDate,
-            checkOutDate,
-            guests,
+            address: selectedDestination,
+            checkindate: checkInDate,
+            checkoutdate: checkOutDate,
+            maxcapacity: guests,
         };
 
         // 검색 파라미터를 Redux store 저장
         dispatch(setSearchParams(searchParams));
-
         try {
-            const response = await apiClient.post("/", searchParams);
+            const response = await apiClient.get("/accom/list/detailedlist", {
+                params: searchParams
+            });
+            dispatch(setAccom(response.data))
             dispatch(setSearchResults(response.data));
             navigate("/detail-search");
         } catch (error) {
@@ -144,14 +144,12 @@ export default function MainSearch() {
                     </div>
 
                     <div className="search-item">
-                        <label>여행자</label>
-                        <select value={guests} onChange={handleGuestsChange}>
-                            {Array.from({length: 10}, (_, i) => i + 1).map((num) => (
-                                <option key={num} value={num}>
-                                    {num}명
-                                </option>
-                            ))}
-                        </select>
+                        <label>여행자 인원</label>
+                        < input
+                            type="number"
+                            value={guests}
+                            onChange={handleGuestsChange}
+                        />
                     </div>
 
                     <button className="search-button" onClick={handleSearch}>
