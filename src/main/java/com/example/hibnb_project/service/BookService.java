@@ -5,7 +5,11 @@ import com.example.hibnb_project.data.dto.BookDTO;
 import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +40,24 @@ public class BookService {
             bookDTOList.add(myBookDTO);
         }
         return bookDTOList;
+    }
+
+    public String saveBook(BookDTO bookDTO) {
+        this.bookDAO.saveBook(bookDTO.getUsername(),bookDTO.getAccomid(),bookDTO.getCheckindate()
+                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice()
+        );
+        return "예약 성공";
+    }
+
+    public String updateBook(BookDTO bookDTO) {
+        this.bookDAO.updateBook(bookDTO.getId(),bookDTO.getUsername(),bookDTO.getAccomid(),bookDTO.getCheckindate()
+                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice()
+        );
+        return "업데이트 성공";
+    }
+
+    public String cancelBook(BookDTO bookDTO) {
+        this.bookDAO.cancelBook(bookDTO.getId(),bookDTO.getUsername(),bookDTO.getAccomid());
+        return "예약취소 성공";
     }
 }
