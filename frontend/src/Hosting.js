@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addAccom, setToken} from "./store";
 
 export default function Hosting() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.userInfo.userInfoList);
 
     const [formData, setFormData] = useState({
-        hostid: "",
-        hostname: "",
+        hostid: user.username,
+        hostname: user.name,
         address: "",
         detailaddr: "",
         description: "",
@@ -22,6 +23,7 @@ export default function Hosting() {
         pricePerNight: 0,
         images: [],
     });
+
 
     // 입력 변경 처리
     const handleChange = (e) => {
@@ -66,7 +68,7 @@ export default function Hosting() {
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/save", data, {
+            const response = await axios.post("http://localhost:8080/accom/save", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
             const accom = response.data;
