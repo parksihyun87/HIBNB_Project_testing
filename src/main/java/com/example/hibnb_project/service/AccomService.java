@@ -9,6 +9,7 @@ import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
@@ -109,10 +110,11 @@ public class AccomService {
         return "숙소 등록 성공";
     }
 
-    public String updateAccom(AccomDTO accomDTO) {
+    public String updateAccom(AccomDTO accomDTO) throws IOException {
         this.accomDAO.updateAccom(accomDTO.getId(), accomDTO.getHostid(), accomDTO.getHostname(),
                 accomDTO.getAddress(), accomDTO.getDetailaddr(), accomDTO.getDescription(), accomDTO.getType(),
-                accomDTO.getImageUrl(), accomDTO.getMaxcapacity(), accomDTO.getPricePerNight(), accomDTO.getBedrooms(), accomDTO.getBeds(), accomDTO.getBathrooms()
+                 accomDTO.getMaxcapacity(), accomDTO.getPricePerNight(), accomDTO.getBedrooms(), accomDTO.getBeds(), accomDTO.getBathrooms(),
+                accomDTO.getImages(), accomDTO.getUrlsToDelete()
         );
         return "숙소 수정 성공";
     }

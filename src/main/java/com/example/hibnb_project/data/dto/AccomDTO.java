@@ -27,8 +27,9 @@ public class AccomDTO {
     private Integer beds;
     private Integer bathrooms;
     private Double average;
-    private MultipartFile[] images;
-    private List<String> imageUrls;
+    private MultipartFile[] images; // 이미지 파일첨부 시
+    private List<String> imageUrls; // 이미지 url
+    private List<String> urlsToDelete; // 업데이트 할 때 수정, 삭제되야 할 기존 사진 url, 업데이트 할 때 넣기
 
 //    private Set<BookEntity> books = new LinkedHashSet<>();
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
