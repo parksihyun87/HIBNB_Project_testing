@@ -1,5 +1,7 @@
 package com.example.hibnb_project.jwt;
 
+import com.example.hibnb_project.data.entity.UserEntity;
+import com.example.hibnb_project.data.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,6 +28,7 @@ import java.util.Map;
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager; // 직접구현한 로그인필터여서 인증매니저가 필요함
+    private final UserRepository userRepository;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -54,6 +57,13 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         responseData.put("username", username);
         responseData.put("role", role);
         responseData.put("result", "success");
+        UserEntity user = this.userRepository.findById(username).orElse(null);
+        if (user != null) {
+            responseData.put("email", user.getEmail());
+            responseData.put("name", user.getName());
+            responseData.put("phone", user.getPhone());
+            responseData.put("age", user.getAge());
+        }
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMessage = objectMapper.writeValueAsString(responseData);
