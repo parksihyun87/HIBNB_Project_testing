@@ -46,7 +46,7 @@ public class AccomController {
     }
 
     @PutMapping(value="/update")
-    public ResponseEntity<String> updateAccom(@RequestBody AccomDTO accomDTO) {
+    public ResponseEntity<String> updateAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.updateAccom(accomDTO));
     }
 

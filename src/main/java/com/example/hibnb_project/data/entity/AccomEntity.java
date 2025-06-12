@@ -88,4 +88,9 @@ public class AccomEntity {
     @OneToMany(mappedBy = "accomid")
     private Set<ReviewEntity> reviews = new LinkedHashSet<>();
 
+    public void setImg(ImgEntity img) {
+        this.img = img;
+        img.setAccom(this);
+    }
+
 }
