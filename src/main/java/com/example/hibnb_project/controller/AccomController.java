@@ -26,7 +26,7 @@ public class AccomController {
     }
 
     @GetMapping(value = "/list/detailedlist")
-    public ResponseEntity<List<AccomDTO>> findDetailedAccom(@RequestBody AccomSeachDTO accomSeachDTO) {
+    public ResponseEntity<List<AccomDTO>> findDetailedAccom(@ModelAttribute AccomSeachDTO accomSeachDTO) {
         List<AccomDTO> accomDTOList= this.accomService.findDetailedAccom(accomSeachDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
