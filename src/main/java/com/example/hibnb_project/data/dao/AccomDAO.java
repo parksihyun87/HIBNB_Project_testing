@@ -48,7 +48,7 @@ public class AccomDAO {
      @Transactional
     public void saveAccom(String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
-    , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms, MultipartFile[] images) throws IOException {
+    , Integer maxcapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms, MultipartFile[] images) throws IOException {
 
         // 1. User(Host) 엔티티 조회
         UserEntity hostUser = this.userRepository.findById(hostid)
@@ -63,7 +63,7 @@ public class AccomDAO {
                 .description(description)
                 .type(type)
                 .imageUrl("temp_value") // 임시값 또는 대표이미지 URL을 이곳에서 설정
-                .maxCapacity(maxCapacity)
+                .maxcapacity(maxcapacity)
                 .pricePerNight(pricePernight)
                 .bedrooms(bedrooms)
                 .beds(beds)
@@ -106,7 +106,7 @@ public class AccomDAO {
     @Transactional
     public void updateAccom(Integer id, String hostid, String hostname, String address,
                             String detailaddr, String description, String type,
-                            Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms,
+                            Integer maxcapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms,
                             MultipartFile[] newImages, List<String> urlsToDelete) throws IOException { // 파라미터에 MultipartFile[] 추가
 
         // 1. 엔티티 조회
@@ -191,7 +191,7 @@ public class AccomDAO {
         accomToUpdate.setDetailaddr(detailaddr);
         accomToUpdate.setDescription(description);
         accomToUpdate.setType(type);
-        accomToUpdate.setMaxCapacity(maxCapacity);
+        accomToUpdate.setMaxcapacity(maxcapacity);
         accomToUpdate.setPricePerNight(pricePernight);
         accomToUpdate.setBedrooms(bedrooms);
         accomToUpdate.setBeds(beds);

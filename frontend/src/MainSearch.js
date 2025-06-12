@@ -126,6 +126,15 @@ export default function MainSearch() {
                     </div>
 
                     <div className="search-item">
+                        <label>여행자 인원</label>
+                        < input
+                            type="number"
+                            value={guests}
+                            onChange={handleGuestsChange}
+                        />
+                    </div>
+
+                    <div className="search-item">
                         <label>체크인</label>
                         <input
                             type="date"
@@ -140,15 +149,6 @@ export default function MainSearch() {
                             type="date"
                             value={checkOutDate}
                             onChange={handleCheckOutChange}
-                        />
-                    </div>
-
-                    <div className="search-item">
-                        <label>여행자 인원</label>
-                        < input
-                            type="number"
-                            value={guests}
-                            onChange={handleGuestsChange}
                         />
                     </div>
 
