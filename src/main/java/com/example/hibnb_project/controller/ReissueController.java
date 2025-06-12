@@ -44,7 +44,7 @@ public class ReissueController {
 
         String username = this.jwtUtil.getUsername(refresh_token);
         String role = this.jwtUtil.getRole(refresh_token);
-        String access = this.jwtUtil.createToken("access", username, role, 5000L);
+        String access = this.jwtUtil.createToken("access", username, role, 60*60*1000L);
         response.addHeader("Authorization", "Bearer " + access);
         return ResponseEntity.status(HttpStatus.CREATED).body("token created");
     }
