@@ -18,8 +18,8 @@ export default function Hosting() {
         bedrooms: 0,
         beds: 0,
         bathrooms: 0,
-        max_capacity: 1,
-        price_per_night: 0,
+        maxcapacity: 1,
+        pricePerNight: 0,
         images: [],
     });
 
@@ -59,8 +59,8 @@ export default function Hosting() {
         data.append("bedrooms", formData.bedrooms);
         data.append("beds", formData.beds);
         data.append("bathrooms", formData.bathrooms);
-        data.append("max_capacity", formData.max_capacity);
-        data.append("price_per_night", formData.price_per_night);
+        data.append("maxcapacity", formData.maxcapacity);
+        data.append("pricePerNight", formData.pricePerNight);
         formData.images.forEach((image) => {
             data.append("images", image); // 다중 이미지 추가
         });
@@ -89,7 +89,7 @@ export default function Hosting() {
                     <input
                         type="text"
                         name="address"
-                        placeholder="주소 (예: 경기도 하남시, 서울시 강남구)"
+                        placeholder="주소 (예: 경기도, 서울특별시)"
                         value={formData.address}
                         onChange={handleChange}
                         required
@@ -121,7 +121,7 @@ export default function Hosting() {
                     <input
                         type="text"
                         name="type"
-                        placeholder="아파트, 펜션, 주택 중 선택"
+                        placeholder="아파트, 펜션, 게스트하우스, 선택"
                         value={formData.type}
                         onChange={handleChange}
                         required
@@ -167,9 +167,9 @@ export default function Hosting() {
                     <label>최대 수용 인원: </label>
                     <input
                         type="number"
-                        name="max_capacity"
+                        name="maxcapacity"
                         placeholder="최대 수용 인원"
-                        value={formData.max_capacity}
+                        value={formData.maxcapacity}
                         onChange={handleNumberChange}
                         min="1"
                         required
@@ -179,9 +179,9 @@ export default function Hosting() {
                     <label>1박당 가격: </label>
                     <input
                         type="number"
-                        name="price_per_night"
+                        name="pricePerNight"
                         placeholder="1박당 가격"
-                        value={formData.price_per_night}
+                        value={formData.pricePerNight}
                         onChange={handleNumberChange}
                         min="0"
                         required

@@ -16,6 +16,7 @@ import Hosting from "./Hosting";
 import Logout from "./Logout";
 import ReConfirmID from "./ReConfirmID";
 import ReConfirmPW from "./ReConfirmPW";
+import AccomDetail from "./AccomDetail";
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
                     <Route path="/re-confirm-pw" element={<ReConfirmPW/>}></Route>
                     <Route path={"/"} element={<MainSearch/>}>
                         <Route path={"detail-search"} element={<DetailSearch/>}></Route>
+                        <Route path={"accom/:id"} element={<AccomDetail></AccomDetail>}></Route>
                     </Route>
                     <Route path={"/hosting"} element={<Hosting/>}></Route>
                     <Route path="/payment" element={<PaymentHome/>}/>

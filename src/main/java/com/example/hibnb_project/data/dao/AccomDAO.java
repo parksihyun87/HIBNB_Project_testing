@@ -45,7 +45,7 @@ public class AccomDAO {
         return accomEntityList;
     }
 
-    @Transactional
+     @Transactional
     public void saveAccom(String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
     , Integer maxCapacity, Integer pricePernight, Integer bedrooms, Integer beds, Integer bathrooms, MultipartFile[] images) throws IOException {
@@ -63,7 +63,7 @@ public class AccomDAO {
                 .description(description)
                 .type(type)
                 .imageUrl("temp_value") // 임시값 또는 대표이미지 URL을 이곳에서 설정
-                .maxCapacity(maxCapacity)
+                .maxcapacity(maxCapacity)
                 .pricePerNight(pricePernight)
                 .bedrooms(bedrooms)
                 .beds(beds)
@@ -145,6 +145,7 @@ public class AccomDAO {
                     this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
                     imgToUpdate.setImg4(null);
                 }
+
             }
         }
 
@@ -190,7 +191,7 @@ public class AccomDAO {
         accomToUpdate.setDetailaddr(detailaddr);
         accomToUpdate.setDescription(description);
         accomToUpdate.setType(type);
-        accomToUpdate.setMaxCapacity(maxCapacity);
+        accomToUpdate.setMaxcapacity(maxCapacity);
         accomToUpdate.setPricePerNight(pricePernight);
         accomToUpdate.setBedrooms(bedrooms);
         accomToUpdate.setBeds(beds);
