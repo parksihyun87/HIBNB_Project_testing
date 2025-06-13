@@ -85,6 +85,9 @@ const accomSlice = createSlice({
         setAccom: (state, action) => {
             state.list = action.payload;
         },
+        userAccom: (state, action) => {
+            state.list = action.payload;
+        },
         addAccom: (state, action) => {
             state.list.push(action.payload);
         },
@@ -96,6 +99,14 @@ const accomSlice = createSlice({
         },
         removeAccom: (state, action) => {
             state.list = state.list.filter(item => item.id !== action.payload);
+        },
+        removeAccomImage: (state, action) => {
+            const {accomId, imageIndex} = action.payload;
+
+            const accom = state.list.find(item => item.id === accomId);
+            if (accom) {
+                accom.imageUrls.splice(imageIndex, 1);
+            }
         },
     },
 });
@@ -132,7 +143,7 @@ const tokenSlice = createSlice({
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["userInfo", "token"],
+    whitelist: ["userInfo", "token", "accom"],
 };
 
 const rootReducer = combineReducers({
@@ -167,6 +178,10 @@ export const {
     setSearchResults,
     resetFilters
 } = searchSlice.actions;
+<<<<<<< HEAD
+export const {setAccom, userAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
+=======
 export const {setAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
 
 export const {updateBook}=bookSlice.actions;
+>>>>>>> 5a2e4ac80b1c5a1dc5cdfcbf5fae4fd5f52aad20
