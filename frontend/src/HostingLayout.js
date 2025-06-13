@@ -6,6 +6,7 @@ export default function HostingLayout() {
         <>
             <Link to="save">숙소 등록</Link>
             <Link to="list">숙소 수정</Link>
+            <Link to="history">호스트 내역</Link>
             <Outlet/>
         </>
     )
