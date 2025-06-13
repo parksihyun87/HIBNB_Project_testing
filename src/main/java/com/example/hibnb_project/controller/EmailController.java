@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequiredArgsConstructor
 public class EmailController {
@@ -15,6 +17,8 @@ public class EmailController {
     public String sendEmail(@RequestParam String email) {
         emailService.authenticationEmail(email);
         return "Email sent successfully!";
+
+
     }
 
 
