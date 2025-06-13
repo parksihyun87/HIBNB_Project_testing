@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {removeAccom, updateAccom} from "./store";
+import {removeAccom, removeAccomImage, updateAccom} from "./store";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -116,10 +116,13 @@ export default function ModifyRoom() {
     };
 
     const handleImageAllDelete = () => {
-        if (setCheck(true)) {
-            dispatch(removeAccom.imageUrls);
+        if (check) {
+            item.imageUrls.forEach((url, index) => {
+                dispatch(removeAccomImage({id: item.id, index}));
+            });
         }
-    }
+    };
+
 
     return (
         <div>
@@ -230,7 +233,7 @@ export default function ModifyRoom() {
                 <p>
                     <label>등록 된 사진:</label>
                     {item.imageUrls && item.imageUrls.length > 0 && (
-                        <div>
+                        <>
                             <label>
                                 <img
                                     src={item.imageUrls[0]}
@@ -246,7 +249,7 @@ export default function ModifyRoom() {
                                 삭제 선택
                             </label>
                             <button onClick={handleImageAllDelete}>선택 된 항목 삭제</button>
-                        </div>
+                        </>
                     )}
                     <input
                         type="file"
