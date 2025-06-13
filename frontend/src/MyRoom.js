@@ -3,6 +3,7 @@ import "./MyRoom.css"
 import axios from "axios";
 import dayjs from "dayjs";
 import {useSelector} from "react-redux";
+import apiClient from "./util/apiInstance";
 
 export default function MyRoom(){
         /*
@@ -19,7 +20,7 @@ export default function MyRoom(){
     useEffect(() => {
         const fetchHistory = async () => {
             try{
-                const response = await axios.get("/book/list", {
+                const response = await apiClient.get("/book/list", {
                     params: { username: currentUser.username },
                 });
 
@@ -30,7 +31,7 @@ export default function MyRoom(){
 
                 const formatted = pastReservations.map((item, index) => ({
                     id: item.id,
-                    place: item.accommodation,
+                    place: item.accomid,
                     date: `${item.checkIn} ~ ${item.checkOut}`,
                     isMostRecent: index === 0,
                 }));

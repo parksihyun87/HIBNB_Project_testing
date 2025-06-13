@@ -38,7 +38,7 @@ export default function PaymentHome(){
             <p><strong>총 금액:</strong> {reservation.price}</p>
 
             <label style={{ display: "block", marginTop: "20px", marginBottom: "10px" }}>
-                결제수단:
+                <strong>결제수단:</strong>
                 <select
                     value={patmentCard}
                     onChange={(e) => setPatmentCard(e.target.value)}

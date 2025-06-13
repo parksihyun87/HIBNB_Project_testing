@@ -1,51 +1,58 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import dayjs from "dayjs";
 import "./MyReserve.css";
 import {useSelector} from "react-redux";
+import apiClient from "./util/apiInstance";
 
 export default function MyReserve() {
     const [reservations, setReservations] = useState([]);
+    const [accomList, setAccomList] = useState([]);
     const [selectedReservationId, setSelectedReservationId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const currentUser = useSelector((state) => state.userInfo.currentUser);
-    console.log(currentUser);
     const [editForm, setEditForm] = useState({
         checkIn: "",
         checkOut: "",
         guests: 1,
     });
-console.log("붙인거",currentUser.name);
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await axios.get("/book/list", {
+                const accomResponse = await apiClient.get("/accom/list");
+                const accoms = accomResponse.data;
+                setAccomList(accoms);
+
+
+                const reservationResponse = await apiClient.get("/book/list", {
                     params: {
                         username: currentUser.username,
-                    },
+                    }
                 });
-                console.log("데이타",response.data);
 
-                // const formatted = response.data.map((res, index) => ({
-                //     id: res.id || 1000 + index,
-                //     accommodation: res.accommodation,
-                //     reserverName: res.username || "사용자",
-                //     checkIn: res.checkIn,
-                //     checkOut: res.checkOut,
-                //     guests: res.guests || 1,
-                //     status: res.status || "예약완료",
-                //     address: res.address || "주소 미제공",
-                //     description: res.description || "사용자가 직접 예약한 숙소입니다.",
-                //     price: res.price || null,
-                //     imageUrl: res.imageUrl || "/default.jpg",
-                // }));
-                //
-                // setReservations(formatted);
+                const formatted = reservationResponse.data.map((res, index) => {
+                    const accom = accomList.find(
+                        (a) => String(a.id) === String(res.accomid)
+                    );
+
+                    return {
+                        id: res.id || 1000 + index,
+                        accommodation: res.accomid,
+                        reserverName: res.username || "사용자",
+                        checkIn: res.checkIn,
+                        checkOut: res.checkOut,
+                        guests: res.guests || 1,
+                        status: res.status || "예약완료",
+                        address: accom ? `${accom.address} ${accom.detailaddr}` : "주소 미제공",
+                        description: accom?.description,
+                        price: res.price || null,
+                    };
+                });
+
+                setReservations(formatted);
             } catch (error) {
                 console.error("예약 목록 불러오기 실패:", error);
             }
         };
-
         fetchReservations();
     }, []);
 
@@ -55,7 +62,7 @@ console.log("붙인거",currentUser.name);
 
     const cancelReservation = async (id) => {
         try{
-            await axios.post(`/book/cancel`, {id});
+            await apiClient.post(`/book/cancel`, {id});
             setReservations((prev) =>
                 prev.map((res) =>
                     res.id === id ? { ...res, status:"예약취소됨" } : res
@@ -95,7 +102,7 @@ console.log("붙인거",currentUser.name);
         }
 
         try{
-            await axios.put(`/book/update/${id}`, {
+            await apiClient.put(`/book/update/${id}`, {
                 checkIn: editForm.checkIn,
                 checkOut: editForm.checkOut,
                 guests: editForm.guests,
@@ -144,17 +151,11 @@ console.log("붙인거",currentUser.name);
                         key={res.id}
                         className={`reserve-card ${selectedReservationId === res.id ? "selected" : ""}`}
                     >
-                        {res.imageUrl && (
-                            <img
-                                src={res.imageUrl}
-                                alt="숙소 이미지"
-                                className="reserve-image"
-                            />
-                        )}
                         <h3 className="reserve-title-text">{res.accommodation}</h3>
                         <p className="reserve-text">예약자: {res.reserverName}</p>
                         <p className="reserve-text">
-                            체크인: {dayjs(res.checkIn).format("YYYY.MM.DD")} / 체크아웃: {dayjs(res.checkOut).format("YYYY.MM.DD")}
+                            체크인: {dayjs(res.checkIn).format("YYYY.MM.DD")} / 체크아웃:{" "}
+                            {dayjs(res.checkOut).format("YYYY.MM.DD")}
                         </p>
                         <p className="reserve-text">인원: {res.guests}명</p>
                         <p className={`reserve-status ${res.status === "예약완료" ? "completed" : "cancelled"}`}>
@@ -241,7 +242,3 @@ console.log("붙인거",currentUser.name);
         </div>
     );
 }
-
-
-
-

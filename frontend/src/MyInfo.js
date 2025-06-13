@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./store";
 import "./MyInfo.css";
-import axios from "axios";
+import apiClient from "./util/apiInstance";
 
 export default function MyInfo() {
     const [phone, setPhone] = useState("");
@@ -32,7 +32,7 @@ export default function MyInfo() {
                 phone,
             };
 
-            const res = await axios.put("/update-inform", updatedUser);
+            const res = await apiClient.put("/update-inform", updatedUser);
 
             if (res?.data) {
                 dispatch(setCurrentUser(res.data));
