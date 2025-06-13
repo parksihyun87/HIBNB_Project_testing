@@ -22,6 +22,12 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(bookDTOList);
     }// 숙소 정보 자세하게 필요함 -> bookdto에 숙소 객체 중 포함할 것 고려
 
+    @GetMapping(value = "/list/hostid")
+    public ResponseEntity<List<BookDTO>> findbooksbyHostid(@RequestParam("hostid") String hostid) {
+        List<BookDTO> bookDTOList= this.bookService.findbooksbyHostId(hostid);
+        return ResponseEntity.status(HttpStatus.OK).body(bookDTOList);
+    }
+
      @PostMapping(value = "/save")
     public ResponseEntity<String> saveBook(@RequestBody BookDTO bookDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(this.bookService.saveBook(bookDTO));
