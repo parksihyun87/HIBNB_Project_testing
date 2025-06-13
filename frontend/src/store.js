@@ -100,6 +100,21 @@ const accomSlice = createSlice({
     },
 });
 
+const bookSlice=createSlice({
+    name:"book",
+    initialState:{
+        list:[],
+    },
+    reducers:{
+        updateBook:(state, action)=>{
+            const index=state.list.findIndex(item=>item.id===action.payload.id);
+            if(index !== -1){
+                state.list[index]=action.payload;
+            }
+        }
+    }
+})
+
 const initState = {
     token: null,
 }
@@ -125,6 +140,7 @@ const rootReducer = combineReducers({
     token: tokenSlice.reducer,
     search: searchSlice.reducer,
     accom: accomSlice.reducer,
+    book:bookSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -152,3 +168,5 @@ export const {
     resetFilters
 } = searchSlice.actions;
 export const {setAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
+
+export const {updateBook}=bookSlice.actions;

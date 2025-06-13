@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +26,22 @@ public class BookDAO {
 
     public List<BookEntity> findbooksbyUsername(String username) {
         return this.bookRepository.findAllByUsername(username);
+    }
+
+    public Set<BookEntity> findbooksbyHostId(String hostid) {
+        UserEntity user = this.userRepository.findById(hostid).orElse(null);
+        if(user == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+        List<AccomEntity> accomEntityList = this.accomRepository.findByHostid(user);
+        if(accomEntityList.isEmpty()) {
+            throw new EntityNotFoundException("Accom not found");
+        }
+        Set<BookEntity> bookEntitySet = new HashSet<>();
+        for(AccomEntity accomEntity : accomEntityList) {
+            bookEntitySet.addAll(accomEntity.getBooks());
+        }
+        return bookEntitySet;
     }
 
     public void saveBook(String username, Integer accomid, LocalDate checkindate,LocalDate checkoutdate, Integer totalPrice) {

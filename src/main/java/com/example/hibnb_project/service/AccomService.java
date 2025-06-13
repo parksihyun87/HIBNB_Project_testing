@@ -60,6 +60,7 @@ public class AccomService {
     public List<AccomDTO> findDetailedAccom(AccomSeachDTO accomSeachDTO) {
         List<AccomEntity> accomEntityList = this.accomDAO.findDetailedAccom(accomSeachDTO.getAddress(),
                 accomSeachDTO.getCheckindate(), accomSeachDTO.getCheckoutdate(), accomSeachDTO.getMaxcapacity());
+
         List<AccomDTO> accomDTOList = new ArrayList<>();
 
         for (AccomEntity accomE : accomEntityList) {
@@ -94,6 +95,7 @@ public class AccomService {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
+
             AccomDTO accomDTO = AccomDTO.builder()
                     .id(accomE.getId())
                     .hostid((accomE.getHostid()).getUsername())
@@ -116,6 +118,45 @@ public class AccomService {
         }
         return accomDTOList;
     }
+
+    public List<AccomDTO> findByHostid(String hostid) {
+        List<AccomEntity> accomEntityList = this.accomDAO.findByHostid(hostid);
+        List<AccomDTO> accomDTOList = new ArrayList<>();
+        for (AccomEntity accomE : accomEntityList) {
+
+            ImgEntity imgEntity = accomE.getImg();
+            List<String> urls = new ArrayList<>();
+            if (imgEntity != null) {
+                urls.add(imgEntity.getImg1());
+                urls.add(imgEntity.getImg2());
+                urls.add(imgEntity.getImg3());
+                urls.add(imgEntity.getImg4());
+                urls = urls.stream()
+                        .filter(item -> item != null)
+                        .collect(Collectors.toList());
+            }
+
+            AccomDTO accomDTO = AccomDTO.builder()
+                    .id(accomE.getId())
+                    .hostid((accomE.getHostid()).getUsername())
+                    .hostname(accomE.getHostname())
+                    .address(accomE.getAddress())
+                    .detailaddr(accomE.getDetailaddr())
+                    .description(accomE.getDescription())
+                    .imageUrls(urls)
+                    .type(accomE.getType())
+                    .beds(accomE.getBeds())
+                    .bedrooms(accomE.getBedrooms())
+                    .bathrooms(accomE.getBathrooms())
+                    .imageUrls(!urls.isEmpty() ? urls : null)
+                    .maxcapacity(accomE.getMaxcapacity())
+                    .pricePerNight(accomE.getPricePerNight())
+                    .build();
+            accomDTOList.add(accomDTO);
+        }
+        return accomDTOList;
+    }
+
 
     public String saveAccom(AccomDTO accomDTO) throws IOException {
         this.accomDAO.saveAccom(accomDTO.getHostid(), accomDTO.getHostname(),
