@@ -50,4 +50,10 @@ public class UserController {
         return ResponseEntity.ok("reset password success");
     }
 
+    @PutMapping(value = "/update-inform")
+    public ResponseEntity<String> updateInform(@RequestBody UserDTO userDTO) {
+        this.userService.updateInform(userDTO);
+        return ResponseEntity.ok("update inform success");
+    }
+
 }

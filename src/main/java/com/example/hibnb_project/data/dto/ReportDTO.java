@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +17,10 @@ import java.time.Instant;
 @Builder
 public class ReportDTO {
     private Integer id;
-    private AccomEntity accomid;
-    private BookEntity bookid;
-    private UserEntity username;
+    private Integer accomid;
+    private Integer bookid;
+    private String username;
+    private String type;
     private String comment;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }
