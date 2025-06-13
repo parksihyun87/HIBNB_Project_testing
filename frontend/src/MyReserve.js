@@ -1,41 +1,46 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import "./MyReserve.css";
+import {useSelector} from "react-redux";
 
 export default function MyReserve() {
     const [reservations, setReservations] = useState([]);
     const [selectedReservationId, setSelectedReservationId] = useState(null);
     const [editingId, setEditingId] = useState(null);
+    const currentUser = useSelector((state) => state.userInfo.currentUser);
+    console.log(currentUser);
     const [editForm, setEditForm] = useState({
         checkIn: "",
         checkOut: "",
         guests: 1,
     });
-
+console.log("붙인거",currentUser.name);
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const response = await axios.get("/book/list", {
                     params: {
-                        username: "사용자아이디",
+                        username: currentUser.username,
                     },
                 });
+                console.log("데이타",response.data);
 
-                const formatted = response.data.map((res, index) => ({
-                    id: res.id || 1000 + index,
-                    accommodation: res.accommodation,
-                    reserverName: res.username || "사용자",
-                    checkIn: res.checkIn,
-                    checkOut: res.checkOut,
-                    guests: res.guests || 1,
-                    status: res.status || "예약완료",
-                    address: res.address || "주소 미제공",
-                    description: res.description || "사용자가 직접 예약한 숙소입니다.",
-                    price: res.price || null,
-                    imageUrl: res.imageUrl || "/default.jpg",
-                }));
-
-                setReservations(formatted);
+                // const formatted = response.data.map((res, index) => ({
+                //     id: res.id || 1000 + index,
+                //     accommodation: res.accommodation,
+                //     reserverName: res.username || "사용자",
+                //     checkIn: res.checkIn,
+                //     checkOut: res.checkOut,
+                //     guests: res.guests || 1,
+                //     status: res.status || "예약완료",
+                //     address: res.address || "주소 미제공",
+                //     description: res.description || "사용자가 직접 예약한 숙소입니다.",
+                //     price: res.price || null,
+                //     imageUrl: res.imageUrl || "/default.jpg",
+                // }));
+                //
+                // setReservations(formatted);
             } catch (error) {
                 console.error("예약 목록 불러오기 실패:", error);
             }
@@ -48,14 +53,20 @@ export default function MyReserve() {
         setSelectedReservationId((prevId) => (prevId === id ? null : id));
     };
 
-    const cancelReservation = (id) => {
-        setReservations((prev) =>
-            prev.map((res) =>
-                res.id === id ? { ...res, status: "예약취소됨" } : res
-            )
-        );
-        if (selectedReservationId === id) {
-            setSelectedReservationId(null);
+    const cancelReservation = async (id) => {
+        try{
+            await axios.post(`/book/cancel`, {id});
+            setReservations((prev) =>
+                prev.map((res) =>
+                    res.id === id ? { ...res, status:"예약취소됨" } : res
+                )
+            );
+            if(selectedReservationId === id){
+                setSelectedReservationId(null);
+            }
+        } catch (error) {
+            console.error("예약 취소 실패:", error);
+            alert("예약 취소에 실패했습니다.");
         }
     };
 
@@ -69,7 +80,7 @@ export default function MyReserve() {
         });
     };
 
-    const saveChanges = (id) => {
+    const saveChanges = async (id) => {
         const checkInDate = dayjs(editForm.checkIn);
         const checkOutDate = dayjs(editForm.checkOut);
 
@@ -83,18 +94,32 @@ export default function MyReserve() {
             return;
         }
 
-        setReservations((prev) =>
-            prev.map((res) =>
-                res.id === id
-                    ? {
-                        ...res,
-                        checkIn: editForm.checkIn,
-                        checkOut: editForm.checkOut,
-                        guests: editForm.guests,
-                    }
-                    : res
-            )
-        );
+        try{
+            await axios.put(`/book/update/${id}`, {
+                checkIn: editForm.checkIn,
+                checkOut: editForm.checkOut,
+                guests: editForm.guests,
+            });
+
+            setReservations((prev) =>
+                prev.map((res) =>
+                    res.id === id
+                        ? {
+                            ...res,
+                            checkIn: editForm.checkIn,
+                            checkOut: editForm.checkOut,
+                            guests: editForm.guests,
+                        }
+                        : res
+                )
+            );
+            setEditingId(null);
+            setSelectedReservationId(null);
+        }catch(error){
+            console.error("예약 변경 실패:", error);
+            alert("예약 변경에 실패했습니다.");
+        }
+
         setEditingId(null);
         setSelectedReservationId(null);
     };

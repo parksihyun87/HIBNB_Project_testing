@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentUser } from "./store";
 import "./MyInfo.css";
 import axios from "axios";
-//내정보 확인 및 수정
+
 export default function MyInfo() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const dispatch = useDispatch();
     const currentUser = useSelector(state => state.userInfo.currentUser);
 
     useEffect(() => {
@@ -16,14 +18,32 @@ export default function MyInfo() {
     }, [currentUser]);
 
     const handleSubmit = async (e) => {
-        try{
-            const response = await axios.put("/")
-        }catch (error) {
-            console.log(error);
+        e.preventDefault();
+
+        if (!email || !phone) {
+            alert("이메일과 전화번호를 모두 입력해주세요.");
+            return;
         }
 
-        e.preventDefault();
-        alert(`수정된 정보:\n이메일: ${email}\n전화번호: ${phone}`);
+        try {
+            const updatedUser = {
+                ...currentUser,
+                email,
+                phone,
+            };
+
+            const res = await axios.put("/update-inform", updatedUser);
+
+            if (res?.data) {
+                dispatch(setCurrentUser(res.data));
+                alert(`정보가 수정되었습니다.\n이메일: ${res.data.email}\n전화번호: ${res.data.phone}`);
+            } else {
+                alert("서버로부터 올바른 응답을 받지 못했습니다.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("정보 수정 중 오류가 발생했습니다.");
+        }
     };
 
     return (
@@ -62,4 +82,5 @@ export default function MyInfo() {
         </div>
     );
 }
+
 

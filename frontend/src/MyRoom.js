@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import "./MyRoom.css"
 import axios from "axios";
 import dayjs from "dayjs";
+import {useSelector} from "react-redux";
 
 export default function MyRoom(){
         /*
@@ -13,12 +14,13 @@ export default function MyRoom(){
     const [history, setHistory] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [reviewText, setReviewText] = useState("");
+    const currentUser = useSelector((state) => state.userInfo.currentUser);
 
     useEffect(() => {
         const fetchHistory = async () => {
             try{
                 const response = await axios.get("/book/list", {
-                    params: { username: "사용자 아이디"},
+                    params: { username: currentUser.username },
                 });
 
                 const now = dayjs();
@@ -47,21 +49,26 @@ export default function MyRoom(){
     return (
         <div className="room-container">
             <h2 className="room-title">이용 내역</h2>
-            <ul className="room-list">
-                {history.map((item) => (
-                    <li key={item.id} className="room-card">
-                        <div>
-                            <div className="room-place">{item.place}</div>
-                            <div className="room-date">{item.date}</div>
-                        </div>
-                        {item.isMostRecent && (
-                            <button className="room-review-btn" onClick={() => setShowModal(true)}>
-                                리뷰 쓰기
-                            </button>
-                        )}
-                    </li>
-                ))}
-            </ul>
+
+            {history.length === 0 ? (
+                <p className="room-empty">이용 내역이 없습니다.</p>
+            ) : (
+                <ul className="room-list">
+                    {history.map((item) => (
+                        <li key={item.id} className="room-card">
+                            <div>
+                                <div className="room-place">{item.place}</div>
+                                <div className="room-date">{item.date}</div>
+                            </div>
+                            {item.isMostRecent && (
+                                <button className="room-review-btn" onClick={() => setShowModal(true)}>
+                                    리뷰 쓰기
+                                </button>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -73,6 +80,8 @@ export default function MyRoom(){
                         <textarea
                             className="modal-textarea"
                             placeholder="숙소는 어땠나요? 호스트는 친절했나요?"
+                            value={reviewText}
+                            onChange={(e) => setReviewText(e.target.value)}
                         />
                         <div className="modal-footer">
                             <button className="modal-submit-btn" onClick={() => setShowModal(false)}>
@@ -84,4 +93,5 @@ export default function MyRoom(){
             )}
         </div>
     );
+
 }

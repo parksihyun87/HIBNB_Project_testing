@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setToken, setUserInfoList, userLogin} from "./store";
+import {setCurrentUser, setToken, setUserInfoList, userLogin} from "./store";
 import apiClient from "./util/apiInstance";
 import {useRef} from "react";
 
@@ -21,7 +21,7 @@ export default function UserLogin() {
             // console.log(response.data);
             //
             dispatch(setToken(response.headers['authorization']));
-            dispatch(setUserInfoList(response.data));
+            dispatch(setCurrentUser(response.data));
             dispatch(userLogin());
             alert("로그인 성공!")
             navigate("/");

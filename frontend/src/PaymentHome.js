@@ -23,7 +23,7 @@ export default function PaymentHome(){
 
     const handlePayment = () => {
         alert(`결제 수단: ${patmentCard}\n결제가 완료되었습니다!`);
-        navigate("/mypage/reservation");
+        navigate("/mypage/reservations");
     };
 
     if (!reservation) return <p>예약 정보를 불러오는 중입니다...</p>;
