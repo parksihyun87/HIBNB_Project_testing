@@ -8,7 +8,9 @@ import com.example.hibnb_project.data.repository.VerificationcodeRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,6 +69,10 @@ public class UserService {
 
     public void resetPassword(String username, String password){
         this.userDAO.resetPassword(username, password);
+    }
+
+    public void updateInform(UserDTO userDTO) {
+        this.userDAO.updateInform(userDTO.getUsername(),userDTO.getPassword(),userDTO.getName(),userDTO.getPhone(),userDTO.getEmail(),userDTO.getAge());
     }
 
 }

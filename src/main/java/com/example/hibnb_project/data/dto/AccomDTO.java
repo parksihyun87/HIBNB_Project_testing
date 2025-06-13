@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -33,6 +35,6 @@ public class AccomDTO {
 
 //    private Set<BookEntity> books = new LinkedHashSet<>();
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
-//    private Set<ReviewEntity> reviews = new LinkedHashSet<>();
+    private Set<ReviewDTO> reviews = new LinkedHashSet<>();
 }
 

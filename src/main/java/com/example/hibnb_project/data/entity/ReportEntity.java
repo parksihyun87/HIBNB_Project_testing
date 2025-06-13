@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -34,12 +35,15 @@ public class ReportEntity {
     @JoinColumn(name = "username", nullable = false)
     private UserEntity username;
 
+    @NotNull
+    private String type;
+
     @Lob
     @Column(name = "comment")
     private String comment;
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
 }
