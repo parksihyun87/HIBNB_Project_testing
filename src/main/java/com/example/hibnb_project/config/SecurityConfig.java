@@ -2,6 +2,7 @@ package com.example.hibnb_project.config;
 
 import com.example.hibnb_project.component.CustomAuthenticationEntryPoint;
 import com.example.hibnb_project.component.CustomerAccessDeniedHandler;
+import com.example.hibnb_project.data.repository.UserRepository;
 import com.example.hibnb_project.jwt.JwtFilter;
 import com.example.hibnb_project.jwt.JwtLoginFilter;
 import com.example.hibnb_project.jwt.JwtUtil;
@@ -27,27 +28,28 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final UserRepository userRepository;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomerAccessDeniedHandler customerAccessDeniedHandler;
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .formLogin(form ->form.disable())
+                .formLogin(form -> form.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
-                .authorizeHttpRequests(authorize->{
+                .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/**").permitAll();
-//                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw","/accom/list","/accom/post","/accom/test").permitAll();
+                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw", "/accom/list", "/accom/list/detailedlist", "/accom/post", "/accom/test").permitAll();
                     authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                     authorize.anyRequest().authenticated();
                 })
@@ -62,7 +64,7 @@ public class SecurityConfig {
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilter(this.jwtUtil), JwtLoginFilter.class)
-                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class); //addfilter > 마지막에 ,
+                .addFilterAt(new JwtLoginFilter(this.jwtUtil, this.authenticationManager(this.authenticationConfiguration), this.userRepository), UsernamePasswordAuthenticationFilter.class); //addfilter > 마지막에 ,
 //                .exceptionHandling(exception -> {
 //                    exception.authenticationEntryPoint(this.customAuthenticationEntryPoint);
 //                    exception.accessDeniedHandler(this.customerAccessDeniedHandler);
