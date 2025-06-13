@@ -9,6 +9,22 @@ export default function ReConfirmID(){
     const [code, setCode] = useState("");
     const [emailAuthenSent, setEmailAuthenSent] = useState(false);
 
+    const handleSendEmail=async (e)=>{
+        e.preventDefault();
+        try{
+            const response=await apiClient.get(`http://localhost:8080/email?email=${email}`);
+
+            if(response.data){
+                alert("인증번호가 이메일로 전송되었습니다.");
+                setEmailAuthenSent(true);
+
+            }
+        }catch(error){
+            console.error(error);
+            alert("오류가 발생했습니다. 다시 시도해주세요. ");
+        }
+    }
+
     const successAuthen=async (e)=>{
         e.preventDefault();
         try {
@@ -26,22 +42,6 @@ export default function ReConfirmID(){
         } catch (error) {
             console.error(error);
             alert("오류가 발생했습니다. 다시 시도해주세요.");
-        }
-    }
-
-    const handleSendEmail=async (e)=>{
-        e.preventDefault();
-        try{
-            const response=await apiClient.get(`http://localhost:8080/email?email=${email}`);
-
-            if(response.data){
-                alert("인증번호가 이메일로 전송되었습니다.");
-                setEmailAuthenSent(true);
-
-            }
-        }catch(error){
-            console.error(error);
-            alert("오류가 발생했습니다. 다시 시도해주세요. ");
         }
     }
 
