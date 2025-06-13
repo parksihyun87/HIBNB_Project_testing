@@ -50,4 +50,25 @@ public class UserController {
         return ResponseEntity.ok("reset password success");
     }
 
+    @PutMapping(value = "/update-inform")
+    public ResponseEntity<String> updateInform(@RequestBody UserDTO userDTO) {
+        this.userService.updateInform(userDTO);
+        return ResponseEntity.ok("update inform success");
+    }
+
+    @PostMapping(value = "/comapre-password")// 비밀번호 재확인시 일치/불일치를 boolean으로 전달
+    public ResponseEntity<Boolean> comaprePassword(@RequestParam String username, String password) {//username, password 필요
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.comaprePassword(username,password));
+    }
+
+    @GetMapping(value = "/user-inform")
+    public ResponseEntity<UserDTO> userInform(@RequestParam String username) {
+        UserDTO userDTO = this.userService.userInform(username);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+    }
+
+    @DeleteMapping(value = "/delete-member")
+    public ResponseEntity<String> deleteMember(@RequestParam String username) {
+        return ResponseEntity.ok(this.userService.deleteMember(username));
+    }
 }

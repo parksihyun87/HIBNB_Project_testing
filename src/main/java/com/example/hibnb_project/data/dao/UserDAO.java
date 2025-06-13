@@ -2,11 +2,16 @@ package com.example.hibnb_project.data.dao;
 
 import com.example.hibnb_project.data.entity.UserEntity;
 import com.example.hibnb_project.data.repository.UserRepository;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -14,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDAO {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public Boolean isExist(String username) {
@@ -25,7 +31,7 @@ public class UserDAO {
     }
 
     public void join(String username, String password, String role, String name, String phone, String email, Integer age) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); 조인 확인
         UserEntity authenticationEntity = UserEntity.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -55,4 +61,46 @@ public class UserDAO {
         throw new EntityNotFoundException("user not found");
     }
 
+    public void updateInform(String username,String name,String phone,String email,Integer age){
+        Optional<UserEntity> user=this.userRepository.findById(username);
+        if(user.isPresent()){
+            UserEntity updateUser= user.get();
+
+            updateUser.setName(name);
+            updateUser.setPhone(phone);
+            updateUser.setEmail(email);
+            updateUser.setAge(age);
+
+            this.userRepository.save(updateUser);
+            return;
+        }
+        throw new EntityNotFoundException("user not found");
+    }
+
+    public boolean comaprePassword(String username,String password) {
+        Optional<UserEntity> user= this.userRepository.findById(username);
+        if(user.isPresent()){
+            UserEntity updateUser= user.get();
+            boolean match = passwordEncoder.matches(password, updateUser.getPassword());
+            return match;
+        }
+        throw new EntityNotFoundException("user not found");
+    }
+
+    public UserEntity userInform(String username) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new EntityNotFoundException("user not found");
+    }
+
+    public void deleteMember(String username) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if(user.isPresent()){
+            this.userRepository.delete(user.get());
+        }else {
+            throw new EntityNotFoundException("user not found");
+        }
+    }
 }
