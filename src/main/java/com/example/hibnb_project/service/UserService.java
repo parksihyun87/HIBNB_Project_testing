@@ -10,6 +10,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
@@ -60,6 +63,9 @@ public class UserService {
                 if(user==null){
                     throw new EntityNotFoundException("user not found");
                 }
+                if(!user.getUsername().equals(username)){
+                    throw new EntityNotFoundException("username 불일치");
+                }
                 return true;
             }
             throw new EntityNotFoundException("code error");
@@ -72,7 +78,26 @@ public class UserService {
     }
 
     public void updateInform(UserDTO userDTO) {
-        this.userDAO.updateInform(userDTO.getUsername(),userDTO.getPassword(),userDTO.getName(),userDTO.getPhone(),userDTO.getEmail(),userDTO.getAge());
+        this.userDAO.updateInform(userDTO.getUsername(),userDTO.getName(),userDTO.getPhone(),userDTO.getEmail(),userDTO.getAge());
     }
 
+    public Boolean comaprePassword(String username, String password) {
+        return this.userDAO.comaprePassword(username, password);
+    }
+
+    public UserDTO userInform(String username) {
+        UserEntity entity= this.userDAO.userInform(username);
+        UserDTO userDTO = UserDTO.builder()
+                .name(entity.getName())
+                .phone(entity.getPhone())
+                .email(entity.getEmail())
+                .age(entity.getAge())
+                .build();
+        return userDTO;
+    }
+
+    public String deleteMember(String username) {
+        this.userDAO.deleteMember(username);
+        return "deleteMember success";
+    }
 }
