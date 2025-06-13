@@ -12,11 +12,15 @@ import MainSearch from "./MainSearch";
 import UserLogin from "./UserLogin";
 import UserJoin from "./UserJoin";
 import DetailSearch from "./DetailSearch";
-import Hosting from "./Hosting";
+import NewRoom from "./NewRoom";
 import Logout from "./Logout";
 import ReConfirmID from "./ReConfirmID";
 import ReConfirmPW from "./ReConfirmPW";
 import AccomDetail from "./AccomDetail";
+import ModifyRoom from "./ModifyRoom";
+import HostingLayout from "./HostingLayout";
+import ModifyList from "./ModifyList";
+import HostHistory from "./HostHistory";
 
 
 export default function App() {
@@ -29,13 +33,18 @@ export default function App() {
                     <Route path="/join" element={<UserJoin/>}></Route>
                     <Route path="/re-confirm-id" element={<ReConfirmID/>}></Route>
                     <Route path="/re-confirm-pw" element={<ReConfirmPW/>}></Route>
-                    <Route path={"/"} element={<MainSearch/>}>
-                        <Route path={"detail-search"} element={<DetailSearch/>}></Route>
-                        <Route path={"accom/:id"} element={<AccomDetail></AccomDetail>}></Route>
+                    <Route path="/" element={<MainSearch/>}>
+                        <Route path="detail-search" element={<DetailSearch/>}></Route>
+                        <Route path="accom/:id" element={<AccomDetail></AccomDetail>}></Route>
                     </Route>
-                    <Route path={"/hosting"} element={<Hosting/>}></Route>
-                    <Route path="/payment" element={<PaymentHome/>}/>
-                    <Route path={"/mypage"} element={<MyInfoLayout/>}>
+                    <Route path="/hosting" element={<HostingLayout/>}>
+                        <Route path="save" element={<NewRoom/>}></Route>
+                        <Route path="list" element={<ModifyList/>}></Route>
+                        <Route path="update/:id" element={<ModifyRoom/>}></Route>
+                        <Route path="history" element={<HostHistory/>}></Route>
+                    </Route>
+                    <Route path="/payment" element={<PaymentHome/>}></Route>
+                    <Route path="/mypage" element={<MyInfoLayout/>}>
                         <Route path="profile" element={<MyInfo/>}></Route>
                         <Route path="reservations" element={<MyReserve/>}></Route>
                         <Route path="myroom" element={<MyRoom/>}></Route>

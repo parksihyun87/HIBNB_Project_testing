@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,28 @@ public class BookService {
                     .payment(bookE.getPayment())
                     .build();
             bookDTOList.add(myBookDTO);
+        }
+        return bookDTOList;
+    }
+
+    public List<BookDTO> findbooksbyHostId(String hostId) {
+        Set<BookEntity> bookEntities = this.bookDAO.findbooksbyHostId(hostId);
+        List<BookDTO> bookDTOList = new ArrayList<>();
+        for (BookEntity bookE : bookEntities) {
+            BookDTO bookDTO = BookDTO.builder()
+                    .id(bookE.getId())
+                    .username(bookE.getUsername().getUsername())
+                    .accomid(bookE.getAccomid().getId())
+                    .checkindate(bookE.getCheckindate())
+                    .checkoutdate(bookE.getCheckoutdate())
+                    .totalPrice(bookE.getTotalPrice())
+                    .status(bookE.getStatus())
+                    .yesorno(bookE.getYesorno())
+                    .payment(bookE.getPayment())
+                    .address(bookE.getAccomid().getAddress())
+                    .type(bookE.getAccomid().getType())
+                    .build();
+            bookDTOList.add(bookDTO);
         }
         return bookDTOList;
     }

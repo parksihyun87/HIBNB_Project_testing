@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +22,5 @@ public class ReviewDTO {
     private String username;
     private Double rating;
     private String comment;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }
