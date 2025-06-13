@@ -57,6 +57,8 @@ public class BookService {
                     .status(bookE.getStatus())
                     .yesorno(bookE.getYesorno())
                     .payment(bookE.getPayment())
+                    .address(bookE.getAccomid().getAddress())
+                    .type(bookE.getAccomid().getType())
                     .build();
             bookDTOList.add(bookDTO);
         }

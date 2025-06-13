@@ -20,6 +20,7 @@ import AccomDetail from "./AccomDetail";
 import ModifyRoom from "./ModifyRoom";
 import HostingLayout from "./HostingLayout";
 import ModifyList from "./ModifyList";
+import HostHistory from "./HostHistory";
 
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
                         <Route path="save" element={<NewRoom/>}></Route>
                         <Route path="list" element={<ModifyList/>}></Route>
                         <Route path="update/:id" element={<ModifyRoom/>}></Route>
+                        <Route path="history" element={<HostHistory/>}></Route>
                     </Route>
                     <Route path="/payment" element={<PaymentHome/>}></Route>
                     <Route path="/mypage" element={<MyInfoLayout/>}>
