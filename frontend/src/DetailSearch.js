@@ -17,7 +17,7 @@ export default function DetailSearch() {
                         onClick={() => navigate(`/accom/${item.id}`)}
                     >
                         <img
-                            src={item.images}
+                            src={item.imageUrls[0]}
                             alt={item.address}
                         />
                         <h3>{item.address}의 {item.type}</h3>

@@ -4,6 +4,7 @@ package com.example.hibnb_project.service;
 import com.example.hibnb_project.data.dao.AccomDAO;
 import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.AccomSeachDTO;
+import com.example.hibnb_project.data.dto.ReviewDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
@@ -59,9 +60,24 @@ public class AccomService {
     public List<AccomDTO> findDetailedAccom(AccomSeachDTO accomSeachDTO) {
         List<AccomEntity> accomEntityList = this.accomDAO.findDetailedAccom(accomSeachDTO.getAddress(),
                 accomSeachDTO.getCheckindate(), accomSeachDTO.getCheckoutdate(), accomSeachDTO.getMaxcapacity());
-
         List<AccomDTO> accomDTOList = new ArrayList<>();
+
         for (AccomEntity accomE : accomEntityList) {
+            Set<ReviewDTO> reviewDTOSet = new HashSet<>();
+
+            Set<ReviewEntity> reviewEntitySet = accomE.getReviews();
+            for (ReviewEntity reE : reviewEntitySet) {
+                ReviewDTO reviewDTO = ReviewDTO.builder()
+                        .id(reE.getId())
+                        .accomid(reE.getAccomid().getId())
+                        .bookid(reE.getBookid().getId())
+                        .username(reE.getUsername().getUsername())
+                        .rating(reE.getRating())
+                        .comment(reE.getComment())
+                        .createdAt(reE.getCreatedAt())
+                        .build();
+                reviewDTOSet.add(reviewDTO);
+            }
 
             double avgSum = 0;
             Set<ReviewEntity> reviewEntityList = accomE.getReviews();
@@ -77,7 +93,6 @@ public class AccomService {
             imageUrls = Stream.of(imgEntity.getImg1(), imgEntity.getImg2(), imgEntity.getImg3(), imgEntity.getImg4())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
-
 
             AccomDTO accomDTO = AccomDTO.builder()
                     .id(accomE.getId())
@@ -95,12 +110,12 @@ public class AccomService {
                     .beds(accomE.getBeds())
                     .bathrooms(accomE.getBathrooms())
                     .imageUrls(!imageUrls.isEmpty() ? imageUrls : null)
+                    .reviews(reviewDTOSet)
                     .build();
             accomDTOList.add(accomDTO);
         }
         return accomDTOList;
     }
-
 
     public String saveAccom(AccomDTO accomDTO) throws IOException {
         this.accomDAO.saveAccom(accomDTO.getHostid(), accomDTO.getHostname(),
