@@ -45,6 +45,19 @@ public class AccomDAO {
         return accomEntityList;
     }
 
+    public List<AccomEntity> findByHostid(String hostid){
+        UserEntity user = this.userRepository.findById(hostid).orElse(null);
+        if(user==null){
+            throw new EntityNotFoundException("User not found");
+        }
+        List<AccomEntity> accomEntityList = this.accomRepository.findByHostid(user);
+        if(accomEntityList.isEmpty()){
+            return null;
+        }
+        return accomEntityList;
+    }
+
+
      @Transactional
     public void saveAccom(String hostid, String hostname, String address
     , String detailaddr, String description, String type, String imageUrl
