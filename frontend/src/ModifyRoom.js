@@ -1,29 +1,54 @@
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {addAccom} from "./store";
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {removeAccom, updateAccom} from "./store";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function ModifyRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(state => state.userInfo.userInfoList)
+    const usernameAccom = useSelector(state => state.accom.list)
+    const {id} = useParams();
+    const item = usernameAccom.find((item) => item.id === Number(id));
+    const [check, setCheck] = useState(false);
 
     const [formData, setFormData] = useState({
-        hostid: user.username,
-        hostname: user.name,
-        address: user.address,
-        detailaddr: user.detailaddr,
-        description: user.description,
-        type: user.type,
-        bedrooms: user.bedrooms,
-        beds: user.beds,
-        bathrooms: user.bathrooms,
-        maxcapacity: user.maxcapacity,
-        pricePerNight: user.pricePerNight,
-        images: user.imageUrls,
+        hostid: usernameAccom.username,
+        hostname: usernameAccom.name,
+        address: "",
+        detailaddr: "",
+        description: "",
+        type: "",
+        bedrooms: 0,
+        beds: 0,
+        bathrooms: 0,
+        maxcapacity: 1,
+        pricePerNight: 0,
+        images: [],
     });
-    console.log(formData);
+
+    useEffect(() => {
+        if (item) {
+            setFormData({
+                hostid: item.username || "",
+                hostname: item.name || "",
+                address: item.address || "",
+                detailaddr: item.detailaddr || "",
+                description: item.description || "",
+                type: item.type || "",
+                bedrooms: item.bedrooms || 0,
+                beds: item.beds || 0,
+                bathrooms: item.bathrooms || 0,
+                maxcapacity: item.maxcapacity || 1,
+                pricePerNight: item.pricePerNight || 0,
+                images: [],
+            });
+        }
+    }, [item]);
+
+    if (!item && usernameAccom.length > 0) {
+        return <div>해당 숙소를 찾을 수 없습니다.</div>;
+    }
 
     // 폼 제출
     const handleSubmit = async (e) => {
@@ -46,27 +71,35 @@ export default function ModifyRoom() {
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/accom/update", data, {
+            const response = await axios.put("http://localhost:8080/accom/update", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
-            const accom = response.data;
-            if (accom) {
-                dispatch(addAccom(accom));
+            const updatedAccom = response.data;
+            if (updatedAccom) {
+                dispatch(updateAccom(updatedAccom));
+                alert("숙소가 성공적으로 수정되었습니다.");
+                navigate("/");
             }
-            navigate("/");
-            console.log("수정 완료: ", response.data);
         } catch (error) {
-            console.error("오류: ", error);
+            console.error("오류:", error);
+            alert("숙소 수정에 실패했습니다. 다시 시도해주세요.");
         }
     };
 
     // 입력 변경 처리
     const handleChange = (e) => {
         const {name, value, files} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: files ? Array.from(files) : value,
-        }));
+        if (name === "images" && files) {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: [...prev.images, ...Array.from(files)], // 기존 이미지 유지 + 새 파일 추가
+            }));
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
     };
 
     // 숫자 입력 처리
@@ -78,6 +111,15 @@ export default function ModifyRoom() {
         }));
     };
 
+    const handleImageDeleteCheck = (e) => {
+        setCheck(e.target.checked);
+    };
+
+    const handleImageAllDelete = () => {
+        if (setCheck(true)) {
+            dispatch(removeAccom.imageUrls);
+        }
+    }
 
     return (
         <div>
@@ -186,14 +228,32 @@ export default function ModifyRoom() {
                     />
                 </p>
                 <p>
-                    <label>사진: </label>
+                    <label>등록 된 사진:</label>
+                    {item.imageUrls && item.imageUrls.length > 0 && (
+                        <div>
+                            <label>
+                                <img
+                                    src={item.imageUrls[0]}
+                                    alt="기존 이미지"
+                                    style={{width: "200px"}}
+                                />
+                                <input
+                                    type="checkbox"
+                                    name="imageDelete"
+                                    checked={check}
+                                    onChange={handleImageDeleteCheck}
+                                />
+                                삭제 선택
+                            </label>
+                            <button onClick={handleImageAllDelete}>선택 된 항목 삭제</button>
+                        </div>
+                    )}
                     <input
                         type="file"
                         name="images"
                         accept="image/*"
                         multiple
                         onChange={handleChange}
-                        required
                     />
                 </p>
                 <button type="submit">수정 등록</button>
