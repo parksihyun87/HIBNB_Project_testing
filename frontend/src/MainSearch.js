@@ -21,6 +21,7 @@ export default function MainSearch() {
         "경기도",
         "제주특별자치도",
         "서울특별시",
+        "북한"
     ];
 
     // 외부 클릭 감지를 위한 ref

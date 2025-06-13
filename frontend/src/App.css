@@ -11,14 +11,14 @@ body {
 }
 
 .main-search {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    border-radius: 24px;
-    padding: 32px;
-    max-width: 960px;
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 600px;
     width: 90%;
-    margin: 60px auto;
+    margin: 40px auto;
     animation: fadeIn 0.6s ease-in-out;
 }
 
@@ -246,13 +246,14 @@ div {
 
 /* DetailFilter.css */
 
+/* 필터 박스 */
 .detail-filter {
+    width: 280px;
     padding: 1rem;
     border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-top: 1rem;
-    max-width: 500px;
-    background-color: #f9f9f9;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .detail-filter h4 {

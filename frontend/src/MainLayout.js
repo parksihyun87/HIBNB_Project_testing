@@ -11,14 +11,17 @@ export default function MainLayout() {
                 <nav>
                     <Link to={"/"}>홈</Link>
                     {isLogin ? (
-                        <Link to={"/logout"}>로그아웃</Link>
+                        <>
+                            <Link to={"/logout"}>로그아웃</Link>
+                            <Link to={"/mypage"}>내정보</Link>
+                            <Link to={"/hosting"}>호스팅</Link>
+                        </>
                     ) : (
                         <>
                             <Link to={"/login"}>로그인</Link>
                             <Link to={"/join"}>회원가입</Link>
                         </>
                     )}
-                    <Link to={"/hosting"}>호스팅</Link>
                 </nav>
             </header>
             <Outlet/>
