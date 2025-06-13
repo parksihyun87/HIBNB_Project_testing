@@ -1,5 +1,7 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "./MyRoom.css"
+import axios from "axios";
+import dayjs from "dayjs";
 
 export default function MyRoom(){
         /*
@@ -8,26 +10,38 @@ export default function MyRoom(){
         * css는 나중에 뺄꺼에용
         */
     const [showModal, setShowModal] = useState(false);
-    const history = [
-        {
-            id: 1,
-            place: "서울 홍대 게스트하우스",
-            date: "2025-06-01 ~ 2025-06-03",
-            isMostRecent: true,
-        },
-        {
-            id: 2,
-            place: "부산 해운대 민박",
-            date: "2025-04-15 ~ 2025-05-15",
-            isMostRecent: false,
-        },
-        {
-            id: 3,
-            place: "제주도 펜션",
-            date: "2025-02-10 ~ 2025-02-13",
-            isMostRecent: false,
-        },
-    ];
+    const [history, setHistory] = useState([]);
+    const [selectedRoomId, setSelectedRoomId] = useState(null);
+    const [reviewText, setReviewText] = useState("");
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try{
+                const response = await axios.get("/book/list", {
+                    params: { username: "사용자 아이디"},
+                });
+
+                const now = dayjs();
+                const pastReservations = response.data
+                    .filter((item) => dayjs(item.checkOut).isBefore(now))
+                    .sort((a, b) => dayjs(b.checkOut).diff(a.checkOut));
+
+                const formatted = pastReservations.map((item, index) => ({
+                    id: item.id,
+                    place: item.accommodation,
+                    date: `${item.checkIn} ~ ${item.checkOut}`,
+                    isMostRecent: index === 0,
+                }));
+
+                setHistory(formatted);
+            }catch(error){
+                console.error("이용 내역 불러오기 실패: ", error);
+            }
+        }
+        fetchHistory();
+    },[]);
+
+
 
 
     return (

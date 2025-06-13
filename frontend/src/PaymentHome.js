@@ -1,11 +1,11 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-
+//결제화면
 export default function PaymentHome(){
     const navigate = useNavigate();
     const location = useLocation();
     const [reservation, setReservation] = useState(null);
-    const [patmentcard, setPatmentcard] = useState("카드");
+    const [patmentCard, setPatmentCard] = useState("카드");
 
     useEffect(() => {
         if (location.state) {
@@ -22,7 +22,7 @@ export default function PaymentHome(){
     }, [location.state]);
 
     const handlePayment = () => {
-        alert(`결제 수단: ${patmentcard}\n결제가 완료되었습니다!`);
+        alert(`결제 수단: ${patmentCard}\n결제가 완료되었습니다!`);
         navigate("/mypage/reservation");
     };
 
@@ -40,8 +40,8 @@ export default function PaymentHome(){
             <label style={{ display: "block", marginTop: "20px", marginBottom: "10px" }}>
                 결제수단:
                 <select
-                    value={patmentcard}
-                    onChange={(e) => setPatmentcard(e.target.value)}
+                    value={patmentCard}
+                    onChange={(e) => setPatmentCard(e.target.value)}
                     style={{marginLeft: "10px", paddingLeft: "5px"}}
                 >
                    <option value={"카드"}>카드 결제</option>

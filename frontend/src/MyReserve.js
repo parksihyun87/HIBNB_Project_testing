@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "./MyReserve.css";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default function MyReserve() {
     const [reservations, setReservations] = useState([]);
@@ -70,6 +70,19 @@ export default function MyReserve() {
     };
 
     const saveChanges = (id) => {
+        const checkInDate = dayjs(editForm.checkIn);
+        const checkOutDate = dayjs(editForm.checkOut);
+
+        if (!checkInDate.isValid() || !checkOutDate.isValid()) {
+            alert("날짜 형식이 올바르지 않습니다.");
+            return;
+        }
+
+        if (checkOutDate.isBefore(checkInDate)) {
+            alert("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
+            return;
+        }
+
         setReservations((prev) =>
             prev.map((res) =>
                 res.id === id
@@ -115,12 +128,14 @@ export default function MyReserve() {
                         )}
                         <h3 className="reserve-title-text">{res.accommodation}</h3>
                         <p className="reserve-text">예약자: {res.reserverName}</p>
-                        <p className="reserve-text">체크인: {res.checkIn} / 체크아웃: {res.checkOut}</p>
+                        <p className="reserve-text">
+                            체크인: {dayjs(res.checkIn).format("YYYY.MM.DD")} / 체크아웃: {dayjs(res.checkOut).format("YYYY.MM.DD")}
+                        </p>
                         <p className="reserve-text">인원: {res.guests}명</p>
                         <p className={`reserve-status ${res.status === "예약완료" ? "completed" : "cancelled"}`}>
                             상태: {res.status}
                         </p>
-                        {res.price && <p>총 금액: {res.price}</p>}
+                        {res.price && <p>총 금액: {res.price.toLocaleString()}원</p>}
 
                         <div className="reserve-buttons">
                             <button onClick={() => toggleDetails(res.id)} className="reserve-button">
@@ -188,9 +203,9 @@ export default function MyReserve() {
                                     </div>
                                 ) : (
                                     <>
-                                        <p><strong>예약 기간:</strong> {res.checkIn} ~ {res.checkOut}</p>
+                                        <p><strong>예약 기간:</strong> {dayjs(res.checkIn).format("YYYY.MM.DD")} ~ {dayjs(res.checkOut).format("YYYY.MM.DD")}</p>
                                         <p><strong>인원:</strong> {res.guests}명</p>
-                                        {res.price && <p><strong>금액:</strong> {res.price}</p>}
+                                        {res.price && <p><strong>금액:</strong> {res.price.toLocaleString()}원</p>}
                                     </>
                                 )}
                             </div>
@@ -201,6 +216,7 @@ export default function MyReserve() {
         </div>
     );
 }
+
 
 
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./MyInfo.css";
 import axios from "axios";
-
+//내정보 확인 및 수정
 export default function MyInfo() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
