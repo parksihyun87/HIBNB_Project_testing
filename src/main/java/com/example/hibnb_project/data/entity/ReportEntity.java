@@ -36,6 +36,7 @@ public class ReportEntity {
     private UserEntity username;
 
     @NotNull
+    @Column(name = "type")
     private String type;
 
     @Lob

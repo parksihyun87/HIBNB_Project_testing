@@ -1,6 +1,7 @@
 package com.example.hibnb_project.data.repository;
 
 import com.example.hibnb_project.data.entity.AccomEntity;
+import com.example.hibnb_project.data.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +30,6 @@ public interface AccomRepository extends JpaRepository<AccomEntity, Integer> {
             @Param("checkoutDate") LocalDate checkoutDate,
             @Param("capacity") Integer capacity
     );
+
+    List<AccomEntity> findByHostid(UserEntity hostid);
 }

@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
@@ -59,7 +61,7 @@ public class UserDAO {
         throw new EntityNotFoundException("user not found");
     }
 
-    public void updateInform(String username,String password,String name,String phone,String email,Integer age){
+    public void updateInform(String username,String name,String phone,String email,Integer age){
         Optional<UserEntity> user=this.userRepository.findById(username);
         if(user.isPresent()){
             UserEntity updateUser= user.get();
@@ -68,13 +70,37 @@ public class UserDAO {
             updateUser.setPhone(phone);
             updateUser.setEmail(email);
             updateUser.setAge(age);
-            if (password != null && !password.isBlank()) {
-                updateUser.setPassword(passwordEncoder.encode(password));
-            }
+
             this.userRepository.save(updateUser);
             return;
         }
         throw new EntityNotFoundException("user not found");
     }
 
+    public boolean comaprePassword(String username,String password) {
+        Optional<UserEntity> user= this.userRepository.findById(username);
+        if(user.isPresent()){
+            UserEntity updateUser= user.get();
+            boolean match = passwordEncoder.matches(password, updateUser.getPassword());
+            return match;
+        }
+        throw new EntityNotFoundException("user not found");
+    }
+
+    public UserEntity userInform(String username) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new EntityNotFoundException("user not found");
+    }
+
+    public void deleteMember(String username) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if(user.isPresent()){
+            this.userRepository.delete(user.get());
+        }else {
+            throw new EntityNotFoundException("user not found");
+        }
+    }
 }
