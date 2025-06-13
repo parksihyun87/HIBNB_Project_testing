@@ -7,14 +7,15 @@ import {useNavigate, useParams} from "react-router-dom";
 export default function ModifyRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const usernameAccom = useSelector(state => state.accom.list)
+    const usernameAccom = useSelector((state) => state.accom.list);
     const {id} = useParams();
+
     const item = usernameAccom.find((item) => item.id === Number(id));
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = useState([]);
 
     const [formData, setFormData] = useState({
-        hostid: usernameAccom.username,
-        hostname: usernameAccom.name,
+        hostid: "",
+        hostname: "",
         address: "",
         detailaddr: "",
         description: "",
@@ -25,7 +26,10 @@ export default function ModifyRoom() {
         maxcapacity: 1,
         pricePerNight: 0,
         images: [],
+        urlsToDelete: [],
     });
+
+    // 이미지, 체크박스 체크 된 것만 백엔드로 요청 보내면 됨
 
     useEffect(() => {
         if (item) {
@@ -67,7 +71,7 @@ export default function ModifyRoom() {
         data.append("maxcapacity", formData.maxcapacity);
         data.append("pricePerNight", formData.pricePerNight);
         formData.images.forEach((image) => {
-            data.append("images", image); // 다중 이미지 추가
+            data.append("images", image);
         });
 
         try {
@@ -92,7 +96,7 @@ export default function ModifyRoom() {
         if (name === "images" && files) {
             setFormData((prev) => ({
                 ...prev,
-                [name]: [...prev.images, ...Array.from(files)], // 기존 이미지 유지 + 새 파일 추가
+                [name]: [...prev.images, ...Array.from(files)],
             }));
         } else {
             setFormData((prev) => ({
@@ -107,22 +111,30 @@ export default function ModifyRoom() {
         const {name, value} = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: Number(value) || 0, // 빈 값은 0으로 처리
+            [name]: Number(value) || 0,
         }));
     };
 
-    const handleImageDeleteCheck = (e) => {
-        setCheck(e.target.checked);
-    };
-
-    const handleImageAllDelete = () => {
-        if (check) {
-            item.imageUrls.forEach((url, index) => {
-                dispatch(removeAccomImage({id: item.id, index}));
-            });
+    const handleImageDeleteCheck = (index) => (e) => {
+        if (e.target.checked) {
+            setCheck((prev) => [...prev, index]);
+        } else {
+            setCheck((prev) => prev.filter((i) => i !== index));
         }
     };
 
+    const handleImageAllDelete = () => {
+        if (check.length === 0) {
+            alert("삭제할 이미지를 선택하세요.");
+            return;
+        }
+
+        console.log("check:", check, Array.isArray(check)); // 디버깅 로그
+        check.forEach((index) => {
+            dispatch(removeAccomImage({id: item.id, index}));
+        });
+        setCheck([]);
+    };
 
     return (
         <div>
@@ -231,24 +243,22 @@ export default function ModifyRoom() {
                     />
                 </p>
                 <p>
-                    <label>등록 된 사진:</label>
+                    <label>등록된 사진:</label>
                     {item.imageUrls && item.imageUrls.length > 0 && (
                         <>
-                            <label>
-                                <img
-                                    src={item.imageUrls[0]}
-                                    alt="기존 이미지"
-                                    style={{width: "200px"}}
-                                />
-                                <input
-                                    type="checkbox"
-                                    name="imageDelete"
-                                    checked={check}
-                                    onChange={handleImageDeleteCheck}
-                                />
-                                삭제 선택
-                            </label>
-                            <button onClick={handleImageAllDelete}>선택 된 항목 삭제</button>
+                            {item.imageUrls.map((url, index) => (
+                                <div key={index}>
+                                    <img src={url} alt={`이미지 ${index}`} style={{width: "200px"}}/>
+                                    <input
+                                        type="checkbox"
+                                        name="imageDelete"
+                                        checked={check.includes(index)}
+                                        onChange={handleImageDeleteCheck(index)}
+                                    />
+                                    <span>삭제 선택</span>
+                                </div>
+                            ))}
+                            <button type="button" onClick={handleImageAllDelete}>선택된 항목 삭제</button>
                         </>
                     )}
                     <input
@@ -263,5 +273,4 @@ export default function ModifyRoom() {
             </form>
         </div>
     );
-
 }
