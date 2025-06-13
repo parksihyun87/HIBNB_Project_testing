@@ -85,6 +85,9 @@ const accomSlice = createSlice({
         setAccom: (state, action) => {
             state.list = action.payload;
         },
+        userAccom: (state, action) => {
+            state.list = action.payload;
+        },
         addAccom: (state, action) => {
             state.list.push(action.payload);
         },
@@ -97,8 +100,31 @@ const accomSlice = createSlice({
         removeAccom: (state, action) => {
             state.list = state.list.filter(item => item.id !== action.payload);
         },
+        removeAccomImage: (state, action) => {
+            const {accomId, imageIndex} = action.payload;
+
+            const accom = state.list.find(item => item.id === accomId);
+            if (accom) {
+                accom.imageUrls.splice(imageIndex, 1);
+            }
+        },
     },
 });
+
+const bookSlice = createSlice({
+    name: "book",
+    initialState: {
+        list: [],
+    },
+    reducers: {
+        updateBook: (state, action) => {
+            const index = state.list.findIndex(item => item.id === action.payload.id);
+            if (index !== -1) {
+                state.list[index] = action.payload;
+            }
+        }
+    }
+})
 
 const initState = {
     token: null,
@@ -117,7 +143,7 @@ const tokenSlice = createSlice({
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["userInfo", "token"],
+    whitelist: ["userInfo", "token", "accom"],
 };
 
 const rootReducer = combineReducers({
@@ -125,6 +151,7 @@ const rootReducer = combineReducers({
     token: tokenSlice.reducer,
     search: searchSlice.reducer,
     accom: accomSlice.reducer,
+    book: bookSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -151,4 +178,7 @@ export const {
     setSearchResults,
     resetFilters
 } = searchSlice.actions;
-export const {setAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
+
+export const {setAccom, userAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
+export const {updateBook} = bookSlice.actions;
+
