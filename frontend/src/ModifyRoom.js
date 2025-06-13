@@ -1,51 +1,29 @@
-import React, {useState} from "react";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addAccom, setToken} from "./store";
+import axios from "axios";
+import {addAccom} from "./store";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-export default function Hosting() {
+export default function ModifyRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(state=> state.userInfo.userInfoList);
+    const user = useSelector(state => state.userInfo.userInfoList)
 
     const [formData, setFormData] = useState({
         hostid: user.username,
         hostname: user.name,
-        address: "",
-        detailaddr: "",
-        description: "",
-        type: "",
-        bedrooms: 0,
-        beds: 0,
-        bathrooms: 0,
-        maxcapacity: 1,
-        pricePerNight: 0,
-        images: [],
+        address: user.address,
+        detailaddr: user.detailaddr,
+        description: user.description,
+        type: user.type,
+        bedrooms: user.bedrooms,
+        beds: user.beds,
+        bathrooms: user.bathrooms,
+        maxcapacity: user.maxcapacity,
+        pricePerNight: user.pricePerNight,
+        images: user.imageUrls,
     });
-
-
-    // 입력 변경 처리
-    const handleChange = (e) => {
-        const {name, value, files} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: files ? Array.from(files) : value,
-        }));
-    };
-
-    // 숫자 입력 처리
-    const handleNumberChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: Number(value) || 0, // 빈 값은 0으로 처리
-        }));
-    };
-
-    const handleClose = () => {
-        navigate("/");
-    }
+    console.log(formData);
 
     // 폼 제출
     const handleSubmit = async (e) => {
@@ -68,7 +46,7 @@ export default function Hosting() {
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/accom/save", data, {
+            const response = await axios.post("http://localhost:8080/accom/update", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
             const accom = response.data;
@@ -76,15 +54,33 @@ export default function Hosting() {
                 dispatch(addAccom(accom));
             }
             navigate("/");
-            console.log("등록 완료: ", response.data);
+            console.log("수정 완료: ", response.data);
         } catch (error) {
             console.error("오류: ", error);
         }
     };
 
+    // 입력 변경 처리
+    const handleChange = (e) => {
+        const {name, value, files} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: files ? Array.from(files) : value,
+        }));
+    };
+
+    // 숫자 입력 처리
+    const handleNumberChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: Number(value) || 0, // 빈 값은 0으로 처리
+        }));
+    };
+
+
     return (
         <div>
-            <h2>숙박 정보 등록</h2>
             <form onSubmit={handleSubmit}>
                 <p>
                     <label>주소: </label>
@@ -200,9 +196,9 @@ export default function Hosting() {
                         required
                     />
                 </p>
-                <button type="submit">등록</button>
-                <button type={"button"} onClick={handleClose}>취소</button>
+                <button type="submit">수정 등록</button>
             </form>
         </div>
     );
+
 }
