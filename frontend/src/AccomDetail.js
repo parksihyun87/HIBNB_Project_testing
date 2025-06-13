@@ -16,7 +16,7 @@ export default function AccomDetail() {
             <form>
                 <h2>{item.hostid}의 {item.type}</h2>
                 <div>
-                    {item.images.map((image, index) => (
+                    {item.imageUrls.map((image, index) => (
                         <img
                             key={index}
                             src={image}

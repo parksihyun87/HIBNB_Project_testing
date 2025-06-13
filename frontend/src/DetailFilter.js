@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {resetFilters, setFilters, setAccom} from "./store";
+import './App.css'
 
 export default function DetailFilter() {
     const dispatch = useDispatch();
@@ -41,14 +42,13 @@ export default function DetailFilter() {
     return (
         <>
             <hr/>
-            <div>
+            <div className="detail-filter">
                 <button type="button" onClick={() => setIsBoxOpen(!isBoxOpen)}>
                     필터
                 </button>
-                <hr/>
                 {isBoxOpen && (
                     <div>
-                        <div>
+                        <div className="filter-section">
                             <h4>숙소 유형</h4>
                             {typeOptions.map((type) => (
                                 <label key={type}>
@@ -62,7 +62,7 @@ export default function DetailFilter() {
                                 </label>
                             ))}
                         </div>
-                        <div>
+                        <div className="filter-section">
                             <h4>침실 방 개수</h4>
                             <input
                                 type="number"
@@ -71,7 +71,7 @@ export default function DetailFilter() {
                                 onChange={(e) => handleFilterChange("bedrooms", Number(e.target.value))}
                             />
                         </div>
-                        <div>
+                        <div className="filter-section">
                             <h4>침대 개수</h4>
                             <input
                                 type="number"
@@ -80,7 +80,7 @@ export default function DetailFilter() {
                                 onChange={(e) => handleFilterChange("beds", Number(e.target.value))}
                             />
                         </div>
-                        <div>
+                        <div className="filter-section">
                             <h4>욕실 개수</h4>
                             <input
                                 type="number"
@@ -89,7 +89,7 @@ export default function DetailFilter() {
                                 onChange={(e) => handleFilterChange("bathrooms", Number(e.target.value))}
                             />
                         </div>
-                        <div>
+                        <div className="filter-section">
                             <h4>최대 수용 인원</h4>
                             <input
                                 type="number"
@@ -98,7 +98,7 @@ export default function DetailFilter() {
                                 onChange={(e) => handleFilterChange("maxcapacity", Number(e.target.value))}
                             />
                         </div>
-                        <div>
+                        <div className="filter-buttons">
                             <button onClick={handleApplyFilters}>적용</button>
                             <button onClick={handleResetFilters}>초기화</button>
                         </div>

@@ -88,6 +88,12 @@ const accomSlice = createSlice({
         addAccom: (state, action) => {
             state.list.push(action.payload);
         },
+        updateAccom: (state, action) => {
+            const index = state.list.findIndex(item => item.id === action.payload.id);
+            if (index !== -1) {
+                state.list[index] = action.payload;
+            }
+        },
         removeAccom: (state, action) => {
             state.list = state.list.filter(item => item.id !== action.payload);
         },
@@ -145,4 +151,4 @@ export const {
     setSearchResults,
     resetFilters
 } = searchSlice.actions;
-export const {setAccom, addAccom, removeAccom} = accomSlice.actions;
+export const {setAccom, addAccom, updateAccom, removeAccom} = accomSlice.actions;
