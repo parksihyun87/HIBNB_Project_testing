@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -26,7 +27,9 @@ public class BookDTO {
     private String status;
     private Boolean yesorno;
     private String payment;
-    private LocalDate chechindate;
+    private String address;
+    private String type;
+
 //    private Set<ReportDTO> reports = new LinkedHashSet<>();
 //    private Set<ReviewDTO> reviews = new LinkedHashSet<>();
 }
