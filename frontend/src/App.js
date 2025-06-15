@@ -7,7 +7,6 @@ import MyRoom from "./MyRoom";
 import Quit from "./Quit";
 import PaymentHome from "./PaymentHome";
 import MainLayout from "./MainLayout";
-
 import MainSearch from "./MainSearch";
 import UserLogin from "./UserLogin";
 import UserJoin from "./UserJoin";
@@ -21,6 +20,9 @@ import ModifyRoom from "./ModifyRoom";
 import HostingLayout from "./HostingLayout";
 import ModifyList from "./ModifyList";
 import HostHistory from "./HostHistory";
+import PaymentSuccess from "./kakaopayTest/PaymentSuccess";
+import PaymentCancel from "./kakaopayTest/PaymentCancel";
+import PaymentFail from "./kakaopayTest/PaymentFail";
 
 
 export default function App() {
@@ -45,7 +47,12 @@ export default function App() {
                         <Route path="/hosting/history" element={<HostHistory/>}></Route>
                     </Route>
 
-                    <Route path="/payment" element={<PaymentHome/>}></Route>
+                    <Route path="/payment" element={<PaymentHome />}>
+                        <Route path="success" element={<PaymentSuccess />} />
+                        <Route path="fail" element={<PaymentFail />} />
+                        <Route path="cancel" element={<PaymentCancel />} />
+                    </Route>
+
                     <Route path="/mypage" element={<MyInfoLayout/>}>
                         <Route path="profile" element={<MyInfo/>}></Route>
                         <Route path="reservations" element={<MyReserve/>}></Route>
