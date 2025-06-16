@@ -6,8 +6,7 @@ const userInfoSlice = createSlice({
     name: "userInfo",
     initialState: {
         userInfoList: [],
-        adminLoginFlag: false,
-        userLoginFlag: false
+        userRole:null,
     },
     reducers: {
         addUserInfo: (state, action) => {
@@ -16,22 +15,27 @@ const userInfoSlice = createSlice({
         setUserInfoList: (state, action) => {
             state.userInfoList = action.payload;
         },
-        clearUserInfo: (state) => {
-            state.userInfoList = [];
+         clearUserInfo: (state) => {
+             state.userInfoList = [];
+             state.userRole=null;
+         },
+        setUserRole:(state, action)=>{
+            state.userRole=action.payload;
         },
-        adminLogin: (state) => {
-            state.adminLoginFlag = true;
-        },
-        adminLogout: (state) => {
-            state.adminLoginFlag = false;
-        },
-        userLogin: (state) => {
-            state.userLoginFlag = true;
-        },
-        userLogout: (state) => {
-            state.userInfoList = [];
-            state.userLoginFlag = false;
-        },
+        // adminLogin: (state) => {
+        //     state.adminLoginFlag = true;
+        // },
+        // adminLogout: (state) => {
+        //     state.adminLoginFlag = false;
+        // },
+        //   userLogin: (state) => {
+        //       state.userInfoList = [];
+        //       state.userRole=null;
+        //   },
+         userLogout: (state) => {
+             state.userInfoList = [];
+             state.userRole=null;
+         },
     }
 });
 
@@ -168,6 +172,7 @@ export const {
     addUserInfo,
     clearUserInfo,
     setUserInfoList,
+    setUserRole,
     adminLogin,
     adminLogout
 } = userInfoSlice.actions;

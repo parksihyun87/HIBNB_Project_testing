@@ -1,25 +1,28 @@
-import './index.css';
+import './App.css';
 import {Route, Routes} from "react-router-dom";
-import {MyInfo} from "./InfoPage/MyInfo";
-import MyReserve from "./InfoPage/MyReserve";
-import MyRoom from "./InfoPage/MyRoom";
-import PaymentHome from "./AccomPage/PaymentHome";
-import AccomDetail from "./AccomPage/AccomDetail";
-import MainLayout from "./LayoutPage/MainLayout";
-import MyInfoLayout from "./LayoutPage/MyInfoLayout";
-import HostingLayout from "./LayoutPage/HostingLayout";
-import UserLogin from "./UserPage/UserLogin";
-import UserJoin from "./UserPage/UserJoin";
-import Logout from "./UserPage/Logout";
-import Quit from "./UserPage/Quit";
-import ReConfirmID from "./UserPage/ReConfirmID";
-import ReConfirmPW from "./UserPage/ReConfirmPW";
-import DetailSearch from "./SearchPage/DetailSearch";
-import MainSearch from "./SearchPage/MainSearch";
-import NewRoom from "./HostPage/NewRoom";
-import ModifyRoom from "./HostPage/ModifyRoom";
-import ModifyList from "./HostPage/ModifyList";
-import HostHistory from "./HostPage/HostHistory";
+import MyInfoLayout from "./MyInfoLayout";
+import {MyInfo} from "./MyInfo";
+import MyReserve from "./MyReserve";
+import MyRoom from "./MyRoom";
+import Quit from "./Quit";
+import PaymentHome from "./PaymentHome";
+import MainLayout from "./MainLayout";
+
+import MainSearch from "./MainSearch";
+import UserLogin from "./UserLogin";
+import UserJoin from "./UserJoin";
+import DetailSearch from "./DetailSearch";
+import NewRoom from "./NewRoom";
+import Logout from "./Logout";
+import ReConfirmID from "./ReConfirmID";
+import ReConfirmPW from "./ReConfirmPW";
+import AccomDetail from "./AccomDetail";
+import ModifyRoom from "./ModifyRoom";
+import HostingLayout from "./HostingLayout";
+import ModifyList from "./ModifyList";
+import HostHistory from "./HostHistory";
+import AdminReport from "./AdminReport";
+import AdminLogin from "./AdminLogin";
 
 
 export default function App() {
@@ -51,6 +54,9 @@ export default function App() {
                         <Route path="myroom" element={<MyRoom/>}></Route>
                         <Route path="quit" element={<Quit/>}></Route>
                     </Route>
+
+                    <Route path="/admin/login" element={<AdminLogin/>}></Route>
+                    <Route path="/admin/reports" element={<AdminReport/>}></Route>
                 </Route>
             </Routes>
         </>

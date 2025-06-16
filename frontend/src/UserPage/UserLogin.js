@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {setToken, setUserInfoList, userLogin} from "../store";
-import apiClient from "../util/apiInstance";
-import '../index.css';
+import {useDispatch, useSelector} from "react-redux";
+import {setToken, setUserInfoList, setUserRole, userLogin} from "./store";
+import apiClient from "./util/apiInstance";
+import {useRef, useState} from "react";
 
 export default function UserLogin() {
     const navigate = useNavigate();
@@ -17,26 +17,40 @@ export default function UserLogin() {
         try {
             const response = await apiClient.post("/login",
                 new URLSearchParams(data));
+            console.log('login reponse', response.data);
+            //const userInfo=response.data;
             // console.log(response.headers['authorization']);
             // console.log(response.data);
             //
             dispatch(setToken(response.headers['authorization']));
-            dispatch(setUserInfoList(response.data));
-            dispatch(userLogin());
+            dispatch(setUserInfoList([response.data]));
+            // dispatch(userLogin());
+            console.log('login response role:', response.data.role);
+
+            dispatch(setUserRole(response.data.role));
+
             alert("로그인 성공!")
             navigate("/");
 
         } catch (error) {
-            alert("로그인에 실패했습니다.");
+            if(error.response&&error.response.status===403){
+                alert("블랙리스트 사용자입니다. 로그인이 불가합니다.");
+            }else{
+                alert("로그인에 실패했습니다.");
+            }
             console.log(error);
         }
     };
 
-    const handleReConfirm = () => {
+    const handleAdminLogin=()=>{
+        navigate("/admin/login")
+    }
+
+    const handleReConfirm=()=>{
         navigate("/re-confirm-id")
     }
 
-    const handleReConfirmPW = () => {
+    const handleReConfirmPW=()=>{
         navigate("/re-confirm-pw")
     }
 
@@ -45,24 +59,21 @@ export default function UserLogin() {
     };
 
     return (
-        <div className="login-form">
-            <form onSubmit={handleLogin} className="login-form__form">
-                <h2 className="login-form__title">로그인</h2>
-                <p>
-                    ID:
-                    <input type="text" name="username" className="login-form__input"/>
+        <div>
+            <form onSubmit={handleLogin}>
+                <h2>로그인</h2>
+                <p> ID:
+                    <input type="text" name={"username"}/>
                 </p>
-                <p>
-                    PW:
-                    <input type="password" name="password" className="login-form__input"/>
+                <p> PW:
+                    <input type="password" name={"password"}/>
                 </p>
-                <button type="submit" className="login-form__submit-btn">로그인</button>
+                <button type={"submit"}>로그인</button>
+                <button type={"button"} onClick={handleAdminLogin}>관리자 로그인</button><br/>
             </form>
-            <div className="login-form__btn-group">
-                <button onClick={handleReConfirm} className="login-form__btn">아이디 찾기</button>
-                <button onClick={handleReConfirmPW} className="login-form__btn">비밀번호 재설정</button>
-                <button onClick={handleJoin} className="login-form__btn">회원가입</button>
-            </div>
+            <button onClick={handleReConfirm}>아이디 찾기</button>
+            <button onClick={handleReConfirmPW}>비밀번호 재설정</button>
+            <button onClick={handleJoin}>회원가입</button>
         </div>
     );
 }

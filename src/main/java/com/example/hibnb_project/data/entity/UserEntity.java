@@ -65,4 +65,5 @@ public class UserEntity {
     @OneToMany(mappedBy = "username")
     private Set<VerificationcodeEntity> verificationcodes = new LinkedHashSet<>();
 
+
 }
