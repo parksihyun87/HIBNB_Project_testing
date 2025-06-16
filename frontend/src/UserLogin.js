@@ -8,9 +8,6 @@ export default function UserLogin() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
-
-
     const handleLogin = async (e) => {
         e.preventDefault();
         const data = {
@@ -36,7 +33,11 @@ export default function UserLogin() {
             navigate("/");
 
         } catch (error) {
-            alert("로그인에 실패했습니다.");
+            if(error.response&&error.response.status===403){
+                alert("블랙리스트 사용자입니다. 로그인이 불가합니다.");
+            }else{
+                alert("로그인에 실패했습니다.");
+            }
             console.log(error);
         }
     };
