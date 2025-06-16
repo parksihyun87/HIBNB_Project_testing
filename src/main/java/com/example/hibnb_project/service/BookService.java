@@ -1,8 +1,15 @@
 package com.example.hibnb_project.service;
 
 import com.example.hibnb_project.data.dao.BookDAO;
+import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.BookDTO;
+import com.example.hibnb_project.data.dto.BookNAccomDTO;
+import com.example.hibnb_project.data.dto.ReviewDTO;
+import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.BookEntity;
+import com.example.hibnb_project.data.entity.ImgEntity;
+import com.example.hibnb_project.data.entity.ReviewEntity;
+import com.example.hibnb_project.data.repository.AccomRepository;
 import com.example.hibnb_project.data.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,22 +19,81 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
     private final BookDAO bookDAO;
+    private final AccomRepository accomRepository;
 
-    public List<BookDTO> findbooksbyUsername(BookDTO bookDTO) {
+    public List<BookNAccomDTO> findbooksbyUsername(BookDTO bookDTO) {
+
+        List<BookEntity> bookEntities =this.bookDAO.findbooksbyUsername(bookDTO.getUsername());
+
+        List<BookNAccomDTO> bookNAccomDTOList = new ArrayList<>();
+        for (BookEntity bookE : bookEntities) {
+            AccomEntity accomEntity = this.accomRepository.findById(bookE.getAccomid().getId()).orElse(null);
+
+            Set<ReviewDTO> reviewDTOSet = new HashSet<>();
+
+            Set<ReviewEntity> reviewEntitySet = accomEntity.getReviews();
+            for (ReviewEntity reE : reviewEntitySet) {
+                ReviewDTO reviewDTO = ReviewDTO.builder()
+                        .id(reE.getId())
+                        .accomid(reE.getAccomid().getId())
+                        .bookid(reE.getBookid().getId())
+                        .username(reE.getUsername().getUsername())
+                        .rating(reE.getRating())
+                        .comment(reE.getComment())
+                        .createdAt(reE.getCreatedAt())
+                        .build();
+                reviewDTOSet.add(reviewDTO);
+            }
+
+            double avgSum = 0;
+            Set<ReviewEntity> reviewEntityList = accomEntity.getReviews();
+            for (ReviewEntity reE : reviewEntityList) {
+                avgSum += reE.getRating();
+            }
+            double avg = reviewEntityList.size() > 0 ? avgSum / reviewEntityList.size() : 0.0;
 
 
-        List<BookEntity> bookEntityList =this.bookDAO.findbooksbyUsername(bookDTO.getUsername());
-        List<BookDTO> bookDTOList = new ArrayList<>();
+            ImgEntity imgEntity = accomEntity.getImg();
+            List<String> urls = new ArrayList<>();
+            if (imgEntity != null) {
+                urls.add(imgEntity.getImg1());
+                urls.add(imgEntity.getImg2());
+                urls.add(imgEntity.getImg3());
+                urls.add(imgEntity.getImg4());
+                urls = urls.stream()
+                        .filter(item -> item != null)
+                        .collect(Collectors.toList());
+            }
 
-        for (BookEntity bookE : bookEntityList) {
-            BookDTO myBookDTO = BookDTO.builder()
+            AccomDTO accomDTO = AccomDTO.builder()
+                    .id(accomEntity.getId())
+                    .hostid((accomEntity.getHostid()).getUsername())
+                    .hostname(accomEntity.getHostname())
+                    .address(accomEntity.getAddress())
+                    .detailaddr(accomEntity.getDetailaddr())
+                    .description(accomEntity.getDescription())
+                    .imageUrls(urls)
+                    .type(accomEntity.getType())
+                    .beds(accomEntity.getBeds())
+                    .bedrooms(accomEntity.getBedrooms())
+                    .bathrooms(accomEntity.getBathrooms())
+                    .imageUrls(!urls.isEmpty() ? urls : null)
+                    .maxcapacity(accomEntity.getMaxcapacity())
+                    .pricePerNight(accomEntity.getPricePerNight())
+                    .average(avg)
+                    .reviews(reviewDTOSet)
+                    .build();
+
+            BookNAccomDTO bNADTO = BookNAccomDTO.builder()
                     .id(bookE.getId())
                     .username(bookE.getUsername().getUsername())
                     .accomid(bookE.getAccomid().getId())
@@ -37,10 +103,13 @@ public class BookService {
                     .status(bookE.getStatus())
                     .yesorno(bookE.getYesorno())
                     .payment(bookE.getPayment())
+                    .address(bookE.getAccomid().getAddress())
+                    .type(bookE.getAccomid().getType())
+                    .accom(accomDTO)
                     .build();
-            bookDTOList.add(myBookDTO);
+            bookNAccomDTOList.add(bNADTO);
         }
-        return bookDTOList;
+        return bookNAccomDTOList;
     }
 
     public List<BookDTO> findbooksbyHostId(String hostId) {

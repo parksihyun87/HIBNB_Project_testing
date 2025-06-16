@@ -1,6 +1,7 @@
 package com.example.hibnb_project.controller;
 
 import com.example.hibnb_project.data.dto.BookDTO;
+import com.example.hibnb_project.data.dto.BookNAccomDTO;
 import com.example.hibnb_project.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,10 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<BookDTO>> findbooksbyUsername(@RequestParam("username") String username) {//username 필요
+    public ResponseEntity<List<BookNAccomDTO>> findbooksbyUsername(@RequestParam("username") String username) {//username 필요
         BookDTO bookDTO = BookDTO.builder().username(username).build();
-        List<BookDTO> bookDTOList= this.bookService.findbooksbyUsername(bookDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(bookDTOList);
+        List<BookNAccomDTO> bookNAccomDTOList= this.bookService.findbooksbyUsername(bookDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(bookNAccomDTOList);
     }// 숙소 정보 자세하게 필요함 -> bookdto에 숙소 객체 중 포함할 것 고려
 
     @GetMapping(value = "/list/hostid")
