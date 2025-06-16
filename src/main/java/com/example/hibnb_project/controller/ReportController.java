@@ -43,4 +43,15 @@ public class ReportController {
         return ResponseEntity.ok("Report deleted successfully");
     }
 
+    @PutMapping(value="/report/updatestatus")
+    public ResponseEntity<?> updateStatus(@RequestParam Integer reportid, @RequestParam String status) {
+        try{
+            reportService.updateStatus(reportid, status);
+            return ResponseEntity.ok("Report updated successfully");
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }
