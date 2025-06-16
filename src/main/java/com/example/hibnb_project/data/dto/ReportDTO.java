@@ -23,4 +23,5 @@ public class ReportDTO {
     private String type;
     private String comment;
     private LocalDateTime createdAt;
+    private String status;
 }
