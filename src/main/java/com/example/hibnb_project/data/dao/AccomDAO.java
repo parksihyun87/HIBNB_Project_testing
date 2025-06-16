@@ -187,7 +187,7 @@ public class AccomDAO {
                 String fileName = UUID.randomUUID() + "_" + originalFilename;
                 String fileUrl = "accom/" + fileName;
                 Path filePath = Paths.get(uploadDir + fileUrl);
-                String fullUrl = "http://localhost:8080/static/upload/" + fileUrl;
+                String fullUrl = "http://localhost:8080/src/main/resources/static/upload/" + fileUrl;
 
                 Files.createDirectories(filePath.getParent());
                 Files.write(filePath, file.getBytes()); // 파일 저장
