@@ -5,10 +5,8 @@
 
 body {
     margin: 0;
-    font-family: 'SUIT', 'Pretendard', 'Noto Sans KR', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: var(--main-font);
+    background: var(--bg-gradient);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
+

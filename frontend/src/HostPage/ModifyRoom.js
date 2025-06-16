@@ -145,12 +145,14 @@ export default function ModifyRoom() {
     console.log(user);
     return (
         <div>
+            <h2 className={"login-form__title"}>숙소 수정</h2>
             <form onSubmit={handleSubmit}>
                 <p>
                     <label>주소: </label>
                     <input
                         type="text"
                         name="address"
+                        className={"login-form__input"}
                         placeholder="주소 (예: 경기도, 서울특별시)"
                         value={formData.address}
                         onChange={handleChange}
@@ -162,18 +164,9 @@ export default function ModifyRoom() {
                     <input
                         type="text"
                         name="detailaddr"
+                        className={"login-form__input"}
                         placeholder="상세 주소"
                         value={formData.detailaddr}
-                        onChange={handleChange}
-                        required
-                    />
-                </p>
-                <p>
-                    <label>설명: </label>
-                    <textarea
-                        name="description"
-                        placeholder="숙소 설명"
-                        value={formData.description}
                         onChange={handleChange}
                         required
                     />
@@ -183,6 +176,7 @@ export default function ModifyRoom() {
                     <input
                         type="text"
                         name="type"
+                        className={"login-form__input"}
                         placeholder="아파트, 펜션, 게스트하우스, 선택"
                         value={formData.type}
                         onChange={handleChange}
@@ -194,6 +188,7 @@ export default function ModifyRoom() {
                     <input
                         type="number"
                         name="bedrooms"
+                        className={"login-form__input"}
                         placeholder="침실 개수"
                         value={formData.bedrooms}
                         onChange={handleNumberChange}
@@ -206,6 +201,7 @@ export default function ModifyRoom() {
                     <input
                         type="number"
                         name="beds"
+                        className={"login-form__input"}
                         placeholder="침대 개수"
                         value={formData.beds}
                         onChange={handleNumberChange}
@@ -218,6 +214,7 @@ export default function ModifyRoom() {
                     <input
                         type="number"
                         name="bathrooms"
+                        className={"login-form__input"}
                         placeholder="욕실 개수"
                         value={formData.bathrooms}
                         onChange={handleNumberChange}
@@ -230,6 +227,7 @@ export default function ModifyRoom() {
                     <input
                         type="number"
                         name="maxcapacity"
+                        className={"login-form__input"}
                         placeholder="최대 수용 인원"
                         value={formData.maxcapacity}
                         onChange={handleNumberChange}
@@ -242,10 +240,22 @@ export default function ModifyRoom() {
                     <input
                         type="number"
                         name="pricePerNight"
+                        className={"login-form__input"}
                         placeholder="1박당 가격"
                         value={formData.pricePerNight}
                         onChange={handleNumberChange}
                         min="0"
+                        required
+                    />
+                </p>
+                <p>
+                    <label>설명: </label>
+                    <textarea
+                        name="description"
+                        className={"login-form__input"}
+                        placeholder="숙소 설명"
+                        value={formData.description}
+                        onChange={handleChange}
                         required
                     />
                 </p>

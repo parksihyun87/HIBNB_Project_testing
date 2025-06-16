@@ -25,11 +25,13 @@ export default function AccomDetail() {
                     />
                 ))}
             </div>
-            <p className="item-detail-form__price">가격: {item.pricePerNight.toLocaleString()}원</p>
+            <div className={"item-detail-form__text"}>
+            <p className="item-detail-form__price">가격: {item.pricePerNight.toLocaleString()}원/박</p>
             <p className="item-detail-form__info">침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
             <p className="item-detail-form__description">설명: {item.description}</p>
             <p className="item-detail-form__address">주소: {item.address} {item.detailaddr}</p>
             <button type="button" className="item-detail-form__reserve-btn" onClick={handleMove}>예약하기</button>
+            </div>
         </form>
     );
 }

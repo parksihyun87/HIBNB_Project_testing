@@ -9,7 +9,7 @@ export default function ModifyList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const usernameAccom = useSelector(state => state.accom.list);
-    const username = useSelector(state => state.userInfo.userInfoList.username);
+    const username = useSelector(state => state.userInfo.userInfoList[0].username);
 
     useEffect(() => {
         const fetchAccomList = async () => {
@@ -18,7 +18,6 @@ export default function ModifyList() {
                     params: {"username": username},
                 });
                 dispatch(userAccom(response.data));
-                console.log(response.data);
             } catch (error) {
                 console.error("Failed to fetch username-list:", error);
             }
@@ -26,15 +25,17 @@ export default function ModifyList() {
         fetchAccomList();
     }, [username]);
 
-
     return (
         <div className="username-list">
+            <h2 className={"login-form__title"}>숙소 수정</h2>
             {usernameAccom.map((item) => (
                 <div
+                    className="accom-card"
                     key={item.id}
                     onClick={() => navigate(`/hosting/update/${item.id}`)}
                 >
                     <img
+                        className="accom-img"
                         src={item.imageUrls[0]}
                         alt={item.address || "숙소 이미지"}
                     />

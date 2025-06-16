@@ -19,12 +19,13 @@ export default function DetailSearch() {
                         onClick={() => navigate(`/accom/${item.id}`)}
                     >
                         <img
+                            className={"accom-img"}
                             src={item.imageUrls[0]}
                             alt={item.address}
                         />
                         <div className="accom-card-content">
                             <h3>{item.address}의 {item.type}</h3>
-                            <p>가격: {item.pricePerNight.toLocaleString()}원</p>
+                            <p>가격: {item.pricePerNight.toLocaleString()}원/박</p>
                             <p>침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
                             <p>최대인원: {item.maxcapacity}명</p>
                         </div>

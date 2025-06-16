@@ -46,7 +46,7 @@ form button {
 .login-form__form,
 .join-form__form {
     max-width: 500px;
-    margin: 40px auto;
+    margin: 10px auto;
     padding: 24px;
     background-color: #fff;
     border-radius: 16px;
@@ -110,24 +110,42 @@ form button {
     width: 100%;
 }
 
-.login-form__btn-group {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 16px;
-}
-
 .login-form__btn {
     padding: 8px 12px;
     font-size: 14px;
     border: none;
     border-radius: 8px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     color: #333;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    margin: 10px;
+}
+
+.login-form__btn-group {
+    display: flex;
+    justify-content: center;
+
+
 }
 
 .login-form__btn:hover {
     background-color: #e0e0e0;
 }
+
+.reconfirm-form-text{
+    text-align: center;
+    margin-bottom: -30px;
+    margin-top: -20px;
+}
+
+.reconfirm-form-input{
+    margin-left:65px;
+}
+
+.reconfirm-form-btn{
+    width:120px;
+    margin-left: 20px;
+}
+
+

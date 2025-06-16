@@ -53,7 +53,7 @@ export default function HostHistory() {
 
     return (
         <>
-            <h2>호스트 예약 내역</h2>
+            <h2 className={"login-form__title"}>호스트 예약 내역</h2>
             <button onClick={handleCheck}>조회하기</button>
             <ul>
                 {bookings.length > 0 ? (
