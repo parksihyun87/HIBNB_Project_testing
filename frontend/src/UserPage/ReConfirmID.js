@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
-import apiClient from "./util/apiInstance";
+import apiClient from "../util/apiInstance";
 import {useState} from "react";
+import '../index.css';
 
 export default function ReConfirmID(){
     const navigate=useNavigate();

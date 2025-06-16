@@ -1,13 +1,18 @@
-import React, {useState} from "react";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addAccom} from "./store";
+import axios from "axios";
+import {removeAccom, updateAccom} from "../store";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import '../index.css';
 
-export default function NewRoom() {
+export default function ModifyRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.userInfo.userInfoList);
+    const usernameAccom = useSelector(state => state.accom.list)
+    const {id} = useParams();
+    const item = usernameAccom.find((item) => item.id === Number(id));
+    const [check, setCheck] = useState(false);
 
     const [formData, setFormData] = useState({
         hostid: user.username,
@@ -22,36 +27,39 @@ export default function NewRoom() {
         maxcapacity: 1,
         pricePerNight: 0,
         images: [],
+        urlsToDelete: [],
     });
 
+    useEffect(() => {
+        if (item) {
+            setFormData({
+                hostid: user.username || "",
+                hostname: user.name || "",
+                address: item.address || "",
+                detailaddr: item.detailaddr || "",
+                description: item.description || "",
+                type: item.type || "",
+                bedrooms: item.bedrooms || 0,
+                beds: item.beds || 0,
+                bathrooms: item.bathrooms || 0,
+                maxcapacity: item.maxcapacity || 1,
+                pricePerNight: item.pricePerNight || 0,
+                images: [],
+                urlsToDelete: []
+            });
+        }
+    }, [item]);
 
-    // 입력 변경 처리
-    const handleChange = (e) => {
-        const {name, value, files} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: files ? Array.from(files) : value,
-        }));
-    };
-
-    // 숫자 입력 처리
-    const handleNumberChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: Number(value) || 0, // 빈 값은 0으로 처리
-        }));
-    };
-
-    const handleClose = () => {
-        navigate("/");
-    };
+    if (!item && usernameAccom.length > 0) {
+        return <div>해당 숙소를 찾을 수 없습니다.</div>;
+    }
 
     // 폼 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const data = new FormData();
+        data.append("id", Number(id));
         data.append("hostid", formData.hostid);
         data.append("hostname", formData.hostname);
         data.append("address", formData.address);
@@ -63,25 +71,78 @@ export default function NewRoom() {
         data.append("bathrooms", formData.bathrooms);
         data.append("maxcapacity", formData.maxcapacity);
         data.append("pricePerNight", formData.pricePerNight);
+        data.append("urlsToDelete", formData.urlsToDelete);
         formData.images.forEach((image) => {
             data.append("images", image); // 다중 이미지 추가
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/accom/save", data, {
+            const response = await axios.put("http://localhost:8080/accom/update", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
-            const accom = response.data;
-            if (accom) {
-                dispatch(addAccom(accom));
+            const updatedAccom = response.data;
+            if (updatedAccom) {
+                dispatch(updateAccom(updatedAccom));
+                alert("숙소가 성공적으로 수정되었습니다.");
+                navigate("/");
             }
-            navigate("/");
-            console.log("등록 완료: ", response.data);
         } catch (error) {
-            console.error("오류: ", error);
+            console.error("오류:", error);
+            alert("숙소 수정에 실패했습니다. 다시 시도해주세요.");
         }
     };
 
+    // 입력 변경 처리
+    const handleChange = (e) => {
+        const {name, value, files} = e.target;
+        if (name === "images" && files) {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: [...prev.images, ...Array.from(files)], // 기존 이미지 유지 + 새 파일 추가
+            }));
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
+    };
+
+    // 숫자 입력 처리
+    const handleNumberChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: Number(value) || 0, // 빈 값은 0으로 처리
+        }));
+    };
+
+    const handleImageDeleteCheck = (e) => {
+        setCheck(e.target.checked);
+    };
+
+    const handleImageAllDelete = () => {
+        if (setCheck(true)) {
+            dispatch(removeAccom.imageUrls);
+        }
+    }
+
+    const handleChangeChecked = (e) => {
+        const value = e.target.value;
+        if (e.target.checked) {
+            setFormData((prev) => ({
+                ...prev,
+                urlsToDelete: [...prev.urlsToDelete, value]
+            }))
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                urlsToDelete: prev.urlsToDelete.filter((url) => url !== value)
+            }))
+        }
+    };
+
+    console.log(user);
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -189,19 +250,33 @@ export default function NewRoom() {
                     />
                 </p>
                 <p>
-                    <label>사진: </label>
+                    <label>등록 된 사진:</label>
+                    {item.imageUrls && item.imageUrls.length > 0 && (
+                        item.imageUrls.map(url => {
+                            return (
+                                <div style={{width: "300px", overflow: "auto"}}>
+                                    <div style={{display: "inline-block", width: "100px"}}>
+                                        <input type="checkbox" name={"image"} value={url}
+                                               onChange={handleChangeChecked}></input>
+                                        <div>
+                                            <img id={url} src={url} alt={url} style={{width: "90px"}}></img>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    )}
                     <input
                         type="file"
                         name="images"
                         accept="image/*"
                         multiple
                         onChange={handleChange}
-                        required
                     />
                 </p>
-                <button type="submit">등록</button>
-                <button type={"button"} onClick={handleClose}>취소</button>
+                <button type="submit">수정 등록</button>
             </form>
         </div>
     );
+
 }

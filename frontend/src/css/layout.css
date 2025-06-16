@@ -1,0 +1,67 @@
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white-blur);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+
+.header__title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 0;
+    text-align: left;
+}
+
+.header__nav {
+    display: flex;
+    gap: 24px; /* 간격 늘림 */
+    align-items: center;
+}
+
+.header__link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    margin: 0 12px; /* 좌우 마진 추가 */
+}
+
+.header__link:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+nav {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+div {
+    padding: 20px;
+}

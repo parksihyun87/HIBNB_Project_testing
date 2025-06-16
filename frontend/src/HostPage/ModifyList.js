@@ -1,8 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import apiClient from "./util/apiInstance";
+import apiClient from "../util/apiInstance";
 import {useDispatch, useSelector} from "react-redux";
-import {userAccom} from "./store";
+import {userAccom} from "../store";
+import '../index.css';
 
 export default function ModifyList() {
     const navigate = useNavigate();

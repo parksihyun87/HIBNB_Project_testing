@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {resetFilters, setFilters, setAccom} from "./store";
-import './App.css'
+import {resetFilters, setFilters, setAccom} from "../store";
+import '../index.css';
 
 export default function DetailFilter() {
     const dispatch = useDispatch();

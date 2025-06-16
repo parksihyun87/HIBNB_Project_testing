@@ -1,21 +1,18 @@
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState} from "react";
 import axios from "axios";
-import {removeAccom, removeAccomImage, updateAccom} from "./store";
-import React, {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {addAccom} from "../store";
+import '../index.css';
 
-export default function ModifyRoom() {
+export default function NewRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const usernameAccom = useSelector((state) => state.accom.list);
-    const {id} = useParams();
-
-    const item = usernameAccom.find((item) => item.id === Number(id));
-    const [check, setCheck] = useState([]);
+    const user = useSelector(state => state.userInfo.userInfoList);
 
     const [formData, setFormData] = useState({
-        hostid: "",
-        hostname: "",
+        hostid: user.username,
+        hostname: user.name,
         address: "",
         detailaddr: "",
         description: "",
@@ -26,33 +23,30 @@ export default function ModifyRoom() {
         maxcapacity: 1,
         pricePerNight: 0,
         images: [],
-        urlsToDelete: [],
     });
 
-    // 이미지, 체크박스 체크 된 것만 백엔드로 요청 보내면 됨
 
-    useEffect(() => {
-        if (item) {
-            setFormData({
-                hostid: item.username || "",
-                hostname: item.name || "",
-                address: item.address || "",
-                detailaddr: item.detailaddr || "",
-                description: item.description || "",
-                type: item.type || "",
-                bedrooms: item.bedrooms || 0,
-                beds: item.beds || 0,
-                bathrooms: item.bathrooms || 0,
-                maxcapacity: item.maxcapacity || 1,
-                pricePerNight: item.pricePerNight || 0,
-                images: [],
-            });
-        }
-    }, [item]);
+    // 입력 변경 처리
+    const handleChange = (e) => {
+        const {name, value, files} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: files ? Array.from(files) : value,
+        }));
+    };
 
-    if (!item && usernameAccom.length > 0) {
-        return <div>해당 숙소를 찾을 수 없습니다.</div>;
-    }
+    // 숫자 입력 처리
+    const handleNumberChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: Number(value) || 0, // 빈 값은 0으로 처리
+        }));
+    };
+
+    const handleClose = () => {
+        navigate("/");
+    };
 
     // 폼 제출
     const handleSubmit = async (e) => {
@@ -71,69 +65,22 @@ export default function ModifyRoom() {
         data.append("maxcapacity", formData.maxcapacity);
         data.append("pricePerNight", formData.pricePerNight);
         formData.images.forEach((image) => {
-            data.append("images", image);
+            data.append("images", image); // 다중 이미지 추가
         });
 
         try {
-            const response = await axios.put("http://localhost:8080/accom/update", data, {
+            const response = await axios.post("http://localhost:8080/accom/save", data, {
                 headers: {"Content-Type": "multipart/form-data"},
             });
-            const updatedAccom = response.data;
-            if (updatedAccom) {
-                dispatch(updateAccom(updatedAccom));
-                alert("숙소가 성공적으로 수정되었습니다.");
-                navigate("/");
+            const accom = response.data;
+            if (accom) {
+                dispatch(addAccom(accom));
             }
+            navigate("/");
+            console.log("등록 완료: ", response.data);
         } catch (error) {
-            console.error("오류:", error);
-            alert("숙소 수정에 실패했습니다. 다시 시도해주세요.");
+            console.error("오류: ", error);
         }
-    };
-
-    // 입력 변경 처리
-    const handleChange = (e) => {
-        const {name, value, files} = e.target;
-        if (name === "images" && files) {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: [...prev.images, ...Array.from(files)],
-            }));
-        } else {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
-
-    // 숫자 입력 처리
-    const handleNumberChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: Number(value) || 0,
-        }));
-    };
-
-    const handleImageDeleteCheck = (index) => (e) => {
-        if (e.target.checked) {
-            setCheck((prev) => [...prev, index]);
-        } else {
-            setCheck((prev) => prev.filter((i) => i !== index));
-        }
-    };
-
-    const handleImageAllDelete = () => {
-        if (check.length === 0) {
-            alert("삭제할 이미지를 선택하세요.");
-            return;
-        }
-
-        console.log("check:", check, Array.isArray(check)); // 디버깅 로그
-        check.forEach((index) => {
-            dispatch(removeAccomImage({id: item.id, index}));
-        });
-        setCheck([]);
     };
 
     return (
@@ -243,33 +190,18 @@ export default function ModifyRoom() {
                     />
                 </p>
                 <p>
-                    <label>등록된 사진:</label>
-                    {item.imageUrls && item.imageUrls.length > 0 && (
-                        <>
-                            {item.imageUrls.map((url, index) => (
-                                <div key={index}>
-                                    <img src={url} alt={`이미지 ${index}`} style={{width: "200px"}}/>
-                                    <input
-                                        type="checkbox"
-                                        name="imageDelete"
-                                        checked={check.includes(index)}
-                                        onChange={handleImageDeleteCheck(index)}
-                                    />
-                                    <span>삭제 선택</span>
-                                </div>
-                            ))}
-                            <button type="button" onClick={handleImageAllDelete}>선택된 항목 삭제</button>
-                        </>
-                    )}
+                    <label>사진: </label>
                     <input
                         type="file"
                         name="images"
                         accept="image/*"
                         multiple
                         onChange={handleChange}
+                        required
                     />
                 </p>
-                <button type="submit">수정 등록</button>
+                <button type="submit">등록</button>
+                <button type={"button"} onClick={handleClose}>취소</button>
             </form>
         </div>
     );

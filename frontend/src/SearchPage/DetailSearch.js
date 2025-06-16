@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import DetailFilter from "./DetailFilter";
-import './App.css'; // 스타일 파일 불러오기
+import '../index.css';
 
 export default function DetailSearch() {
     const navigate = useNavigate();

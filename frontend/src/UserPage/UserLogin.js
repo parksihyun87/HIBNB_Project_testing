@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setToken, setUserInfoList, userLogin} from "./store";
-import apiClient from "./util/apiInstance";
-import {useRef} from "react";
+import {setToken, setUserInfoList, userLogin} from "../store";
+import apiClient from "../util/apiInstance";
+import '../index.css';
 
 export default function UserLogin() {
     const navigate = useNavigate();
@@ -32,11 +32,11 @@ export default function UserLogin() {
         }
     };
 
-    const handleReConfirm=()=>{
+    const handleReConfirm = () => {
         navigate("/re-confirm-id")
     }
 
-    const handleReConfirmPW=()=>{
+    const handleReConfirmPW = () => {
         navigate("/re-confirm-pw")
     }
 
@@ -45,20 +45,24 @@ export default function UserLogin() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <h2>로그인</h2>
-                <p> ID:
-                    <input type="text" name={"username"}/>
+        <div className="login-form">
+            <form onSubmit={handleLogin} className="login-form__form">
+                <h2 className="login-form__title">로그인</h2>
+                <p>
+                    ID:
+                    <input type="text" name="username" className="login-form__input"/>
                 </p>
-                <p> PW:
-                    <input type="password" name={"password"}/>
+                <p>
+                    PW:
+                    <input type="password" name="password" className="login-form__input"/>
                 </p>
-                <button type={"submit"}>로그인</button><br/>
+                <button type="submit" className="login-form__submit-btn">로그인</button>
             </form>
-            <button onClick={handleReConfirm}>아이디 찾기</button>
-            <button onClick={handleReConfirmPW}>비밀번호 재설정</button>
-            <button onClick={handleJoin}>회원가입</button>
+            <div className="login-form__btn-group">
+                <button onClick={handleReConfirm} className="login-form__btn">아이디 찾기</button>
+                <button onClick={handleReConfirmPW} className="login-form__btn">비밀번호 재설정</button>
+                <button onClick={handleJoin} className="login-form__btn">회원가입</button>
+            </div>
         </div>
     );
 }
