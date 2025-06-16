@@ -18,6 +18,11 @@
 --
 -- Table structure for table `accom`
 --
+COMMIT;
+UNLOCK TABLES;
+drop database if exists hibnb2;
+create database hibnb2;
+use hibnb2;
 
 DROP TABLE IF EXISTS `accom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -51,6 +56,11 @@ LOCK TABLES `accom` WRITE;
 /*!40000 ALTER TABLE `accom` DISABLE KEYS */;
 INSERT INTO `accom` VALUES (1,'yoonji98','윤지영','서울특별시 마포구 합정동','101동 1502호','신축|고층|한강뷰|편의점근처','오피스텔','https://example.com/img1.jpg',4,85000,1,2,1,4.75),(2,'seojun05','서준호','부산광역시 해운대구 중동','3층 전체','오션뷰|무료주차|바다근처','펜션','https://example.com/img2.jpg',6,120000,2,3,2,NULL),(3,'harin33','이하린','경기도 성남시 분당구 정자동','502호','신축|조용한동네|엘리베이터','아파트','https://example.com/img3.jpg',3,70000,1,1,1,NULL),(4,'minseo21','김민서','서울특별시 강남구 논현동','논현타워 1101호','역세권|야경좋음|무료WiFi','오피스텔','https://example.com/img4.jpg',2,95000,1,1,1,NULL),(5,'daehyun17','정대현','대구광역시 수성구 범어동','101동 501호','조용함|무료주차|중심가','빌라','https://example.com/img5.jpg',5,80000,2,2,2,3.9),(6,'sujin88','백수진','인천광역시 연수구 송도동','송도더샵 B동 1803호','신축|시티뷰|안전한단지','아파트','https://example.com/img6.jpg',4,95000,2,2,1,4),(7,'taemin76','이태민','광주광역시 동구 지산동','103호','1층|주차편리|조용한주택가','원룸','https://example.com/img7.jpg',2,60000,1,1,1,4.6),(8,'hyesoo12','최혜수','부산광역시 수영구 광안동','605호','광안리뷰|넓은침대|오션뷰','게스트하우스','https://example.com/img8.jpg',3,75000,1,2,1,5),(9,'jungwoo31','정우빈','서울특별시 종로구 청운동','주택 2층 전체','한옥|고즈넉함|북촌근처','게스트하우스','https://example.com/img9.jpg',4,100000,2,2,1,NULL),(10,'arin22','박아린','경기도 고양시 일산서구 주엽동','101동 1902호','신축|호수공원근처|깨끗함','아파트','https://example.com/img10.jpg',4,90000,2,2,1,NULL),(11,'soyeon92','한소연','경상남도 창원시 성산구 상남동','2층 전체','넓은거실|주방 완비|주차 가능','빌라','https://example.com/img11.jpg',6,85000,3,3,2,3.5),(12,'jinhwan64','송진환','강원도 강릉시 송정동','단독주택 전체','바닷가 근처|조용함|강릉역근처','펜션','https://example.com/img12.jpg',5,110000,2,3,2,4.7),(13,'daun09','이다운','서울특별시 동대문구 회기동','104동 502호','역세권|야경뷰|안락한공간','오피스텔','https://example.com/img13.jpg',3,78000,1,1,1,NULL),(14,'nayeon56','정나연','제주특별자치도 제주시 애월읍','101호','제주감성|바다근처|무료주차','리조트','https://example.com/img14.jpg',4,130000,2,2,1,NULL),(15,'hyunjin81','김현진','서울특별시 영등포구 문래동','문래하이빌 1601호','힙지로|고층|야경맛집','오피스텔','https://example.com/img15.jpg',2,87000,1,1,1,NULL),(16,'yebin45','이예빈','충청북도 청주시 흥덕구 복대동','3층 302호','신축|깔끔함|근처상권좋음','빌라','https://example.com/img16.jpg',3,72000,2,2,1,NULL),(17,'sungwoo29','남성우','전라북도 전주시 덕진구 인후동','단독주택','한옥|조용한동네|단독이용','게스트하우스','https://example.com/img17.jpg',5,78000,2,2,1,4.2),(18,'eunji36','서은지','경기도 수원시 영통구 이의동','101동 1003호','신축|학군좋음|조용함','아파트','https://example.com/img18.jpg',4,88000,2,2,1,3.8),(19,'jiyun72','오지윤','대전광역시 유성구 봉명동','202호','온천지근|조용함|주차가능','원룸','https://example.com/img19.jpg',2,65000,1,1,1,NULL),(20,'haeun27','장하은','경기도 남양주시 다산동','203동 1804호','강가근처|뷰좋음|신축','아파트','https://example.com/img20.jpg',3,91000,2,2,1,NULL);
 /*!40000 ALTER TABLE `accom` ENABLE KEYS */;
+alter table accom
+add column name varchar(255),
+add column wholeAdress varchar(255),
+add column latitude double,
+add COLUMN longitude DOUBLE;
 UNLOCK TABLES;
 
 --

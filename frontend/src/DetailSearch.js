@@ -1,7 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import DetailFilter from "./DetailFilter";
-import './App.css'; // 스타일 파일 불러오기
+import './App.css';
+import KakaoMap from "./kakaomapTest/KakakoMap";
+import React from "react"; // 스타일 파일 불러오기
 
 export default function DetailSearch() {
     const navigate = useNavigate();
@@ -28,6 +30,7 @@ export default function DetailSearch() {
                             <p>침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
                             <p>최대인원: {item.maxcapacity}명</p>
                         </div>
+
                     </div>
                 ))}
             </div>

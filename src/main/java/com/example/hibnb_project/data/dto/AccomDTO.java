@@ -36,5 +36,9 @@ public class AccomDTO {
 //    private Set<BookEntity> books = new LinkedHashSet<>();
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
     private Set<ReviewDTO> reviews = new LinkedHashSet<>();
+
+    //카카오 맵
+    private double latitude;
+    private double longitude;
 }
 

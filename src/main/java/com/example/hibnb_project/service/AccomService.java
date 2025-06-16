@@ -113,6 +113,8 @@ public class AccomService {
                     .bathrooms(accomE.getBathrooms())
                     .imageUrls(!imageUrls.isEmpty() ? imageUrls : null)
                     .reviews(reviewDTOSet)
+                    .latitude(accomE.getLatitude())
+                    .longitude(accomE.getLongitude())
                     .build();
             accomDTOList.add(accomDTO);
         }

@@ -4,6 +4,7 @@ import "./App.css";
 import apiClient from "./util/apiInstance";
 import {useDispatch} from "react-redux";
 import {setAccom, setSearchParams, setSearchResults} from "./store";
+import KakaoMap from "./kakaomapTest/KakakoMap";
 
 export default function MainSearch() {
     const navigate = useNavigate();

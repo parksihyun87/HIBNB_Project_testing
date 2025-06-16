@@ -1,5 +1,7 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
+import KakaoMap from "./kakaomapTest/KakakoMap";
+import React from "react";
 
 export default function AccomDetail() {
     const {id} = useParams();
@@ -10,6 +12,7 @@ export default function AccomDetail() {
     const handleMove = () => {
         navigate("/payment");
     };
+    console.log("경도,위도",item.latitude,item.latitude)
 
     return (
         <div>
@@ -28,6 +31,7 @@ export default function AccomDetail() {
                 <p>침실: {item.bedrooms} | 침대: {item.beds} | 욕실: {item.bathrooms}</p>
                 <p>설명: {item.description}</p>
                 <p>주소: {item.address} {item.detailaddr}</p>
+                <KakaoMap latitude={item.latitude} longitude={item.longitude} />
                 <button onClick={handleMove}>예약하기</button>
             </form>
         </div>

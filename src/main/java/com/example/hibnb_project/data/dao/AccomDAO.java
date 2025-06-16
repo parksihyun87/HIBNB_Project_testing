@@ -9,19 +9,23 @@ import com.example.hibnb_project.data.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 @Service
@@ -30,6 +34,10 @@ public class AccomDAO {
     private final AccomRepository accomRepository;
     private final UserRepository userRepository;
     private final ImgRepository imgRepository;
+    //카카오
+    @Value("${kakao.api.key}")
+    private String kakaoApiKey;
+
 
     @Value("${upload.dir}")
     private String uploadDir;
@@ -242,4 +250,52 @@ public class AccomDAO {
         }
         throw new EntityNotFoundException("숙소를 찾을 수 없습니다.");
     }
+
+    //카카오
+
+    public void updateCoordinatesForAll() {
+        List<AccomEntity> list = this.accomRepository.findAll();
+
+        for (AccomEntity acc : list) {
+            if (acc.getLatitude() == null || acc.getLongitude() == null) {
+                Map<String, Double> coords = getCoordinatesFromAddress(acc.getAddress());
+                if (coords != null) {
+                    acc.setLatitude(coords.get("lat"));
+                    acc.setLongitude(coords.get("lng"));
+                    accomRepository.save(acc);
+                }
+            }
+        }
+    }
+
+    private Map<String, Double> getCoordinatesFromAddress(String address) {
+        try {
+            String url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + URLEncoder.encode(address, "UTF-8");
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Authorization", "KakaoAK " + kakaoApiKey)
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject json = new JSONObject(response.body());
+            JSONArray documents = json.getJSONArray("documents");
+
+            if (documents.length() > 0) {
+                JSONObject obj = documents.getJSONObject(0);
+                double lat = obj.getDouble("y");
+                double lng = obj.getDouble("x");
+                Map<String, Double> coords = new HashMap<>();
+                coords.put("lat", lat);
+                coords.put("lng", lng);
+                return coords;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

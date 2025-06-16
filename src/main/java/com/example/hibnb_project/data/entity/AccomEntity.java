@@ -93,4 +93,8 @@ public class AccomEntity {
         img.setAccom(this);
     }
 
+        private String name;
+        private String wholeAdress;
+        private Double latitude;
+        private Double longitude;
 }

@@ -1,17 +1,31 @@
 package com.example.hibnb_project.controller;
 
+import com.example.hibnb_project.data.dao.AccomDAO;
 import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.AccomSeachDTO;
+import com.example.hibnb_project.data.entity.AccomEntity;
+import com.example.hibnb_project.data.repository.AccomRepository;
 import com.example.hibnb_project.service.AccomService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,6 +34,8 @@ import java.util.List;
 
 public class AccomController {
     private final AccomService accomService;
+    //카카오
+    private final AccomDAO accomDAO;
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<AccomDTO>> findAllAccoms() {
@@ -58,4 +74,14 @@ public class AccomController {
     public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid 요구
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
     }
+    //카카오
+
+    @PostMapping("/update-coordinates")
+    public ResponseEntity<Void> updateCoordinates() {
+        this.accomDAO.updateCoordinatesForAll();
+        return ResponseEntity.ok().build();
+    }
 }
+
+
+

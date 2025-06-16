@@ -40,8 +40,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
+    //카카오패이
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    //카카오맵
+    implementation 'org.json:json:20240303'
 
 }
 
