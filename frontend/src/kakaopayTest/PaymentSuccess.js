@@ -1,8 +1,7 @@
 // src/pages/PaymentSuccess.jsx
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import qs from "qs";
-import {kakaoClient} from "../util/kakaoInstatance";
+import apiClient from "../util/apiInstance";
 
 export default function PaymentSuccess() {
     const location = useLocation();
@@ -26,12 +25,10 @@ export default function PaymentSuccess() {
 
         const approvePayment = async () => {
             try {
-                const cid = "TC0ONETIME";
-                // 카카오 API는 application/x-www-form-urlencoded 형식의 body를 요구하므로 qs.stringify로 변환
-                const data = qs.stringify({ cid, tid, pg_token,partner_order_id: "order1234",
-                    partner_user_id: "user1234"});
-
-                const response = await kakaoClient.post("/v1/payment/approve", data);
+                const response = await apiClient.post("/api/kakao/approve", {
+                    tid,
+                    pg_token
+                });
 
                 alert("결제가 승인되었습니다!");
                 navigate("/mypage/reservations");
@@ -42,9 +39,7 @@ export default function PaymentSuccess() {
             }
         };
 
-        if (pg_token && tid) {
-            approvePayment();
-        }
+        approvePayment();
     }, [location.search, navigate]);
 
     return <p>결제를 승인 중입니다. 잠시만 기다려주세요...</p>;

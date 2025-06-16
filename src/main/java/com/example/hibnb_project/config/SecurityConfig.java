@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/**").permitAll();
-                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw", "/accom/list", "/accom/list/detailedlist", "/accom/post", "/accom/test").permitAll();
+                    authorize.requestMatchers("/", "/login", "/join", "/board/postlist", "/reissue", "/re-confirm-id-email", "/re-confirm-id", "/re-confirm-pw", "/accom/list", "/accom/list/detailedlist", "/accom/post", "/accom/test", "/api/kakao/**").permitAll();
                     authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                     authorize.anyRequest().authenticated();
                 })
