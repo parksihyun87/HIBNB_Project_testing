@@ -40,7 +40,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/cancel")
-    public ResponseEntity<String> cancelBook(@RequestBody BookDTO bookDTO) {
+    public ResponseEntity<String> cancelBook(@RequestBody BookDTO bookDTO) {// bookid, username, accomid
         return ResponseEntity.status(HttpStatus.OK).body(this.bookService.cancelBook(bookDTO));
     }
 

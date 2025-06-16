@@ -1,7 +1,7 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./MyInfoLayout";
-import {MyInfo} from "./MyInfo";
+import MyInfo from "./MyInfo";
 import MyReserve from "./MyReserve";
 import MyRoom from "./MyRoom";
 import Quit from "./Quit";
@@ -47,7 +47,7 @@ export default function App() {
                         <Route path="/hosting/history" element={<HostHistory/>}></Route>
                     </Route>
 
-                    <Route path="/payment" element={<PaymentHome/>}></Route>
+                    <Route path="payment/:id" element={<PaymentHome/>}></Route>
                     <Route path="/mypage" element={<MyInfoLayout/>}>
                         <Route path="profile" element={<MyInfo/>}></Route>
                         <Route path="reservations" element={<MyReserve/>}></Route>
