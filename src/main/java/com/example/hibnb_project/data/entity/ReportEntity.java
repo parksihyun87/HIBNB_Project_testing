@@ -47,4 +47,6 @@ public class ReportEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    private String status;
+
 }

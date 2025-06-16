@@ -21,6 +21,8 @@ import ModifyRoom from "./ModifyRoom";
 import HostingLayout from "./HostingLayout";
 import ModifyList from "./ModifyList";
 import HostHistory from "./HostHistory";
+import AdminReport from "./AdminReport";
+import AdminLogin from "./AdminLogin";
 
 
 export default function App() {
@@ -52,6 +54,9 @@ export default function App() {
                         <Route path="myroom" element={<MyRoom/>}></Route>
                         <Route path="quit" element={<Quit/>}></Route>
                     </Route>
+
+                    <Route path="/admin/login" element={<AdminLogin/>}></Route>
+                    <Route path="/admin/reports" element={<AdminReport/>}></Route>
                 </Route>
             </Routes>
         </>
