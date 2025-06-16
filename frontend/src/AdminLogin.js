@@ -1,20 +1,16 @@
-import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {setToken, setUserInfoList, setUserRole, userLogin} from "./store";
 import apiClient from "./util/apiInstance";
-import {useRef, useState} from "react";
+import {setToken, setUserInfoList, setUserRole} from "./store";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
-export default function UserLogin() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-
-
+export default function AdminLogin(){
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const data = {
-            username: "USER@" + e.target.username.value,
+            username: "ADMIN@" + e.target.username.value,
             password: e.target.password.value
         }
         try {
@@ -41,38 +37,18 @@ export default function UserLogin() {
         }
     };
 
-    const handleAdminLogin=()=>{
-        navigate("/admin/login")
-    }
-
-    const handleReConfirm=()=>{
-        navigate("/re-confirm-id")
-    }
-
-    const handleReConfirmPW=()=>{
-        navigate("/re-confirm-pw")
-    }
-
-    const handleJoin = () => {
-        navigate("/join");
-    };
-
-    return (
-        <div>
+    return(
+        <>
             <form onSubmit={handleLogin}>
-                <h2>로그인</h2>
+                <h2>관리자 로그인</h2>
                 <p> ID:
                     <input type="text" name={"username"}/>
                 </p>
                 <p> PW:
                     <input type="password" name={"password"}/>
                 </p>
-                <button type={"submit"}>로그인</button>
-                <button type={"button"} onClick={handleAdminLogin}>관리자 로그인</button><br/>
+                <button type={"submit"}>관리자 로그인</button><br/>
             </form>
-            <button onClick={handleReConfirm}>아이디 찾기</button>
-            <button onClick={handleReConfirmPW}>비밀번호 재설정</button>
-            <button onClick={handleJoin}>회원가입</button>
-        </div>
+        </>
     );
 }

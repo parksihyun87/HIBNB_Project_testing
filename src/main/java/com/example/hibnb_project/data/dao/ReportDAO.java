@@ -56,7 +56,7 @@ public class ReportDAO {
         return reportEntityList;
     }
 
-    public void save(Integer accommid, Integer bookid, String username, String type, String comment, LocalDateTime date) {
+    public void save(Integer accommid, Integer bookid, String username, String type, String comment, LocalDateTime date, String status) {
         AccomEntity accom = this.accomRepository.findById(accommid).orElse(null);
         if (accom == null) {
             throw new EntityNotFoundException("Accom not found");
@@ -76,6 +76,7 @@ public class ReportDAO {
                 .type(type)
                 .comment(comment)
                 .createdAt(date)
+                .status(status)
                 .build();
         this.reportRepository.save(reportEntity);
     }
