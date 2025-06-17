@@ -17,11 +17,18 @@ export default function MainSearch() {
     const [guests, setGuests] = useState(1); // 게스트 수
 
     const destinations = [
-        "부산광역시",
         "경기도",
-        "제주특별자치도",
         "서울특별시",
-        "북한"
+        "부산광역시",
+        "제주특별자치도",
+        "경상남도",
+        "강원도",
+        "전라북도",
+        "충청북도",
+        "대전광역시",
+        "인천광역시",
+        "대구광역시",
+        "광주광역시"
     ];
 
     // 외부 클릭 감지를 위한 ref
@@ -64,7 +71,7 @@ export default function MainSearch() {
             const response = await apiClient.get("/accom/list/detailedlist", {
                 params: searchParams
             });
-            dispatch(setAccom(response.data))
+            dispatch(setAccom(response.data));
             dispatch(setSearchResults(response.data));
             navigate("/detail-search");
         } catch (error) {
