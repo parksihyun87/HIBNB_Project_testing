@@ -1,6 +1,5 @@
 package com.example.hibnb_project.data.dao;
 
-import com.example.hibnb_project.data.dto.BookDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.UserEntity;
@@ -9,13 +8,13 @@ import com.example.hibnb_project.data.repository.BookRepository;
 import com.example.hibnb_project.data.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

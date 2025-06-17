@@ -10,7 +10,6 @@ import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
