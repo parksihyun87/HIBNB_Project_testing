@@ -44,9 +44,9 @@ public class AccomController {
         return ResponseEntity.ok(this.accomService.findByHostid(username));
     }
 
-    @GetMapping(value = "/list/review")
-    public ResponseEntity<List<AccomDTO>> findByReview() {
-        return ResponseEntity.ok(this.accomService.findTop5());
+    @GetMapping(value = "/list/booktop5")
+    public ResponseEntity<List<AccomDTO>> findByBookTop5() {
+        return ResponseEntity.ok(this.accomService.findByBookTop5());
     }
 
     @PostMapping(value = "/save")

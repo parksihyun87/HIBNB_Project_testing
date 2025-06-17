@@ -158,7 +158,7 @@ public class AccomService {
         return accomDTOList;
     }
 
-    public List<AccomDTO> findTop5() {
+    public List<AccomDTO> findByBookTop5() {
         List<BookEntity> books = this.accomDAO.findTop5Books();
         List<AccomDTO> accomDTOList = new ArrayList<>();
         for (BookEntity bookEntity : books) {

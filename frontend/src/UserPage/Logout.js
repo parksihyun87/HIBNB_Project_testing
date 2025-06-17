@@ -1,11 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import apiClient from "./util/apiInstance";
-import {persistor, setToken, userLogout} from "./store";
+import apiClient from "../util/apiInstance";
+import {persistor, setToken, userLogout} from "../store";
+import '../index.css';
 
 export default function Logout() {
-    const isLogin = useSelector(state => state.userInfo.userLoginFlag);
+    const isLogin = useSelector(state => state.userInfo.userInfoList);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
