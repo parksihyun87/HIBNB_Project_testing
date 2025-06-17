@@ -59,9 +59,9 @@ public class BookDAO {
                 .checkindate(checkindate)
                 .checkoutdate(checkoutdate)
                 .totalPrice(totalPrice)
-                .status("예약중")
+                .status("예약")
                 .yesorno(false)
-                .payment("결제완료")
+                .payment("0")
                 .build();
 
         this.bookRepository.save(bookEntity);

@@ -2,6 +2,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import apiClient from "../util/apiInstance";
+import {kakaoClient} from "../util/kakaoInstatance";
+import qs from "qs";
 
 export default function PaymentHome() {
     const navigate = useNavigate();
@@ -43,10 +45,16 @@ export default function PaymentHome() {
                 const matchingReservations = formatted.filter(
                     (r) => r.accommodation === Number(id)
                 );
-                const latestReservation = matchingReservations.reduce((latest, current) =>
-                    current.id > latest.id ? current : latest
-                );
-                setReservation(latestReservation); // 최신 예약 하나만
+
+                if (matchingReservations.length > 0) {
+                    const latestReservation = matchingReservations.reduce(
+                        (latest, current) => current.id > latest.id ? current : latest
+                    );
+                    setReservation(latestReservation);
+                } else {
+                    setError("해당 숙소에 대한 예약 정보가 없습니다.");
+                }
+
             } catch (error) {
                 console.error("❌ 예약 정보 불러오기 실패: ", error);
                 setError("예약 정보를 불러오는 데 실패했습니다.");
@@ -58,13 +66,38 @@ export default function PaymentHome() {
 
     const handlePayment = async () => {
         setIsLoading(true);
+        const data = {
+            cid: "TC0ONETIME",
+            partner_order_id: "order1234",
+            partner_user_id: "user1234",
+            item_name: "테스트 상품",
+            quantity: 1,
+            total_amount: 1000,
+            tax_free_amount: 0,
+            approval_url: "http://localhost:3000/payment/success",
+            cancel_url: "http://localhost:3000/payment/cancel",
+            fail_url: "http://localhost:3000/payment/fail",
+        };
         try {
-            // 실제 결제 처리 로직 (예: 결제 API 호출)
+            const response = await kakaoClient.post(
+                "/v1/payment/ready",
+                qs.stringify(data)
+            );
+
+            const { tid, next_redirect_pc_url } = response.data;
+
+            // ✅ 결제 승인 단계에서 사용할 TID 저장
+            localStorage.setItem("kakao_tid", tid);
+            localStorage.setItem("pendingReservation", JSON.stringify(reservation)); // 나중에 DB 저장용
+
+            // ✅ 카카오 결제창으로 리디렉션
+            window.location.href = next_redirect_pc_url;
+
             alert("결제가 성공적으로 처리되었습니다!");
             navigate("/mypage/reservations");
         } catch (error) {
             console.error("❌ 결제 실패: ", error);
-            setError("결제 처리 중 오류가 발생했습니다.");
+            alert("결제 요청 중 오류가 발생했습니다.");
         } finally {
             setIsLoading(false);
         }
