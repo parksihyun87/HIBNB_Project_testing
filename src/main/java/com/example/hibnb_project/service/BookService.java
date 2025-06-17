@@ -147,4 +147,9 @@ public class BookService {
         this.bookDAO.cancelBook(bookDTO.getId(),bookDTO.getUsername(),bookDTO.getAccomid());
         return "예약취소 성공";
     }
+
+    public String payBook(String username, Integer bookid) {
+        this.bookDAO.payBook(username,bookid);
+        return "업데이트 성공";
+    }
 }

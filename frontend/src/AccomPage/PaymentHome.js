@@ -14,7 +14,7 @@ export default function PaymentHome() {
 
     const {id}= useParams();
 
-    useEffect(() => {
+    useEffect( () => {
         const fetchReservation = async () => {
             if (!currentUser?.username) {
                 alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
@@ -26,7 +26,7 @@ export default function PaymentHome() {
                 const res = await apiClient.get("/book/list", {
                     params: { username: currentUser.username }
                 });
-
+                console.log("널확인",res.data);
                 const formatted = res.data.map((item, index) => ({
                     id: item.id || 1000 + index,
                     accommodation: item.accomid,
@@ -62,6 +62,7 @@ export default function PaymentHome() {
         };
 
         fetchReservation();
+
     }, [currentUser?.username, navigate]);
 
     const handlePayment = async () => {
@@ -72,11 +73,11 @@ export default function PaymentHome() {
             partner_user_id: "user1234",
             item_name: "테스트 상품",
             quantity: 1,
-            total_amount: 1000,
+            total_amount: reservation.price,
             tax_free_amount: 0,
             approval_url: "http://localhost:3000/payment/success",
             cancel_url: "http://localhost:3000/payment/cancel",
-            fail_url: "http://localhost:3000/payment/fail",
+            fail_url: "http://localhost:3000/payment/fail"
         };
         try {
             const response = await kakaoClient.post(
@@ -89,11 +90,11 @@ export default function PaymentHome() {
             // ✅ 결제 승인 단계에서 사용할 TID 저장
             localStorage.setItem("kakao_tid", tid);
             localStorage.setItem("pendingReservation", JSON.stringify(reservation)); // 나중에 DB 저장용
+            localStorage.setItem("username", currentUser.username)
+            localStorage.setItem("bookid", reservation.id)
 
             // ✅ 카카오 결제창으로 리디렉션
             window.location.href = next_redirect_pc_url;
-
-            alert("결제가 성공적으로 처리되었습니다!");
             navigate("/mypage/reservations");
         } catch (error) {
             console.error("❌ 결제 실패: ", error);
@@ -133,6 +134,7 @@ export default function PaymentHome() {
             ) : (
                 <>
                     <p><strong>예약자:</strong> {currentUser?.username || "미로그인"}</p>
+                    <p><strong>예약번호:</strong> {reservation.accommodation || "미로그인"}</p>
                     <p><strong>숙소:</strong> {reservation.accommodation}</p>
                     <p><strong>체크인:</strong> {reservation.checkIn}</p>
                     <p><strong>체크아웃:</strong> {reservation.checkOut}</p>

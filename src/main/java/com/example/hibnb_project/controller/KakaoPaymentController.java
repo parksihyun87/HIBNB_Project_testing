@@ -1,22 +1,25 @@
 package com.example.hibnb_project.controller;
 
+import com.example.hibnb_project.data.dto.BookDTO;
 import com.example.hibnb_project.kakao.ApproveRequest;
+import com.example.hibnb_project.service.BookService;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 // KakaoPaymentController.java
 @RestController
 @RequestMapping("/api/kakao")
+@RequiredArgsConstructor
 public class KakaoPaymentController {
-
+    private final BookService bookService;
     private final RestTemplate restTemplate = new RestTemplate();
 
+//    @Transactional
     @PostMapping("/approve")
     public ResponseEntity<String> approvePayment(@RequestBody ApproveRequest request) {
         HttpHeaders headers = new HttpHeaders();
@@ -38,6 +41,8 @@ public class KakaoPaymentController {
                     entity,
                     String.class
             );
+
+            this.bookService.payBook(request.getUsername(),request.getBookid());
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 승인 실패: " + e.getMessage());

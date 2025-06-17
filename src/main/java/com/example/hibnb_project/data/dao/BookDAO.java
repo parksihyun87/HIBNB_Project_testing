@@ -120,4 +120,29 @@ public class BookDAO {
 
         this.bookRepository.save(updateBook);
     }
+
+    public void payBook(String username, Integer bookid) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if (!user.isPresent()) {
+            throw new EntityNotFoundException("유저명 오류");
+        }
+
+        Optional<BookEntity> bookEntity = this.bookRepository.findById(bookid);
+        if (!bookEntity.isPresent()) {
+            throw new EntityNotFoundException("예약 정보 없음");
+        }
+
+        BookEntity updateBook = bookEntity.get();
+
+        if ("1".equals(updateBook.getPayment())) {
+            throw new IllegalStateException("이미 결제가 완료된 예약입니다.");
+        }
+
+        if (!updateBook.getUsername().getUsername().equals(username)) {
+            throw new IllegalArgumentException("해당 예약의 소유자가 아닙니다.");
+        }
+        updateBook.setPayment("1");
+
+        this.bookRepository.save(updateBook);
+    }
 }

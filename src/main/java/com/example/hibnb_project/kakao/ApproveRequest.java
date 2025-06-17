@@ -8,4 +8,6 @@ import lombok.Setter;
 public class ApproveRequest {
     private String tid;
     private String pg_token;
+    private String username;
+    private Integer bookid;
 }

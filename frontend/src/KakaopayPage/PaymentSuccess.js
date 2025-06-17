@@ -10,6 +10,8 @@ export default function PaymentSuccess() {
     useEffect(() => {
         const pg_token = new URLSearchParams(location.search).get("pg_token");
         const tid = localStorage.getItem("kakao_tid");
+        const username = localStorage.getItem("username"); // 추가
+        const bookid = localStorage.getItem("bookid");     // 추가
 
         if (!pg_token) {
             alert("pg_token이 없습니다!");
@@ -27,7 +29,10 @@ export default function PaymentSuccess() {
             try {
                 const response = await apiClient.post("/api/kakao/approve", {
                     tid,
-                    pg_token
+                    pg_token,
+                    username,
+                    bookid
+
                 });
 
                 alert("결제가 승인되었습니다!");
