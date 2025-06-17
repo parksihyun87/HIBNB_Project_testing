@@ -2,7 +2,7 @@ import {Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./LayoutPage/MyInfoLayout";
 import HostingLayout from "./LayoutPage/HostingLayout";
 import MainLayout from "./LayoutPage/MainLayout";
-import {MyInfo} from "./InfoPage/MyInfo";
+import MyInfo from "./InfoPage/MyInfo";
 import MyReserve from "./InfoPage/MyReserve";
 import MyRoom from "./InfoPage/MyRoom";
 import Quit from "./UserPage/Quit";
@@ -44,7 +44,7 @@ export default function App() {
                         <Route path="/hosting/history" element={<HostHistory/>}></Route>
                     </Route>
 
-                    <Route path="/payment" element={<PaymentHome/>}></Route>
+                    <Route path="payment/:id" element={<PaymentHome/>}></Route>
                     <Route path="/mypage" element={<MyInfoLayout/>}>
                         <Route path="profile" element={<MyInfo/>}></Route>
                         <Route path="reservations" element={<MyReserve/>}></Route>
