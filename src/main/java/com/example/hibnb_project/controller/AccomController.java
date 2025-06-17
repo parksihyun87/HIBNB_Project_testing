@@ -3,12 +3,12 @@ package com.example.hibnb_project.controller;
 import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.AccomSeachDTO;
 import com.example.hibnb_project.service.AccomService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -42,6 +42,11 @@ public class AccomController {
     @GetMapping(value = "/list/username")
     public ResponseEntity<List<AccomDTO>> findByUsername(@RequestParam String username) {
         return ResponseEntity.ok(this.accomService.findByHostid(username));
+    }
+
+    @GetMapping(value = "/list/booktop5")
+    public ResponseEntity<List<AccomDTO>> findByBookTop5() {
+        return ResponseEntity.ok(this.accomService.findByBookTop5());
     }
 
     @PostMapping(value = "/save")

@@ -10,13 +10,8 @@ import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import com.example.hibnb_project.data.repository.AccomRepository;
-import com.example.hibnb_project.data.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -136,7 +131,7 @@ public class BookService {
 
     public String saveBook(BookDTO bookDTO) {
         this.bookDAO.saveBook(bookDTO.getUsername(),bookDTO.getAccomid(),bookDTO.getCheckindate()
-                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice()
+                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice(), bookDTO.getPerson()
         );
         return "예약 성공";
     }
@@ -151,5 +146,10 @@ public class BookService {
     public String cancelBook(BookDTO bookDTO) {
         this.bookDAO.cancelBook(bookDTO.getId(),bookDTO.getUsername(),bookDTO.getAccomid());
         return "예약취소 성공";
+    }
+
+    public String payBook(String username, Integer bookid) {
+        this.bookDAO.payBook(username,bookid);
+        return "업데이트 성공";
     }
 }

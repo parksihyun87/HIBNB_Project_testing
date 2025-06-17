@@ -1,17 +1,12 @@
 package com.example.hibnb_project.data.dto;
 
 
-import com.example.hibnb_project.data.entity.AccomEntity;
-import com.example.hibnb_project.data.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +16,7 @@ public class BookDTO {
     private Integer id;
     private String username;
     private Integer accomid;
+    private Integer person;
     private LocalDate checkindate;
     private LocalDate checkoutdate;
     private Integer totalPrice;

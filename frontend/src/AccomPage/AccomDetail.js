@@ -29,6 +29,7 @@ export default function AccomDetail() {
             checkindate: checkindate,
             checkoutdate: checkoutdate,
             totalPrice: betweenDays * item.pricePerNight,
+            person: searchParams.maxcapacity
         };
 
         const response = await apiClient.post("/book/save", bookDTO);
