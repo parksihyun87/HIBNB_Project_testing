@@ -44,7 +44,7 @@ public class BookDAO {
         return bookEntitySet;
     }
 
-    public void saveBook(String username, Integer accomid, LocalDate checkindate,LocalDate checkoutdate, Integer totalPrice) {
+    public void saveBook(String username, Integer accomid, LocalDate checkindate,LocalDate checkoutdate, Integer totalPrice, Integer person) {
         Optional<UserEntity> user = this.userRepository.findById(username);
         if (!user.isPresent()) {
             throw new EntityNotFoundException("유저명 오류");
@@ -63,6 +63,7 @@ public class BookDAO {
                 .status("예약중")
                 .yesorno(false)
                 .payment("결제완료")
+                .person(person)
                 .build();
 
         this.bookRepository.save(bookEntity);
