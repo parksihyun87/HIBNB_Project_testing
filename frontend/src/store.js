@@ -6,7 +6,7 @@ const userInfoSlice = createSlice({
     name: "userInfo",
     initialState: {
         userInfoList: [],
-        userRole:null,
+        userRole: null,
     },
     reducers: {
         addUserInfo: (state, action) => {
@@ -15,27 +15,27 @@ const userInfoSlice = createSlice({
         setUserInfoList: (state, action) => {
             state.userInfoList = action.payload;
         },
-         clearUserInfo: (state) => {
-             state.userInfoList = [];
-             state.userRole=null;
-         },
-        setUserRole:(state, action)=>{
-            state.userRole=action.payload;
+        clearUserInfo: (state) => {
+            state.userInfoList = [];
+            state.userRole = null;
         },
-        // adminLogin: (state) => {
-        //     state.adminLoginFlag = true;
-        // },
-        // adminLogout: (state) => {
-        //     state.adminLoginFlag = false;
-        // },
-        //   userLogin: (state) => {
-        //       state.userInfoList = [];
-        //       state.userRole=null;
-        //   },
-         userLogout: (state) => {
-             state.userInfoList = [];
-             state.userRole=null;
-         },
+        setUserRole: (state, action) => {
+            state.userRole = action.payload;
+        },
+        adminLogin: (state) => {
+            state.adminLoginFlag = true;
+        },
+        adminLogout: (state) => {
+            state.adminLoginFlag = false;
+        },
+        userLogin: (state) => {
+            state.userInfoList = [];
+            state.userRole = null;
+        },
+        userLogout: (state) => {
+            state.userInfoList = [];
+            state.userRole = null;
+        },
     }
 });
 
