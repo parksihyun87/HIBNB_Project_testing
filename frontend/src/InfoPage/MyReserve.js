@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import "./MyReserve.css";
 import {useSelector} from "react-redux";
-import apiClient from "./util/apiInstance";
+import apiClient from "../util/apiInstance";
 
 export default function MyReserve() {
     const [reservations, setReservations] = useState([]);

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import "./MyRoom.css";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useSelector } from "react-redux";
-import apiClient from "./util/apiInstance";
+import apiClient from "../util/apiInstance";
 
 dayjs.extend(isSameOrBefore);
 

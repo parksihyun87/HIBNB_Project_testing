@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {setUserInfoList} from "./store";
-import "./MyInfo.css";
-import apiClient from "./util/apiInstance";
+import {setUserInfoList} from "../store";
+import apiClient from "../util/apiInstance";
 
 export default function MyInfo() {
     const [phone, setPhone] = useState("");

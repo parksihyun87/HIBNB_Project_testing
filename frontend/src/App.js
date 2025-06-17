@@ -2,7 +2,7 @@ import {Route, Routes} from "react-router-dom";
 import MyInfoLayout from "./LayoutPage/MyInfoLayout";
 import HostingLayout from "./LayoutPage/HostingLayout";
 import MainLayout from "./LayoutPage/MainLayout";
-import {MyInfo} from "./InfoPage/MyInfo";
+import MyInfo from "./InfoPage/MyInfo";
 import MyReserve from "./InfoPage/MyReserve";
 import MyRoom from "./InfoPage/MyRoom";
 import Quit from "./UserPage/Quit";

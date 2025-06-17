@@ -1,9 +1,8 @@
 import {useState} from "react";
-import "./Quit.css";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import apiClient from "./util/apiInstance";
-import {persistor, userLogout} from "./store";
+import apiClient from "../util/apiInstance";
+import {persistor, userLogout} from "../store";
 
 export default function Quit(){
     const [showConfirm, setShowConfirm] = useState(false);
