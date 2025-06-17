@@ -17,6 +17,7 @@ export default function ModifyList() {
                 const response = await apiClient.get("/accom/list/username", {
                     params: {"username": username},
                 });
+                console.log(response.data);
                 dispatch(userAccom(response.data));
             } catch (error) {
                 console.error("Failed to fetch username-list:", error);
@@ -28,7 +29,7 @@ export default function ModifyList() {
     return (
         <div className="username-list">
             <h2 className={"login-form__title"}>숙소 수정</h2>
-            {usernameAccom.map((item) => (
+            {usernameAccom ? usernameAccom.map((item) => (
                 <div
                     className="accom-card"
                     key={item.id}
@@ -49,7 +50,7 @@ export default function ModifyList() {
                         <p>최대인원: {item.maxcapacity || 0}명</p>
                     </div>
                 </div>
-            ))}
+            )) : <p>아직 호스트가 아닙니다.</p>}
         </div>
     );
 }

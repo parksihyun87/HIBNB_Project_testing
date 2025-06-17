@@ -122,9 +122,11 @@ public class AccomService {
 
     public List<AccomDTO> findByHostid(String hostid) {
         List<AccomEntity> accomEntityList = this.accomDAO.findByHostid(hostid);
+        if(accomEntityList == null || accomEntityList.size() == 0) {
+            return null;
+        }
         List<AccomDTO> accomDTOList = new ArrayList<>();
         for (AccomEntity accomE : accomEntityList) {
-
             ImgEntity imgEntity = accomE.getImg();
             List<String> urls = new ArrayList<>();
             if (imgEntity != null) {

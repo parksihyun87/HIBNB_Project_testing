@@ -15,8 +15,8 @@ export default function ModifyRoom() {
     const [check, setCheck] = useState(false);
 
     const [formData, setFormData] = useState({
-        hostid: user.username,
-        hostname: user.name,
+        hostid: user[0].username,
+        hostname: user[0].name,
         address: "",
         detailaddr: "",
         description: "",
@@ -33,8 +33,8 @@ export default function ModifyRoom() {
     useEffect(() => {
         if (item) {
             setFormData({
-                hostid: user.username || "",
-                hostname: user.name || "",
+                hostid: user[0].username || "",
+                hostname: user[0].name || "",
                 address: item.address || "",
                 detailaddr: item.detailaddr || "",
                 description: item.description || "",
