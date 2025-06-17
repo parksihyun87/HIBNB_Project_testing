@@ -131,7 +131,7 @@ public class BookService {
 
     public String saveBook(BookDTO bookDTO) {
         this.bookDAO.saveBook(bookDTO.getUsername(),bookDTO.getAccomid(),bookDTO.getCheckindate()
-                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice()
+                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice(), bookDTO.getPerson()
         );
         return "예약 성공";
     }

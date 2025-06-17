@@ -11,7 +11,10 @@ export default function MyRoom() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [reportModal, setReportModal]=useState(false);
     const [reviewText, setReviewText] = useState("");
+    const [reportText, setReportText]=useState("");
+    const [reportType, setReportType]=useState("");
     const currentUser = useSelector((state) => state.userInfo.userInfoList[0]);
     const [rating, setRating] = useState(0);
 
@@ -86,6 +89,39 @@ export default function MyRoom() {
         }
     };
 
+    const handleReportSubmit = async () => {
+        if (!reportText.trim()) {
+            alert("리뷰 내용을 입력해주세요.");
+            return;
+        }
+
+        try {
+            const mostRecentBooking = history.find((item) => item.isMostRecent);
+            if (!mostRecentBooking) {
+                throw new Error("예약 정보를 찾을 수 없습니다.");
+            }
+
+            const now = new Date().toISOString();
+
+            await apiClient.post("/report/save",  {
+                bookid: mostRecentBooking.id,
+                accomid: mostRecentBooking.accomid,
+                username: currentUser.username,
+                comment: reportText,
+                createdAt: now,
+                type:reportType,
+            });
+
+            alert("리뷰가 성공적으로 제출되었습니다!");
+            setReportText("");
+            setReportModal(false);
+        } catch (error) {
+            console.error("❌ 신고 제출 실패: ", error);
+            alert("신고 제출에 실패했습니다. 다시 시도해주세요.");
+        }
+    };
+
+
     return (
         <div className="room-container">
             <h2 className="room-title">이용 내역</h2>
@@ -113,7 +149,11 @@ export default function MyRoom() {
                                 >
                                     리뷰 쓰기
                                 </button>
+
                             )}
+                            <button
+                                className="room-review-btn"
+                                onClick={()=>setReportModal(true)}>신고하기</button>
                         </li>
                     ))}
                 </ul>
@@ -149,6 +189,43 @@ export default function MyRoom() {
                             <button className="modal-submit-btn" onClick={handleReviewSubmit}>
                                 제출
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {reportModal && (
+                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            className="modal-close-btn"
+                            onClick={() => setShowModal(false)}
+                        >
+                            ×
+                        </button>
+                        <div style={{marginTop: '0.5rem', border: '1px solid #ccc', padding: '0.5rem'}}>
+                            <label>
+                                사유:
+                                <select value={reportType} onChange={(e) => setReportType(e.target.value)}>
+                                    <option value="">선택하세요</option>
+                                    <option value="관리 부실">관리 부실</option>
+                                    <option value="폭언/비매너">폭언/비매너</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </label>
+                            <br/>
+                            <label>
+                                상세 내용:
+                                <br/>
+                                <textarea value={reportText}
+                                          onChange={(e) => setReportText(e.target.value)} rows={4}
+                                          cols={50}/>
+                            </label>
+                            <br/>
+                            <button className="modal-cancel-btn" onClick={() => setShowModal(false)}>
+                                취소
+                            </button>
+                            <button onClick={handleReportSubmit}>제출</button>
                         </div>
                     </div>
                 </div>

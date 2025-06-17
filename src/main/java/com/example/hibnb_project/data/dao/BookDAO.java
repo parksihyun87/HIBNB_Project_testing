@@ -1,5 +1,6 @@
 package com.example.hibnb_project.data.dao;
 
+import com.example.hibnb_project.data.dto.BookDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.UserEntity;
@@ -8,7 +9,10 @@ import com.example.hibnb_project.data.repository.BookRepository;
 import com.example.hibnb_project.data.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -43,7 +47,7 @@ public class BookDAO {
         return bookEntitySet;
     }
 
-    public void saveBook(String username, Integer accomid, LocalDate checkindate,LocalDate checkoutdate, Integer totalPrice) {
+    public void saveBook(String username, Integer accomid, LocalDate checkindate,LocalDate checkoutdate, Integer totalPrice, Integer person) {
         Optional<UserEntity> user = this.userRepository.findById(username);
         if (!user.isPresent()) {
             throw new EntityNotFoundException("유저명 오류");
