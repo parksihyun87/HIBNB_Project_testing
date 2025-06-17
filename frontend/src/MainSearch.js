@@ -133,6 +133,8 @@ export default function MainSearch() {
                             value={guests}
                             onChange={handleGuestsChange}
                         />
+
+
                     </div>
 
                     <div className="search-item">
