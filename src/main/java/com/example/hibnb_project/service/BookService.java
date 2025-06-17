@@ -10,13 +10,8 @@ import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.ReviewEntity;
 import com.example.hibnb_project.data.repository.AccomRepository;
-import com.example.hibnb_project.data.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashSet;

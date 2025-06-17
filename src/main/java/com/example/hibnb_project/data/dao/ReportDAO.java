@@ -1,6 +1,9 @@
 package com.example.hibnb_project.data.dao;
 
-import com.example.hibnb_project.data.entity.*;
+import com.example.hibnb_project.data.entity.AccomEntity;
+import com.example.hibnb_project.data.entity.BookEntity;
+import com.example.hibnb_project.data.entity.ReportEntity;
+import com.example.hibnb_project.data.entity.UserEntity;
 import com.example.hibnb_project.data.repository.AccomRepository;
 import com.example.hibnb_project.data.repository.BookRepository;
 import com.example.hibnb_project.data.repository.ReportRepository;
