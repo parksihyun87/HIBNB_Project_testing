@@ -1,9 +1,11 @@
 package com.example.hibnb_project.data.dao;
 
 import com.example.hibnb_project.data.entity.AccomEntity;
+import com.example.hibnb_project.data.entity.BookEntity;
 import com.example.hibnb_project.data.entity.ImgEntity;
 import com.example.hibnb_project.data.entity.UserEntity;
 import com.example.hibnb_project.data.repository.AccomRepository;
+import com.example.hibnb_project.data.repository.BookRepository;
 import com.example.hibnb_project.data.repository.ImgRepository;
 import com.example.hibnb_project.data.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,7 +31,7 @@ import java.util.function.Consumer;
 public class AccomDAO {
     private final AccomRepository accomRepository;
     private final UserRepository userRepository;
-    private final ImgRepository imgRepository;
+    private final BookRepository bookRepository;
 
     @Value("${upload.dir}")
     private String uploadDir;
@@ -43,6 +45,10 @@ public class AccomDAO {
     public List<AccomEntity> findDetailedAccom(String addr, LocalDate checkinDate, LocalDate checkoutDate, Integer capacity){
         List<AccomEntity> accomEntityList=this.accomRepository.findDetailedAccom("%"+addr+"%",checkinDate,checkoutDate,capacity);
         return accomEntityList;
+    }
+
+    public List<BookEntity> findTop5Books() {
+        return this.bookRepository.findTop5ByOrderByAccomidDescAccomidDesc();
     }
 
     public List<AccomEntity> findByHostid(String hostid){
@@ -143,19 +149,19 @@ public class AccomDAO {
                 // 각 img 필드와 비교하여 일치하면 파일 삭제 및 DB 필드를 null로 설정
                 if (urlToDelete.equals(imgToUpdate.getImg1())) {
                     String url = imgToUpdate.getImg1().substring(20);
-                    this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
+                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
                     imgToUpdate.setImg1(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg2())) {
                     String url = imgToUpdate.getImg2().substring(20);
-                    this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
+                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
                     imgToUpdate.setImg2(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg3())) {
                     String url = imgToUpdate.getImg3().substring(20);
-                    this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
+                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
                     imgToUpdate.setImg3(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg4())) {
                     String url = imgToUpdate.getImg4().substring(20);
-                    this.deleteFileByUrl("C:/javaStudy/workspace_springboot/HIBNB_Project/"+url);
+                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
                     imgToUpdate.setImg4(null);
                 }
 

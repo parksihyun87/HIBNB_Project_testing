@@ -43,6 +43,9 @@ public class BookEntity {
     @Column(name = "total_price")
     private Integer totalPrice;
 
+    @Column(name="person")
+    private Integer person;
+
     @Size(max = 10)
     @Column(name = "status", length = 10)
     private String status;
