@@ -13,6 +13,7 @@ export default function MyRoom() {
     const [showModal, setShowModal] = useState(false);
     const [reviewText, setReviewText] = useState("");
     const currentUser = useSelector((state) => state.userInfo.userInfoList[0]);
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -65,12 +66,15 @@ export default function MyRoom() {
                 throw new Error("예약 정보를 찾을 수 없습니다.");
             }
 
-            await apiClient.post("/review/save", {
+            const now = new Date().toISOString();
+
+            await apiClient.post("/review/save",  {
                 bookid: mostRecentBooking.id,
                 accomid: mostRecentBooking.accomid,
                 username: currentUser.username,
                 comment: reviewText,
-                rating: 5, // Default rating, can be enhanced with a rating input
+                rating: rating, // Default rating, can be enhanced with a rating input
+                createdAt: now,
             });
 
             alert("리뷰가 성공적으로 제출되었습니다!");
@@ -125,6 +129,13 @@ export default function MyRoom() {
                             ×
                         </button>
                         <h3 className="modal-title">리뷰 작성</h3>
+                        <select onChange={(e) => setRating(e.target.value)}>
+                            <option value={"1"}>⭐</option>
+                            <option value={"2"}>⭐⭐</option>
+                            <option value={"3"}>⭐⭐⭐</option>
+                            <option value={"4"}>⭐⭐⭐⭐</option>
+                            <option value={"5"}>⭐⭐⭐⭐⭐</option>
+                        </select>
                         <textarea
                             className="modal-textarea"
                             placeholder="숙소는 어땠나요? 호스트는 친절했나요?"
