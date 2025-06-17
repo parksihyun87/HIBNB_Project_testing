@@ -19,7 +19,7 @@ public class KakaoPaymentController {
     private final BookService bookService;
     private final RestTemplate restTemplate = new RestTemplate();
 
-//    @Transactional
+    @Transactional
     @PostMapping("/approve")
     public ResponseEntity<String> approvePayment(@RequestBody ApproveRequest request) {
         HttpHeaders headers = new HttpHeaders();
