@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import "../css/components.css";
 import {useSelector} from "react-redux";
 import apiClient from "../util/apiInstance";
 

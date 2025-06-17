@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useSelector } from "react-redux";
+import "../css/components.css";
 import apiClient from "../util/apiInstance";
 
 dayjs.extend(isSameOrBefore);
@@ -91,7 +92,7 @@ export default function MyRoom() {
 
     const handleReportSubmit = async () => {
         if (!reportText.trim()) {
-            alert("리뷰 내용을 입력해주세요.");
+            alert("신고 내용을 입력해주세요.");
             return;
         }
 
@@ -137,56 +138,62 @@ export default function MyRoom() {
                 <ul className="room-list">
                     {history.map((item) => (
                         <li key={item.id} className="room-card">
-                            <div>
-                                <div className="room-place">예약자: {currentUser.username}</div>
-                                <div className="room-place">{item.place}</div>
-                                <div className="room-date">{item.date}</div>
-                            </div>
-                            {item.isMostRecent && (
-                                <button
-                                    className="room-review-btn"
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    리뷰 쓰기
-                                </button>
+                            <div className="room-place">예약자: {currentUser.username}</div>
+                            <div className="room-place">{item.place}</div>
+                            <div className="room-date">{item.date}</div>
 
+                            {item.isMostRecent && (
+                                <div className="room-btn-group">
+                                    <button className="room-review-btn" onClick={() => setShowModal(true)}>
+                                        리뷰 쓰기
+                                    </button>
+                                    <button className="room-review-btn" onClick={() => setReportModal(true)}>
+                                        신고하기
+                                    </button>
+                                </div>
                             )}
-                            <button
-                                className="room-review-btn"
-                                onClick={()=>setReportModal(true)}>신고하기</button>
                         </li>
                     ))}
                 </ul>
             )}
 
             {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                <div className="review-modal-overlay" onClick={() => setShowModal(false)}>
+                    <div className="review-modal" onClick={(e) => e.stopPropagation()}>
                         <button
-                            className="modal-close-btn"
+                            className="review-close-btn"
                             onClick={() => setShowModal(false)}
                         >
                             ×
                         </button>
-                        <h3 className="modal-title">리뷰 작성</h3>
-                        <select onChange={(e) => setRating(e.target.value)}>
-                            <option value={"1"}>⭐</option>
-                            <option value={"2"}>⭐⭐</option>
-                            <option value={"3"}>⭐⭐⭐</option>
-                            <option value={"4"}>⭐⭐⭐⭐</option>
-                            <option value={"5"}>⭐⭐⭐⭐⭐</option>
+                        <h3 className="review-modal-title">리뷰 작성</h3>
+                        <select
+                            className="rating-select"
+                            onChange={(e) => setRating(e.target.value)}
+                        >
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
                         </select>
                         <textarea
-                            className="modal-textarea"
+                            className="review-textarea"
                             placeholder="숙소는 어땠나요? 호스트는 친절했나요?"
                             value={reviewText}
                             onChange={(e) => setReviewText(e.target.value)}
                         />
-                        <div className="modal-footer">
-                            <button className="modal-cancel-btn" onClick={() => setShowModal(false)}>
+                        <div className="review-modal-footer">
+                            <button
+                                className="review-cancel-btn"
+                                onClick={() => setShowModal(false)}
+                            >
                                 취소
                             </button>
-                            <button className="modal-submit-btn" onClick={handleReviewSubmit}>
+                            <button
+                                className="review-submit-btn"
+                                onClick={handleReviewSubmit}
+                            >
                                 제출
                             </button>
                         </div>
@@ -195,37 +202,55 @@ export default function MyRoom() {
             )}
 
             {reportModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                <div className="report-modal-overlay" onClick={() => setReportModal(false)}>
+                    <div className="report-modal" onClick={(e) => e.stopPropagation()}>
                         <button
-                            className="modal-close-btn"
-                            onClick={() => setShowModal(false)}
+                            className="report-close-btn"
+                            onClick={() => setReportModal(false)}
                         >
                             ×
                         </button>
-                        <div style={{marginTop: '0.5rem', border: '1px solid #ccc', padding: '0.5rem'}}>
-                            <label>
+                        <div>
+                            <label className="report-label">
                                 사유:
-                                <select value={reportType} onChange={(e) => setReportType(e.target.value)}>
+                                <select
+                                    className="report-select"
+                                    value={reportType}
+                                    onChange={(e) => setReportType(e.target.value)}
+                                >
                                     <option value="">선택하세요</option>
                                     <option value="관리 부실">관리 부실</option>
                                     <option value="폭언/비매너">폭언/비매너</option>
                                     <option value="기타">기타</option>
                                 </select>
                             </label>
-                            <br/>
-                            <label>
+                            <br />
+                            <label className="report-label">
                                 상세 내용:
-                                <br/>
-                                <textarea value={reportText}
-                                          onChange={(e) => setReportText(e.target.value)} rows={4}
-                                          cols={50}/>
+                                <br />
+                                <textarea
+                                    className="report-textarea"
+                                    value={reportText}
+                                    onChange={(e) => setReportText(e.target.value)}
+                                    rows={4}
+                                    cols={50}
+                                />
                             </label>
-                            <br/>
-                            <button className="modal-cancel-btn" onClick={() => setShowModal(false)}>
-                                취소
-                            </button>
-                            <button onClick={handleReportSubmit}>제출</button>
+                            <br />
+                            <div className="report-modal-footer">
+                                <button
+                                    className="report-cancel-btn"
+                                    onClick={() => setReportModal(false)}
+                                >
+                                    취소
+                                </button>
+                                <button
+                                    className="report-submit-btn"
+                                    onClick={handleReportSubmit}
+                                >
+                                    제출
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
