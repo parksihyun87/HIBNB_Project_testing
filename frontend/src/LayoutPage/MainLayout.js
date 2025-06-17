@@ -15,9 +15,8 @@ export default function MainLayout() {
                     {userRole === 'ROLE_ADMIN' ? (
                         <>
                             {/* 관리자 메뉴 */}
+                            <Link to={"/logout"} className="header__link">관리자 로그아웃</Link>
                             <Link to={"/admin/reports"}>신고 목록 조회</Link>
-                            <Link to={"/admin/accommodations"}>숙소 관리</Link>
-                            <Link to={"/logout"} className="header__link">로그아웃</Link>
                         </>
                     ) : userRole === 'ROLE_USER' ? (
                         <>
