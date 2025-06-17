@@ -5,7 +5,7 @@ import apiClient from "./util/apiInstance";
 import {persistor, setToken, userLogout} from "./store";
 
 export default function Logout() {
-    const isLogin = useSelector(state => state.userInfo.userLoginFlag);
+    const isLogin = useSelector(state => state.userInfo.userInfoList);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

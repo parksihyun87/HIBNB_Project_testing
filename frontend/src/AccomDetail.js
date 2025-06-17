@@ -1,14 +1,35 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
+import apiClient from "./util/apiInstance";
+import {useState} from "react";
+import dayjs from "dayjs";
 
 export default function AccomDetail() {
     const {id} = useParams();
     const navigate = useNavigate();
     const accomList = useSelector((state) => state.accom.list);
     const item = accomList.find((item) => item.id === Number(id));
+    const searchParams = useSelector((state) => state.search.searchParams);
+    const currentUser = useSelector((state) => state.userInfo.userInfoList[0]);
 
-    const handleMove = () => {
-        navigate("/payment");
+    const handleMove = async (e) => {
+        e.preventDefault();
+        const {checkindate, checkoutdate} = searchParams;
+        const betweenDays=dayjs(checkoutdate).diff(dayjs(checkindate),"day");
+
+        const bookDTO = {
+            username: currentUser.username,
+            accomid: item.id,
+            checkindate: checkindate,
+            checkoutdate: checkoutdate,
+            totalPrice: betweenDays * item.pricePerNight,
+        };
+
+        const response= await apiClient.post("/book/save", bookDTO);
+        console.log(response.data);
+        console.log("확인")
+        alert("예약이 완료 되었습니다.")
+        navigate(`/payment/${item.id}`);
     };
 
     return (

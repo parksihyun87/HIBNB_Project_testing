@@ -1,77 +1,145 @@
-import { useState, useEffect } from "react";
-import "./MyReserve.css"; // CSS 파일 import
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import "./MyReserve.css";
+import {useSelector} from "react-redux";
+import apiClient from "./util/apiInstance";
 
 export default function MyReserve() {
-    const defaultReservations = [
-        {
-            id: 1,
-            accommodation: "경기 가평군 캠핑장",
-            reserverName: "최장박",
-            checkIn: "2025-06-20",
-            checkOut: "2025-07-20",
-            guests: 2,
-            status: "예약완료",
-            address: "경기도 가평군 123-45",
-            description: "숲 속에 위치한 자연 친화적인 캠핑장으로 바비큐 시설과 편의시설 완비",
-        },
-        {
-            id: 2,
-            accommodation: "부산 해운대 바다뷰 숙소",
-            reserverName: "이영희",
-            checkIn: "2025-07-01",
-            checkOut: "2025-07-03",
-            guests: 1,
-            status: "예약취소됨",
-            address: "부산 해운대구 우동 678-90",
-            description: "바다 바로 앞 위치, 해운대 해수욕장 도보 1분 거리",
-        },
-        {
-            id: 3,
-            accommodation: "제주 한달살기 민박집",
-            reserverName: "최장박",
-            checkIn: "2025-08-10",
-            checkOut: "2025-09-10",
-            guests: 1,
-            status: "예약완료",
-            address: "제주도 서귀포시 111-22",
-            description: "조용한 마을 속 아늑한 민박, 편안한 숙소 제공",
-        },
-    ];
-
-    const [reservations, setReservations] = useState(defaultReservations);
+    const [reservations, setReservations] = useState([]);
     const [selectedReservationId, setSelectedReservationId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+    const currentUser = useSelector((state) => state.userInfo.userInfoList[0]);
+    console.log("🔍 currentUser:", currentUser);
+    const [editForm, setEditForm] = useState({
+        checkIn: "",
+        checkOut: "",
+        guests: 1,
+    });
+
+    const fetchReservations = async () => {
+        try {
+            const res = await apiClient.get("/book/list", {
+                params: { username: currentUser.username }
+            });
+            console.log("📦 받아온 예약 데이터:", res.data);
+
+            const formatted = res.data.map((item, index) => ({
+                id: item.id || 1000 + index,
+                accommodation: item.accomid,
+                reserverName: item.username || "사용자",
+                checkIn: item.checkindate,
+                checkOut: item.checkoutdate,
+                guests: item.guests || 1,
+                status: item.status || "예약",
+                address: item.accom?.address || "주소 없음",
+                detailaddr: item.accom?.detailaddr || "",
+                description: item.accom?.description || "",
+                price: item.totalPrice || null,
+                accom: item.accom || {},
+            }));
+            setReservations(formatted);
+            console.log("예약하루가격", reservations[0].accom.pricePerNight);
+        } catch (error) {
+            console.error("예약 목록 불러오기 실패:", error);
+        }
+    };
 
     useEffect(() => {
-        const stored = JSON.parse(localStorage.getItem("reservations")) || [];
-        const formatted = stored.map((res, index) => ({
-            id: 1000 + index,
-            accommodation: res.accommodation,
-            reserverName: "사용자",
-            checkIn: res.checkIn,
-            checkOut: res.checkOut,
-            guests: res.guests || 1,
-            status: "예약완료",
-            address: "주소 미제공",
-            description: "사용자가 직접 예약한 숙소입니다.",
-            price: res.price || null,
-            userAdded: true,
-        }));
-        setReservations((prev) => [...prev, ...formatted]);
-    }, []);
+        if (!currentUser || !currentUser.username) {
+            console.log("🚫 currentUser 없음 또는 username 없음");
+            return;
+        }
+        console.log("✅ 예약 정보 불러오기 시작:", currentUser.username);
+        fetchReservations();
+    }, [currentUser?.username]);
 
     const toggleDetails = (id) => {
         setSelectedReservationId((prevId) => (prevId === id ? null : id));
     };
 
-    const cancelReservation = (id) => {
-        setReservations((prev) =>
-            prev.map((res) =>
-                res.id === id ? { ...res, status: "예약취소됨" } : res
-            )
-        );
-        if (selectedReservationId === id) {
-            setSelectedReservationId(null);
+    const cancelReservation = async (id) => {
+        try {
+            await apiClient.put("/book/cancel", {
+                id:id,
+                username: currentUser.username,
+                accomid: reservations.find(item => item.id === id).accommodation
+            });
+            setReservations((prev) =>
+                prev.map((res) =>
+                    res.id === id ? { ...res, status: "예약취소됨" } : res
+                )
+            );
+            if (selectedReservationId === id) {
+                setSelectedReservationId(null);
+            }
+        } catch (error) {
+            console.error("예약 취소 실패:", error);
+            alert("예약 취소에 실패했습니다.");
         }
+    };
+
+    const startEditing = (res) => {
+        setEditingId(res.id);
+        setSelectedReservationId(res.id);
+        setEditForm({
+            checkIn: res.checkIn,
+            checkOut: res.checkOut,
+            guests: res.guests,
+        });
+    };
+
+    const saveChanges = async (id) => {
+        const checkInDate = dayjs(editForm.checkIn);
+        const checkOutDate = dayjs(editForm.checkOut);
+
+        if (!checkInDate.isValid() || !checkOutDate.isValid()) {
+            alert("날짜 형식이 올바르지 않습니다.");
+            return;
+        }
+
+        if (checkOutDate.isBefore(checkInDate)) {
+            alert("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
+            return;
+        }
+        const betweenDays=dayjs(editForm.checkOut).diff(dayjs(editForm.checkIn),"day");
+
+        try {
+            await apiClient.put("/book/update", {
+                id,
+                username: currentUser.username,
+                accomid: reservations.find((r) => r.id === id).accommodation,
+                checkindate: editForm.checkIn,
+                checkoutdate: editForm.checkOut,
+                totalPrice: betweenDays * reservations.find((r) => r.id === id).accom.pricePerNight
+
+            });
+            setReservations((prev) =>
+                prev.map((res) =>
+                    res.id === id
+                        ? {
+                            ...res,
+                            checkIn: editForm.checkIn,
+                            checkOut: editForm.checkOut,
+                            guests: editForm.guests,
+                        }
+                        : res
+                )
+            );
+            fetchReservations();
+            setEditingId(null);
+            setSelectedReservationId(null);
+        } catch (error) {
+            console.error("예약 변경 실패:", error);
+            alert("예약 변경에 실패했습니다.");
+        }
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm((prev) => ({
+            ...prev,
+            [name]: name === "guests" ? parseInt(value) : value,
+        }));
     };
 
     return (
@@ -88,38 +156,90 @@ export default function MyReserve() {
                     >
                         <h3 className="reserve-title-text">{res.accommodation}</h3>
                         <p className="reserve-text">예약자: {res.reserverName}</p>
-                        <p className="reserve-text">체크인: {res.checkIn} / 체크아웃: {res.checkOut}</p>
+                        <p className="reserve-text">
+                            체크인: {dayjs(res.checkIn).format("YYYY.MM.DD")} / 체크아웃:{" "}
+                            {dayjs(res.checkOut).format("YYYY.MM.DD")}
+                        </p>
                         <p className="reserve-text">인원: {res.guests}명</p>
                         <p className={`reserve-status ${res.status === "예약완료" ? "completed" : "cancelled"}`}>
                             상태: {res.status}
                         </p>
-                        {res.price && <p>총 금액: {res.price}</p>}
+                        {res.price && <p className="reserve-text">총 금액: {res.price.toLocaleString()}원</p>}
 
                         <div className="reserve-buttons">
-                            <button
-                                onClick={() => toggleDetails(res.id)}
-                                className="reserve-button"
-                            >
+                            <button onClick={() => toggleDetails(res.id)} className="reserve-button">
                                 {selectedReservationId === res.id ? "상세 닫기" : "상세 보기"}
                             </button>
 
-                            {!res.userAdded && res.status === "예약완료" && (
-                                <button
-                                    onClick={() => cancelReservation(res.id)}
-                                    className="reserve-button cancel"
-                                >
-                                    예약 취소
-                                </button>
+                            {res.status === "예약" && (
+                                <>
+                                    <button onClick={() => cancelReservation(res.id)} className="reserve-button cancel">
+                                        예약 취소
+                                    </button>
+                                    <button onClick={() => startEditing(res)} className="reserve-button edit">
+                                        예약 변경
+                                    </button>
+                                </>
                             )}
                         </div>
 
                         {selectedReservationId === res.id && (
                             <div className="reserve-details">
-                                <p><strong>주소:</strong> {res.address}</p>
-                                <p><strong>숙소 설명:</strong> {res.description}</p>
-                                <p><strong>예약 기간:</strong> {res.checkIn} ~ {res.checkOut}</p>
-                                <p><strong>인원:</strong> {res.guests}명</p>
-                                {res.price && <p><strong>금액:</strong> {res.price}</p>}
+                                <p>
+                                    <strong>주소:</strong>{" "}
+                                    {res.address} {res.detailaddr}
+                                </p>
+                                <p><strong>숙소 설명:</strong> {res.description || "설명 없음"}</p>
+
+                                {editingId === res.id ? (
+                                    <div className="edit-form">
+                                        <label className="edit-label">
+                                            체크인:
+                                            <input
+                                                type="date"
+                                                name="checkIn"
+                                                value={editForm.checkIn}
+                                                onChange={handleEditChange}
+                                                className="edit-input"
+                                            />
+                                        </label>
+                                        <label className="edit-label">
+                                            체크아웃:
+                                            <input
+                                                type="date"
+                                                name="checkOut"
+                                                value={editForm.checkOut}
+                                                onChange={handleEditChange}
+                                                className="edit-input"
+                                            />
+                                        </label>
+                                        <label className="edit-label">
+                                            인원:
+                                            <input
+                                                type="number"
+                                                name="guests"
+                                                value={editForm.guests}
+                                                onChange={handleEditChange}
+                                                min="1"
+                                                className="edit-input"
+                                            />
+                                        </label>
+                                        <div className="reserve-buttons">
+                                            <button onClick={() => saveChanges(res.id)} className="reserve-button save">
+                                                변경 저장
+                                            </button>
+                                            <button onClick={() => setEditingId(null)} className="reserve-button cancel">
+                                                취소
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <p><strong>예약 기간:</strong> {dayjs(res.checkIn).format("YYYY.MM.DD")} ~ {dayjs(res.checkOut).format("YYYY.MM.DD")}</p>
+                                        <p><strong>인원:</strong> {res.guests}명</p>
+                                        {res.price && <p><strong>금액:</strong> {res.price.toLocaleString()}원</p>}
+                                    </>
+                                )}
                             </div>
                         )}
                     </div>
@@ -128,5 +248,3 @@ export default function MyReserve() {
         </div>
     );
 }
-
-
