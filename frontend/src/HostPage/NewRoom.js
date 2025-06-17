@@ -8,7 +8,7 @@ import '../index.css';
 export default function NewRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(state => state.userInfo.userInfoList);
+    const user = useSelector(state => state.userInfo.userInfoList[0]);
 
     const [formData, setFormData] = useState({
         hostid: user.username,

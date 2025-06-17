@@ -131,7 +131,7 @@ public class BookService {
 
     public String saveBook(BookDTO bookDTO) {
         this.bookDAO.saveBook(bookDTO.getUsername(),bookDTO.getAccomid(),bookDTO.getCheckindate()
-                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice()
+                ,bookDTO.getCheckoutdate(),bookDTO.getTotalPrice(), bookDTO.getPerson()
         );
         return "예약 성공";
     }
@@ -146,5 +146,10 @@ public class BookService {
     public String cancelBook(BookDTO bookDTO) {
         this.bookDAO.cancelBook(bookDTO.getId(),bookDTO.getUsername(),bookDTO.getAccomid());
         return "예약취소 성공";
+    }
+
+    public String payBook(String username, Integer bookid) {
+        this.bookDAO.payBook(username,bookid);
+        return "업데이트 성공";
     }
 }

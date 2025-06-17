@@ -6,7 +6,7 @@ import {persistor, setToken, userLogout} from "../store";
 import '../index.css';
 
 export default function Logout() {
-    const isLogin = useSelector(state => state.userInfo.userInfoList);
+    const isLogin = useSelector(state => state.userInfo.userInfoList[0]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

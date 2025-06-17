@@ -16,6 +16,7 @@ public class BookDTO {
     private Integer id;
     private String username;
     private Integer accomid;
+    private Integer person;
     private LocalDate checkindate;
     private LocalDate checkoutdate;
     private Integer totalPrice;

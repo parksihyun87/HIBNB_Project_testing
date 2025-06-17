@@ -8,15 +8,15 @@ import '../index.css';
 export default function ModifyRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(state => state.userInfo.userInfoList);
+    const user = useSelector(state => state.userInfo.userInfoList[0]);
     const usernameAccom = useSelector(state => state.accom.list)
     const {id} = useParams();
     const item = usernameAccom.find((item) => item.id === Number(id));
     const [check, setCheck] = useState(false);
 
     const [formData, setFormData] = useState({
-        hostid: user.username,
-        hostname: user.name,
+        hostid: user[0].username,
+        hostname: user[0].name,
         address: "",
         detailaddr: "",
         description: "",
@@ -33,8 +33,8 @@ export default function ModifyRoom() {
     useEffect(() => {
         if (item) {
             setFormData({
-                hostid: user.username || "",
-                hostname: user.name || "",
+                hostid: user[0].username || "",
+                hostname: user[0].name || "",
                 address: item.address || "",
                 detailaddr: item.detailaddr || "",
                 description: item.description || "",
