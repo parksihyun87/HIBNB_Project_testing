@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import apiClient from "../util/apiInstance";
 import {persistor, userLogout} from "../store";
+import "../css/components.css";
 
 export default function Quit(){
     const [showConfirm, setShowConfirm] = useState(false);

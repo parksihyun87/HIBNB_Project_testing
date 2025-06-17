@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {setUserInfoList} from "../store";
+import "../css/components.css";
 import apiClient from "../util/apiInstance";
 
 export default function MyInfo() {
