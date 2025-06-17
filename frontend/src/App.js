@@ -21,6 +21,9 @@ import ModifyList from "./HostPage/ModifyList";
 import HostHistory from "./HostPage/HostHistory";
 import AdminReport from "./AdminPage/AdminReport";
 import AdminLogin from "./AdminPage/AdminLogin";
+import PaymentFail from "./KakaopayPage/PaymentFail";
+import PaymentSuccess from "./KakaopayPage/PaymentSuccess";
+import PaymentCancel from "./KakaopayPage/PaymentCancel";
 
 export default function App() {
     return (
@@ -45,6 +48,9 @@ export default function App() {
                     </Route>
 
                     <Route path="payment/:id" element={<PaymentHome/>}></Route>
+                    <Route path="/payment/success" element={<PaymentSuccess />} />
+                    <Route path="/payment/fail" element={<PaymentFail />} />
+                    <Route path="/payment/cancel" element={<PaymentCancel />} />
                     <Route path="/mypage" element={<MyInfoLayout/>}>
                         <Route path="profile" element={<MyInfo/>}></Route>
                         <Route path="reservations" element={<MyReserve/>}></Route>

@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +26,7 @@ public class BookDAO {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final AccomRepository accomRepository;
-    //test
+
     public List<BookEntity> findbooksbyUsername(String username) {
         return this.bookRepository.findAllByUsername(username);
     }
@@ -60,10 +63,9 @@ public class BookDAO {
                 .checkindate(checkindate)
                 .checkoutdate(checkoutdate)
                 .totalPrice(totalPrice)
-                .status("예약중")
+                .status("예약")
                 .yesorno(false)
-                .payment("결제완료")
-                .person(person)
+                .payment("0")
                 .build();
 
         this.bookRepository.save(bookEntity);
@@ -115,6 +117,31 @@ public class BookDAO {
             throw new IllegalArgumentException("해당 예약의 소유자가 아닙니다.");
         }
         updateBook.setStatus("예약취소");
+
+        this.bookRepository.save(updateBook);
+    }
+
+    public void payBook(String username, Integer bookid) {
+        Optional<UserEntity> user = this.userRepository.findById(username);
+        if (!user.isPresent()) {
+            throw new EntityNotFoundException("유저명 오류");
+        }
+
+        Optional<BookEntity> bookEntity = this.bookRepository.findById(bookid);
+        if (!bookEntity.isPresent()) {
+            throw new EntityNotFoundException("예약 정보 없음");
+        }
+
+        BookEntity updateBook = bookEntity.get();
+
+        if ("1".equals(updateBook.getPayment())) {
+            throw new IllegalStateException("이미 결제가 완료된 예약입니다.");
+        }
+
+        if (!updateBook.getUsername().getUsername().equals(username)) {
+            throw new IllegalArgumentException("해당 예약의 소유자가 아닙니다.");
+        }
+        updateBook.setPayment("1");
 
         this.bookRepository.save(updateBook);
     }
