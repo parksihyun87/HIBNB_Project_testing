@@ -263,6 +263,7 @@
     width: 70px;
     margin: 15px;
 }
+
 /* 내정보 확인 및 수정 */
 .myinfo-container {
     display: flex;
@@ -454,6 +455,26 @@
     color: #333;
 }
 
+/* 결제하기 */
+
+.payment {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.payment-text {
+    background-color: #ffff;
+    border-radius: 20px;
+    border: 1px solid #ffff;
+    width: 300px;
+    height: 500px;
+    padding: 20px;
+    text-align: center;
+
+}
+
 /* 이용 내역 */
 .room-container {
     max-width: 500px;
@@ -491,7 +512,7 @@
     display: flex;
     gap: 28px;
     flex-direction: column; /* 수직 정렬 */
-    align-items: center;     /* 가운데 정렬 */
+    align-items: center; /* 가운데 정렬 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -733,7 +754,6 @@
     cursor: pointer;
     color: #888;
 }
-
 
 
 /* 회원 탈퇴 */

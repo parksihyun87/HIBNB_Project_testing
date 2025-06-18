@@ -1,8 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {removeAccom, updateAccom} from "../store";
+import {updateAccom} from "../store";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 import '../index.css';
 
 export default function ModifyRoom() {
@@ -12,11 +14,14 @@ export default function ModifyRoom() {
     const usernameAccom = useSelector(state => state.accom.list)
     const {id} = useParams();
     const item = usernameAccom.find((item) => item.id === Number(id));
-    const [check, setCheck] = useState(false);
+    const [selectedPhotos, setSelectedPhotos] = useState([]);
+    const [photoIndex, setPhotoIndex] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+
 
     const [formData, setFormData] = useState({
-        hostid: user[0].username,
-        hostname: user[0].name,
+        hostid: user.username || "",
+        hostname: user.name || "",
         address: "",
         detailaddr: "",
         description: "",
@@ -33,8 +38,8 @@ export default function ModifyRoom() {
     useEffect(() => {
         if (item) {
             setFormData({
-                hostid: user[0].username || "",
-                hostname: user[0].name || "",
+                hostid: user.username || "",
+                hostname: user.name || "",
                 address: item.address || "",
                 detailaddr: item.detailaddr || "",
                 description: item.description || "",
@@ -57,7 +62,6 @@ export default function ModifyRoom() {
     // 폼 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const data = new FormData();
         data.append("id", Number(id));
         data.append("hostid", formData.hostid);
@@ -108,25 +112,6 @@ export default function ModifyRoom() {
         }
     };
 
-    // 숫자 입력 처리
-    const handleNumberChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: Number(value) || 0, // 빈 값은 0으로 처리
-        }));
-    };
-
-    const handleImageDeleteCheck = (e) => {
-        setCheck(e.target.checked);
-    };
-
-    const handleImageAllDelete = () => {
-        if (setCheck(true)) {
-            dispatch(removeAccom.imageUrls);
-        }
-    }
-
     const handleChangeChecked = (e) => {
         const value = e.target.value;
         if (e.target.checked) {
@@ -140,6 +125,15 @@ export default function ModifyRoom() {
                 urlsToDelete: prev.urlsToDelete.filter((url) => url !== value)
             }))
         }
+    };
+
+    // 숫자 입력 처리
+    const handleNumberChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: Number(value) || 0, // 빈 값은 0으로 처리
+        }));
     };
 
     console.log(user);
@@ -261,21 +255,63 @@ export default function ModifyRoom() {
                 </p>
                 <p>
                     <label>등록 된 사진:</label>
-                    {item.imageUrls && item.imageUrls.length > 0 && (
-                        item.imageUrls.map(url => {
-                            return (
-                                <div style={{width: "300px", overflow: "auto"}}>
-                                    <div style={{display: "inline-block", width: "100px"}}>
-                                        <input type="checkbox" name={"image"} value={url}
-                                               onChange={handleChangeChecked}></input>
-                                        <div>
-                                            <img id={url} src={url} alt={url} style={{width: "90px"}}></img>
-                                        </div>
-                                    </div>
+                    <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
+                        {item.imageUrls &&
+                            item.imageUrls.length > 0 &&
+                            item.imageUrls.map((url, index) => (
+                                <div
+                                    key={url}
+                                    style={{
+                                        position: "relative",
+                                        display: "inline-block",
+                                        width: 100,
+                                        height: 100,
+                                    }}
+                                >
+                                    <img
+                                        src={url}
+                                        alt={`숙소 사진 ${index + 1}`}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                            setPhotoIndex(index);
+                                            setIsOpen(true);
+                                        }}
+                                    />
+                                    {/* 체크박스 위치 설정 */}
+                                    <input
+                                        type="checkbox"
+                                        value={url}
+                                        onChange={handleChangeChecked}
+                                        style={{
+                                            marginTop: 4, // 이미지와의 간격
+                                            position: "static", // 중요: 절대 위치 제거
+                                        }}
+                                    />
                                 </div>
-                            );
-                        })
+                            ))}
+                    </div>
+
+                    {isOpen && (
+                        <Lightbox
+                            mainSrc={item.imageUrls[photoIndex]}
+                            nextSrc={item.imageUrls[(photoIndex + 1) % item.imageUrls.length]}
+                            prevSrc={item.imageUrls[(photoIndex + item.imageUrls.length - 1) % item.imageUrls.length]}
+                            onCloseRequest={() => setIsOpen(false)}
+                            onMovePrevRequest={() =>
+                                setPhotoIndex((photoIndex + item.imageUrls.length - 1) % item.imageUrls.length)
+                            }
+                            onMoveNextRequest={() =>
+                                setPhotoIndex((photoIndex + 1) % item.imageUrls.length)
+                            }
+
+                        />
                     )}
+                    <br/><br/>
                     <input
                         type="file"
                         name="images"
@@ -288,5 +324,4 @@ export default function ModifyRoom() {
             </form>
         </div>
     );
-
 }

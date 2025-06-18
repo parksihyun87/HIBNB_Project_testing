@@ -75,7 +75,7 @@ export default function AccomDetail() {
                     {item.reviews && item.reviews.length > 0 && item.reviews.map(review => {
                         return (
                             <span>
-                                <p>{review.username} {review.rating}점 </p>
+                                <p>{review.username}님 / {review.rating}점 </p>
                                 <p>{review.comment}</p>
                                 <hr/>
                             </span>
