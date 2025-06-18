@@ -148,20 +148,20 @@ public class AccomDAO {
             for (String urlToDelete : urlsToDelete) {
                 // 각 img 필드와 비교하여 일치하면 파일 삭제 및 DB 필드를 null로 설정
                 if (urlToDelete.equals(imgToUpdate.getImg1())) {
-                    String url = imgToUpdate.getImg1().substring(20);
-                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
+                    String url = imgToUpdate.getImg1().substring(22);
+                    this.deleteFileByUrl("C:/Users/803-13/Desktop/demotodo-main/HIBNB_Project_444/"+url);
                     imgToUpdate.setImg1(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg2())) {
-                    String url = imgToUpdate.getImg2().substring(20);
-                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
+                    String url = imgToUpdate.getImg2().substring(22);
+                    this.deleteFileByUrl("C:/Users/803-13/Desktop/demotodo-main/HIBNB_Project_444/"+url);
                     imgToUpdate.setImg2(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg3())) {
-                    String url = imgToUpdate.getImg3().substring(20);
-                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
+                    String url = imgToUpdate.getImg3().substring(22);
+                    this.deleteFileByUrl("C:/Users/803-13/Desktop/demotodo-main/HIBNB_Project_444/"+url);
                     imgToUpdate.setImg3(null);
                 } else if (urlToDelete.equals(imgToUpdate.getImg4())) {
-                    String url = imgToUpdate.getImg4().substring(20);
-                    this.deleteFileByUrl("C:/Users/803-18/Desktop/sihyun-spring-project/1. team-project/"+url);
+                    String url = imgToUpdate.getImg4().substring(22);
+                    this.deleteFileByUrl("C:/Users/803-13/Desktop/demotodo-main/HIBNB_Project_444/"+url);
                     imgToUpdate.setImg4(null);
                 }
 

@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 import apiClient from "../util/apiInstance";
 import {kakaoClient} from "../util/kakaoInstatance";
 import qs from "qs";
@@ -12,9 +12,9 @@ export default function PaymentHome() {
     const [error, setError] = useState(null);
     const currentUser = useSelector((state) => state.userInfo.userInfoList[0]);
 
-    const {id}= useParams();
+    const {id} = useParams();
 
-    useEffect( () => {
+    useEffect(() => {
         const fetchReservation = async () => {
             if (!currentUser?.username) {
                 alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
@@ -24,9 +24,9 @@ export default function PaymentHome() {
 
             try {
                 const res = await apiClient.get("/book/list", {
-                    params: { username: currentUser.username }
+                    params: {username: currentUser.username}
                 });
-                console.log("널확인",res.data);
+                console.log("널확인", res.data);
                 const formatted = res.data.map((item, index) => ({
                     id: item.id || 1000 + index,
                     accommodation: item.accomid,
@@ -85,7 +85,7 @@ export default function PaymentHome() {
                 qs.stringify(data)
             );
 
-            const { tid, next_redirect_pc_url } = response.data;
+            const {tid, next_redirect_pc_url} = response.data;
 
             // ✅ 결제 승인 단계에서 사용할 TID 저장
             localStorage.setItem("kakao_tid", tid);
@@ -106,8 +106,8 @@ export default function PaymentHome() {
 
     if (error) {
         return (
-            <div style={{ padding: "20px" }}>
-                <p style={{ color: "red" }}>{error}</p>
+            <div style={{padding: "20px"}}>
+                <p style={{color: "red"}}>{error}</p>
                 <button
                     onClick={() => navigate("/")}
                     style={{
@@ -126,37 +126,40 @@ export default function PaymentHome() {
     }
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h2>결제하기</h2>
-
-            {!reservation ? (
-                <p>예약 정보를 불러오는 중입니다...</p>
-            ) : (
-                <>
-                    <p><strong>예약자:</strong> {currentUser?.username || "미로그인"}</p>
-                    <p><strong>예약번호:</strong> {reservation.accommodation || "미로그인"}</p>
-                    <p><strong>숙소:</strong> {reservation.accommodation}</p>
-                    <p><strong>체크인:</strong> {reservation.checkIn}</p>
-                    <p><strong>체크아웃:</strong> {reservation.checkOut}</p>
-                    <p><strong>인원:</strong> {reservation.guests}</p>
-                    <p><strong>총 금액:</strong> {reservation.price?.toLocaleString()}원</p>
-                    <button
-                        onClick={handlePayment}
-                        disabled={isLoading}
-                        style={{
-                            padding: "10px 20px",
-                            backgroundColor: isLoading ? "#ccc" : "#ce3d41",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "6px",
-                            cursor: isLoading ? "not-allowed" : "pointer",
-                            marginTop: "20px",
-                        }}
-                    >
-                        {isLoading ? "결제 처리 중..." : "결제하기"}
-                    </button>
-                </>
-            )}
+        <div className="payment">
+            <div
+                className="payment-text">
+                <h2>결제하기</h2>
+                <br/>
+                {!reservation ? (
+                    <p>예약 정보를 불러오는 중입니다...</p>
+                ) : (
+                    <>
+                        <p><strong>예약자:</strong> {currentUser?.username || "미로그인"}</p>
+                        <p><strong>예약번호:</strong> {reservation.accommodation || "미로그인"}</p>
+                        <p><strong>숙소:</strong> {reservation.accommodation}</p>
+                        <p><strong>체크인:</strong> {reservation.checkIn}</p>
+                        <p><strong>체크아웃:</strong> {reservation.checkOut}</p>
+                        <p><strong>인원:</strong> {reservation.guests}</p>
+                        <p><strong>총 금액:</strong> {reservation.price?.toLocaleString()}원</p>
+                        <button
+                            onClick={handlePayment}
+                            disabled={isLoading}
+                            style={{
+                                padding: "10px 20px",
+                                backgroundColor: isLoading ? "#ccc" : "#ce3d41",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "6px",
+                                cursor: isLoading ? "not-allowed" : "pointer",
+                                marginTop: "20px",
+                            }}
+                        >
+                            {isLoading ? "결제 처리 중..." : "결제하기"}
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
     );
 }
