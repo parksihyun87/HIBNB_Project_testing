@@ -1,17 +1,12 @@
 import MainSearch from "./MainSearch";
-import {useDispatch, useSelector} from "react-redux";
 import {Outlet, useNavigate} from "react-router-dom";
 import apiClient from "../util/apiInstance";
 import {useEffect, useState} from "react";
 
 export default function Recommend() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    // const item = useSelector(state => state.accom.list)
     const [top5, setTop5] = useState([]);
 
     useEffect(() => {
-        // 페이지 로딩 시 한 번만 실행됨
         apiClient.get("http://localhost:8080/accom/list/random5")
             .then(response => {
                 console.log(response.data);
@@ -25,7 +20,6 @@ export default function Recommend() {
 
     return (
         <>
-            <MainSearch/>
             <h2>📊 추천 숙소 TOP 5</h2>
             <div className="top5-container">
                 {top5.map((item) => (
