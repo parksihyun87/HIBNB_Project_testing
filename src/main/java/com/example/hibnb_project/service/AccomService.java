@@ -2,8 +2,10 @@ package com.example.hibnb_project.service;
 
 
 import com.example.hibnb_project.data.dao.AccomDAO;
+import com.example.hibnb_project.data.dao.BookDAO;
 import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.AccomSeachDTO;
+import com.example.hibnb_project.data.dto.BookDTO;
 import com.example.hibnb_project.data.dto.ReviewDTO;
 import com.example.hibnb_project.data.entity.AccomEntity;
 import com.example.hibnb_project.data.entity.BookEntity;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,8 +40,26 @@ public class AccomService {
             Set<ReviewEntity> review = accomE.getReviews();
             List<String> imageUrlList = new ArrayList<>();
 
+
             if (accomE.getImg() != null && accomE.getImg().getImg1() != null) {
                 imageUrlList.add(accomE.getImg().getImg1());
+            }
+
+            List<LocalDate> earliestCheckin = new ArrayList<>();
+            List<LocalDate> earliestCheckout = new ArrayList<>();
+
+            if (accomE.getBooks() != null && !accomE.getBooks().isEmpty()) {
+                earliestCheckin = accomE.getBooks().stream()
+                        .map(BookEntity::getCheckindate)
+                        .distinct() // 중복 제거
+                        .sorted()   // 날짜순 정렬
+                        .collect(Collectors.toList());
+
+                earliestCheckout = accomE.getBooks().stream()
+                        .map(BookEntity::getCheckoutdate)
+                        .distinct()
+                        .sorted()
+                        .collect(Collectors.toList());
             }
 
             AccomDTO accomDTO = AccomDTO.builder()
@@ -57,6 +78,8 @@ public class AccomService {
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
                     .bathrooms(accomE.getBathrooms())
+                    .checkinDates(earliestCheckin)
+                    .checkoutDates(earliestCheckout)
                     .build();
             accomDTOList.add(accomDTO);
         }
@@ -123,6 +146,38 @@ public class AccomService {
             accomDTOList.add(accomDTO);
         }
         return accomDTOList;
+    }
+
+    public AccomDTO findById(Integer id) {
+        AccomEntity entity = accomDAO.findById(id);
+        if (entity == null) {
+            return null;
+        }
+        List<String> imageUrls = new ArrayList<>();
+
+//        imageUrls = Stream.of(imgEntity.getImg1(), imgEntity.getImg2(), imgEntity.getImg3(), imgEntity.getImg4())
+//                .filter(Objects::nonNull)
+//                .collect(Collectors.toList());
+        // Entity -> DTO 변환 (예: ModelMapper 사용하거나 수동 변환)
+        AccomDTO dto = new AccomDTO();
+        dto.setId(entity.getId());
+        dto.setHostid(entity.getHostid().getUsername());  // hostid가 UserEntity인 경우
+        dto.setHostname(entity.getHostid().getName());
+        dto.setAddress(entity.getAddress());
+        dto.setDetailaddr(entity.getDetailaddr());
+        dto.setDescription(entity.getDescription());
+        dto.setType(entity.getType());
+        dto.setImageUrl(entity.getImageUrl());
+        dto.setMaxcapacity(entity.getMaxcapacity());
+        dto.setPricePerNight(entity.getPricePerNight());
+        dto.setBedrooms(entity.getBedrooms());
+        dto.setBeds(entity.getBeds());
+        dto.setBathrooms(entity.getBathrooms());
+        dto.setAverage(entity.getAverage());
+//        dto.setImageUrls(entity.getImageUrls());
+        // 필요하면 리뷰, 체크인 날짜 등도 변환 추가
+
+        return dto;
     }
 
     public List<AccomDTO> findByHostid(String hostid) {

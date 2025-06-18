@@ -73,4 +73,14 @@ public class AccomController {
         List<AccomDTO> random5 = allList.stream().limit(5).collect(Collectors.toList());
         return ResponseEntity.ok(random5);
     }
+
+    @GetMapping("/simple/{id}")
+    public ResponseEntity<AccomDTO> findById(@PathVariable Integer id) {
+        AccomDTO dto = accomService.findById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
+
 }
