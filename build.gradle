@@ -42,6 +42,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     //의존성 추가: 카톡페이
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    //카카오맵
+    implementation 'org.json:json:20240303'
 }
 
 tasks.named('test') {

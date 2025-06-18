@@ -8,6 +8,8 @@ import {Navigation, Pagination} from "swiper/modules"
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import KakaoMap from "../KakaoMap/KakaoMap";
+
 
 export default function AccomDetail() {
     const {id} = useParams();
@@ -41,6 +43,7 @@ export default function AccomDetail() {
 
     return (
         <div>
+
             <form className="item-detail-form">
                 <h2 className="item-detail-form__title">{item.hostid}의 {item.type}</h2>
                 <div className={"accom-swiper-wrapper"}>
@@ -71,6 +74,7 @@ export default function AccomDetail() {
                         욕실: {item.bathrooms}</p>
                     <p className="item-detail-form__description">설명: {item.description}</p>
                     <p className="item-detail-form__address">주소: {item.address} {item.detailaddr}</p>
+                    <KakaoMap latitude={item.latitude} longitude={item.longitude} />
                     <hr/>
                     {item.reviews && item.reviews.length > 0 && item.reviews.map(review => {
                         return (

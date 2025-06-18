@@ -57,6 +57,8 @@ public class AccomService {
                     .bedrooms(accomE.getBedrooms())
                     .beds(accomE.getBeds())
                     .bathrooms(accomE.getBathrooms())
+                    .latitude(accomE.getLatitude())
+                    .longitude(accomE.getLongitude())
                     .build();
             accomDTOList.add(accomDTO);
         }
@@ -119,6 +121,8 @@ public class AccomService {
                     .bathrooms(accomE.getBathrooms())
                     .imageUrls(!imageUrls.isEmpty() ? imageUrls : null)
                     .reviews(reviewDTOSet)
+                    .latitude(accomE.getLatitude())
+                    .longitude(accomE.getLongitude())
                     .build();
             accomDTOList.add(accomDTO);
         }
@@ -159,6 +163,8 @@ public class AccomService {
                     .imageUrls(!urls.isEmpty() ? urls : null)
                     .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())
+                    .latitude(accomE.getLatitude())
+                    .longitude(accomE.getLongitude())
                     .build();
             accomDTOList.add(accomDTO);
         }
@@ -195,6 +201,8 @@ public class AccomService {
                     .imageUrls(!urls.isEmpty() ? urls : null)
                     .maxcapacity(accomEntity.getMaxcapacity())
                     .pricePerNight(accomEntity.getPricePerNight())
+                    .longitude(accomEntity.getLongitude())
+                    .latitude(accomEntity.getLatitude())
                     .build();
             accomDTOList.add(accomDTO);
         }

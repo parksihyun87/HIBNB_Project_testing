@@ -1,5 +1,6 @@
 package com.example.hibnb_project.controller;
 
+import com.example.hibnb_project.data.dao.AccomDAO;
 import com.example.hibnb_project.data.dto.AccomDTO;
 import com.example.hibnb_project.data.dto.AccomSeachDTO;
 import com.example.hibnb_project.service.AccomService;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 public class AccomController {
     private final AccomService accomService;
+    private final AccomDAO accomDAO;
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<AccomDTO>> findAllAccoms() {
@@ -53,12 +55,16 @@ public class AccomController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<String> saveAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.saveAccom(accomDTO));
+        String result = this.accomService.saveAccom(accomDTO);
+        this.accomDAO.updateCoordinatesForAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping(value="/update")
     public ResponseEntity<String> updateAccom(@ModelAttribute AccomDTO accomDTO) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.accomService.updateAccom(accomDTO));
+        String result = this.accomService.updateAccom(accomDTO);
+        this.accomDAO.updateCoordinatesForAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping(value = "/delete")
@@ -72,5 +78,11 @@ public class AccomController {
         Collections.shuffle(allList); // 무작위 섞기
         List<AccomDTO> random5 = allList.stream().limit(5).collect(Collectors.toList());
         return ResponseEntity.ok(random5);
+    }
+
+    @PostMapping("/update-coordinates")
+    public ResponseEntity<Void> updateCoordinates() {
+        this.accomDAO.updateCoordinatesForAll();
+        return ResponseEntity.ok().build();
     }
 }
