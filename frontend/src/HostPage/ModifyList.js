@@ -9,7 +9,8 @@ export default function ModifyList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const usernameAccom = useSelector(state => state.accom.list);
-    const username = useSelector(state => state.userInfo.userInfoList[0].username);
+    const username = useSelector(state => state.userInfo.userInfoList?.[0]?.username);
+    const validList = Array.isArray(usernameAccom) ? usernameAccom : [];
 
     useEffect(() => {
         const fetchAccomList = async () => {
@@ -17,6 +18,7 @@ export default function ModifyList() {
                 const response = await apiClient.get("/accom/list/username", {
                     params: {"username": username},
                 });
+                console.log((response.data))
                 dispatch(userAccom(response.data));
             } catch (error) {
                 console.error("Failed to fetch username-list:", error);
@@ -28,7 +30,8 @@ export default function ModifyList() {
     return (
         <div className="username-list">
             <h2 className="login-form__title">숙소 수정</h2>
-            {usernameAccom !== null ? (usernameAccom.map((item) => (
+            {validList.length > 0 ? (
+                validList.map((item) => (
                     <div
                         className="accom-card"
                         key={item.id}

@@ -35,6 +35,11 @@ public class AccomService {
             double avg = reviewEntityList.size() > 0 ? avgSum / reviewEntityList.size() : 0.0;
 
             Set<ReviewEntity> review = accomE.getReviews();
+            List<String> imageUrlList = new ArrayList<>();
+
+            if (accomE.getImg() != null && accomE.getImg().getImg1() != null) {
+                imageUrlList.add(accomE.getImg().getImg1());
+            }
 
             AccomDTO accomDTO = AccomDTO.builder()
                     .id(accomE.getId())
@@ -45,6 +50,7 @@ public class AccomService {
                     .description(accomE.getDescription())
                     .type(accomE.getType())
                     .imageUrl(accomE.getImageUrl())
+                    .imageUrls(imageUrlList)
                     .average(avg)
                     .maxcapacity(accomE.getMaxcapacity())
                     .pricePerNight(accomE.getPricePerNight())

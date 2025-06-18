@@ -24,6 +24,7 @@ import AdminLogin from "./AdminPage/AdminLogin";
 import PaymentFail from "./KakaopayPage/PaymentFail";
 import PaymentSuccess from "./KakaopayPage/PaymentSuccess";
 import PaymentCancel from "./KakaopayPage/PaymentCancel";
+import Recommend from "./SearchPage/Recommend";
 
 export default function App() {
     return (
@@ -35,7 +36,7 @@ export default function App() {
                     <Route path="/join" element={<UserJoin/>}></Route>
                     <Route path="/re-confirm-id" element={<ReConfirmID/>}></Route>
                     <Route path="/re-confirm-pw" element={<ReConfirmPW/>}></Route>
-                    <Route path="/" element={<MainSearch/>}>
+                    <Route path="/" element={<Recommend/>}>
                         <Route path="detail-search" element={<DetailSearch/>}></Route>
                         <Route path="accom/:id" element={<AccomDetail></AccomDetail>}></Route>
                     </Route>

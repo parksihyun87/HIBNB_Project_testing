@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -62,5 +64,13 @@ public class AccomController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity<String> deleteAccom(@RequestBody AccomDTO accomDTO) {//accomid, hostid 요구
         return ResponseEntity.status(HttpStatus.OK).body(this.accomService.deleteAccom(accomDTO));
+    }
+
+    @GetMapping("/list/random5")
+    public ResponseEntity<List<AccomDTO>> findRandom5() {
+        List<AccomDTO> allList = accomService.findAllAccoms(); // 전체 숙소
+        Collections.shuffle(allList); // 무작위 섞기
+        List<AccomDTO> random5 = allList.stream().limit(5).collect(Collectors.toList());
+        return ResponseEntity.ok(random5);
     }
 }
