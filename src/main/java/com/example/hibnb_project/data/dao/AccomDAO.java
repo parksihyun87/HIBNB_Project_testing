@@ -60,15 +60,17 @@ public class AccomDAO {
         return this.bookRepository.findTop5ByOrderByAccomidDescAccomidDesc();
     }
 
-    public List<AccomEntity> findByHostid(String hostid){
-        UserEntity user = this.userRepository.findById(hostid).orElse(null);
-        if(user==null){
-            throw new EntityNotFoundException("User not found");
+    public AccomEntity findById(Integer id) {
+        return accomRepository.findById(id).orElse(null);
+    }
+
+    public List<AccomEntity> findByHostid(String hostid) {
+        UserEntity user = this.userRepository.findByUsername(hostid).orElse(null);
+        if (user == null) {
+            // 사용자 없으면 빈 리스트 반환하거나 예외 대신 빈 리스트 반환 권장
+            return Collections.emptyList();
         }
         List<AccomEntity> accomEntityList = this.accomRepository.findByHostid(user);
-        if(accomEntityList.isEmpty()){
-            return null;
-        }
         return accomEntityList;
     }
 

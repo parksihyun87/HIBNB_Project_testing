@@ -40,6 +40,7 @@ export default function AccomDetail() {
         alert("예약이 완료 되었습니다.")
         navigate(`/payment/${item.id}`);
     };
+    
 
     return (
         <div>

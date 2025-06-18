@@ -85,4 +85,14 @@ public class AccomController {
         this.accomDAO.updateCoordinatesForAll();
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/simple/{id}")
+    public ResponseEntity<AccomDTO> findById(@PathVariable Integer id) {
+        AccomDTO dto = accomService.findById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
+
 }

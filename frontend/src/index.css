@@ -2,6 +2,7 @@
 @import './css/layout.css';
 @import './css/components.css';
 @import './css/form.css';
+@import './css/adminreport.css';
 
 body {
     margin: 0;
