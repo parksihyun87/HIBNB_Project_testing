@@ -489,6 +489,7 @@
     padding: 27px;
     margin-bottom: 16px;
     display: flex;
+    gap: 28px;
     flex-direction: column; /* 수직 정렬 */
     align-items: center;     /* 가운데 정렬 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -559,7 +560,7 @@
 
 /* 별점 셀렉트 */
 .rating-select {
-    width: 404px;
+    width: 399px;
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -577,7 +578,7 @@
 
 /* 텍스트영역 */
 .review-textarea {
-    width: 385px;
+    width: 382px;
     height: 100px;
     padding: 8px;
     border-radius: 8px;
@@ -657,12 +658,18 @@
     display: block;
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.report-label select,
+.report-label textarea {
+    display: block;
+    margin-top: 6px;
 }
 
 /* 셀렉트 박스 */
 .report-select {
-    width: 360px;
+    width: 399px;
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -680,7 +687,7 @@
 
 /* 텍스트영역 */
 .report-textarea {
-    width: 342px;
+    width: 382px;
     height: 100px;
     padding: 8px;
     border-radius: 8px;
@@ -726,6 +733,7 @@
     cursor: pointer;
     color: #888;
 }
+
 
 
 /* 회원 탈퇴 */
