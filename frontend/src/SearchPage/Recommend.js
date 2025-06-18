@@ -1,13 +1,13 @@
 import MainSearch from "./MainSearch";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Outlet, useNavigate} from "react-router-dom";
 import apiClient from "../util/apiInstance";
 import {useEffect, useState} from "react";
 
-export default function Recommend(){
-    const dispatch=useDispatch();
-    const navigate=useNavigate();
-
+export default function Recommend() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    // const item = useSelector(state => state.accom.list)
     const [top5, setTop5] = useState([]);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function Recommend(){
     }, []);
 
 
-    return(
+    return (
         <>
             <MainSearch/>
             <h2>📊 추천 숙소 TOP 5</h2>
@@ -32,9 +32,9 @@ export default function Recommend(){
                     <div key={item.id} className="top5-card">
                         <h3>{item.hostname}의 {item.type}</h3>
                         <img
+                            className="recommend-img"
                             src={item.imageUrls?.[0] || "/default.jpg"}
                             alt={item.hostname}
-                            onClick={() => navigate(`/accom/${item.id}`)}
                         />
                         <p>주소 : {item.address}</p>
                         <p>가격 : {item.pricePerNight}/박</p>
@@ -42,7 +42,9 @@ export default function Recommend(){
                         <p>⭐ 평점: {item.average ? item.average.toFixed(1) : "없음"}</p>
                     </div>
                 ))}
+                <Outlet/>
             </div>
+
         </>
     );
 }
