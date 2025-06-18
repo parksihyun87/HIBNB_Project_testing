@@ -28,6 +28,7 @@ public class AccomController {
     @GetMapping(value = "/list")
     public ResponseEntity<List<AccomDTO>> findAllAccoms() {
         List<AccomDTO> accomDTOList = this.accomService.findAllAccoms();
+        this.accomDAO.updateCoordinatesForAll();
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
@@ -40,6 +41,7 @@ public class AccomController {
     ) {
         AccomSeachDTO accomSeachDTO = new AccomSeachDTO(address, checkindate, checkoutdate, maxcapacity);
         List<AccomDTO> accomDTOList = this.accomService.findDetailedAccom(accomSeachDTO);
+        this.accomDAO.updateCoordinatesForAll();
         return ResponseEntity.status(HttpStatus.OK).body(accomDTOList);
     }
 
