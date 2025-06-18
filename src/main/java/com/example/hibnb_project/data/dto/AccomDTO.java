@@ -1,5 +1,6 @@
 package com.example.hibnb_project.data.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,7 @@ public class AccomDTO {
 //    private Set<BookEntity> books = new LinkedHashSet<>();
 //    private Set<ReportEntity> reports = new LinkedHashSet<>();
     private Set<ReviewDTO> reviews = new LinkedHashSet<>();
+    private Double latitude;
+    private Double longitude;
 }
 
