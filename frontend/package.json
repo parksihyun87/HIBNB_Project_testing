@@ -14,12 +14,14 @@
     "persistor": "^2.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-image-lightbox": "^5.1.4",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
     "swiper": "^11.2.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yet-another-react-lightbox": "^3.23.3"
   },
   "scripts": {
     "start": "react-scripts start",

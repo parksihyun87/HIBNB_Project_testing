@@ -85,7 +85,7 @@ export default function NewRoom() {
 
     return (
         <div>
-            <h2 className={"login-form__title"}>호스팅 등록</h2>
+            <h2 className={"login-form__title"}>숙소 등록</h2>
             <form onSubmit={handleSubmit}>
                 <p>
                     <label>주소: </label>
@@ -116,7 +116,7 @@ export default function NewRoom() {
                     <input
                         type="text"
                         name="type"
-                        placeholder="아파트, 펜션, 게스트하우스, 선택"
+                        placeholder="아파트, 펜션, 빌라 등등"
                         value={formData.type}
                         className={"login-form__input"}
                         onChange={handleChange}
